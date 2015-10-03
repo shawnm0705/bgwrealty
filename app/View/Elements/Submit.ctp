@@ -1,0 +1,1 @@
+<?php echo $this->Form->end(array('label' => '提交', 'class' => 'btn btn-custom', 'id' => 'submit-button', 'onclick' => 'this.disabled=true;this.form.submit();return true;', 'div' => array('class' => 'div-button'))); ?>

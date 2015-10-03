@@ -1,0 +1,248 @@
+/*++++++++++ Main Layout ++++++++++*/
+/*
+#background-img{
+  position: fixed;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  bottom: auto;
+  right: auto;
+}
+.background-container{
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.background-row{
+	background: #FFFFFF;
+	position: relative;
+	text-align: center;
+	margin-right: 0px;
+	margin-left: 0px;
+	margin-top: 50px;
+	padding-top: 50px;
+}*/
+.div-modal{
+	text-align: center;
+}
+
+/*++++++++++ Menu ++++++++++*/
+.div-logo{
+  float: left;
+  margin-right: 15px;
+}
+.under-menu{
+  margin-top: 60px;
+}
+.under-menu-admin{
+  margin-top: 120px;
+}
+/*
+.login-info{
+  float: right;
+  color: white;
+  font-family: STKaiti;
+  height: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.login-info a{  
+  color: white;
+  font-family: STKaiti;
+  padding-left: 5px;
+}
+.login-info a:hover{
+  color: rgba(54, 209, 80, 1);
+  text-decoration: none;  
+}
+*/
+/*++++++++++ Poem ++++++++++*/
+.poem p{
+  font-size: 16px;
+  text-indent: 18px;
+  margin: 20px 0;
+  line-height: 10px;
+}
+.poem-book-nav{
+  margin-bottom:20px;
+  text-align: center; 
+}
+/* Tab */
+.poem-tabs{
+  font-size: 20px;
+}
+.poem-tab-headers{
+  font-size: 25px;
+}
+/* Table */
+.poems-table{
+  font-size: 20px;
+  margin-top: 20px;
+}
+/* Checkbox */
+.poems-checkbox{
+  margin-top: 20px;
+}
+/* Link */
+.link-poem-title{
+  text-decoration: none;
+  color: #6cb14c;
+  margin-right: 20px;
+  padding-top: 10px;
+}
+/*++++++++++ Text ++++++++++*/
+.nav{
+	font-family: "YouYuan";
+}
+.navbar-header,h1,h2,h3,.h1,.h2,.h3{
+	font-family: STKaiti;
+}
+#footer{
+  text-align:center;
+  background: #FFFFFF;
+  position: relative;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  font-family: SimHei;
+  font-weight: bold;
+}
+th,td.actions{
+	text-align: center;
+}
+
+/*
+.div-hint{
+  font-size: 20px;
+  margin-bottom: 25px;
+  margin-left: 125px;  
+}
+*/
+
+/*++++++++++ Picture ++++++++++*/
+/*
+.picture{
+  width: 100%;
+  height: 100%;
+}*/
+/*++++++++++ Dl ++++++++++*/
+/*
+.dl-input{
+  font-size: 25px;
+}
+.dl-input dt{
+  float: left;
+  text-align: left;
+  width: 120px;
+}
+.dl-150 dt{
+  width: 150px;
+}
+.dl-input dd{
+  text-align: left;
+}*/
+/*++++++++++ Buttons ++++++++++*/
+
+.div-button{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.button-right{
+  margin-right: 10px;
+}
+/*
+.div-left-button{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  float: left;
+}
+div.buttons{
+  text-align: center;
+}
+/*++++++++++ Div ++++++++++*/
+
+/*
+.price{
+  float: left;
+  width: 150px;
+}
+/*++++++++++ Form ++++++++++*/
+
+.form{
+	text-align: left;
+}
+form div.input {
+  font-size: 25px;
+  margin-bottom: 25px;
+}
+form label {
+  margin-right: 1em;
+  float: left;
+}
+form label:after {
+  color: white;
+  content: '*';
+  display: inline;
+}
+form .required label:after {
+  color: #e32;
+  content: '*';
+  display: inline;
+}
+form div.checkbox-wrapper {
+  width: 100%;
+  height: 300px;
+  display: inline-block; 
+  overflow: scroll;
+  border:1px solid;
+}
+form div.checkbox-inline {
+  float: left;
+  clear: none;
+  display: inline-flex;
+  margin-left: 10px;
+}
+.checkbox-table{
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+}
+.label-100 label {
+  width: 100px;
+}
+.input-name{
+  width:150px;
+  padding: 0;
+}
+/*
+.form h1,h2,h3{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form div.has-hint {
+  margin-bottom: 0;
+}
+.label-150 label {
+  width: 150px;
+}
+.input-number{
+  width:50px;
+  padding: 0;
+}
+.input-100{
+  width:100px;
+  padding: 0;
+}
+
+.input-normal{
+  width:250px;
+  padding: 0;
+}
+.input-textarea{
+  width: 247px;
+  font-size: 18px;
+}
+.handle-textarea{
+  width: 450px;
+}
+
