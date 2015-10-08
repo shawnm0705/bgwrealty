@@ -24,7 +24,7 @@ class MenuHelper extends AppHelper {
             		<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    谐调哲理诗<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('哲理诗集'), 
             					array('controller' => 'poems', 'action' => 'showbook')).'</li>
 					    	<li>'.$this->Html->link(__('序号查询'), 
@@ -38,7 +38,7 @@ class MenuHelper extends AppHelper {
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    谐调学<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('经'), '#').'</li>
 					    	<li>'.$this->Html->link(__('纬'), '#').'</li>
 					    	<li>'.$this->Html->link(__('论'), '#').'</li>
@@ -49,7 +49,7 @@ class MenuHelper extends AppHelper {
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    谐调人生<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('生命在于谐调'), '#').'</li>
 					    	<li>'.$this->Html->link(__('感悟哲语箴言'), '#').'</li>
 				    	</ul>
@@ -57,7 +57,7 @@ class MenuHelper extends AppHelper {
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    谐调饮食<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('四性食物'), '#').'</li>
 					    	<li>'.$this->Html->link(__('五味食物'), '#').'</li>
 					    	<li>'.$this->Html->link(__('补益脏腑食物'), '#').'</li>
@@ -67,7 +67,7 @@ class MenuHelper extends AppHelper {
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    谐调拳<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('谐调拳基本功'), '#').'</li>
 					    	<li>'.$this->Html->link(__('谐调太极拳'), '#').'</li>
 					    	<li>'.$this->Html->link(__('谐调操'), '#').'</li>
@@ -81,7 +81,7 @@ class MenuHelper extends AppHelper {
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    谐调中医<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('中医查询系统'), '#').'</li>
 					    	<li>'.$this->Html->link(__('中医病历'), '#').'</li>
 				    	</ul>
@@ -89,7 +89,7 @@ class MenuHelper extends AppHelper {
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    谐调管理<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('管理系统'), '#').'</li>
 					    	<li>'.$this->Html->link(__('管理思路'), '#').'</li>
 					    	<li>'.$this->Html->link(__('管理模式'), '#').'</li>
@@ -103,7 +103,7 @@ class MenuHelper extends AppHelper {
             	echo '<div></div><li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    哲理诗编辑<span class="caret"></span></a>
-					    <ul class="dropdown-menu navbar-nav" role="menu">
+					    <ul class="navbar-nav dropdown-menu" role="menu">
 						    <li>'.$this->Html->link(__('诗歌列表'), 
 	            				array('controller' => 'poems', 'action' => 'index')).'</li>
 						    <li>'.$this->Html->link(__('诗歌类别'), 
