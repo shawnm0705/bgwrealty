@@ -23,13 +23,17 @@ class CustomerTest extends CakeTestCase {
 		'app.property',
 		'app.deal',
 		'app.lawer',
-		'app.customers_lawer',
 		'app.wy',
 		'app.customers_wy',
+		'app.ptype',
+		'app.customers_ptype',
+		'app.properties_ptype',
 		'app.plan',
 		'app.summary',
 		'app.feedback',
-		'app.guidance'
+		'app.guidance',
+		'app.ctype',
+		'app.ctypes_customer'
 	);
 
 /**

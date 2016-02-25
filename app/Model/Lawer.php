@@ -32,26 +32,4 @@ class Lawer extends AppModel {
 		)
 	);
 
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-	public $hasAndBelongsToMany = array(
-		'Customer' => array(
-			'className' => 'Customer',
-			'joinTable' => 'customers_lawers',
-			'foreignKey' => 'lawer_id',
-			'associationForeignKey' => 'customer_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-		)
-	);
-
 }

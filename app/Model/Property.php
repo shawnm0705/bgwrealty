@@ -5,6 +5,7 @@ App::uses('AppModel', 'Model');
  *
  * @property Article $Article
  * @property Deal $Deal
+ * @property Ptype $Ptype
  */
 class Property extends AppModel {
 
@@ -42,6 +43,28 @@ class Property extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		)
+	);
+
+
+/**
+ * hasAndBelongsToMany associations
+ *
+ * @var array
+ */
+	public $hasAndBelongsToMany = array(
+		'Ptype' => array(
+			'className' => 'Ptype',
+			'joinTable' => 'properties_ptypes',
+			'foreignKey' => 'property_id',
+			'associationForeignKey' => 'ptype_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
 		)
 	);
 

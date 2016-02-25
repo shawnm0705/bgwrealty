@@ -8,7 +8,8 @@ App::uses('AppModel', 'Model');
  * @property Deal $Deal
  * @property Feedback $Feedback
  * @property Guidance $Guidance
- * @property Lawer $Lawer
+ * @property Ctype $Ctype
+ * @property Ptype $Ptype
  * @property Suburb $Suburb
  * @property Wy $Wy
  */
@@ -93,11 +94,24 @@ class Customer extends AppModel {
  * @var array
  */
 	public $hasAndBelongsToMany = array(
-		'Lawer' => array(
-			'className' => 'Lawer',
-			'joinTable' => 'customers_lawers',
+		'Ctype' => array(
+			'className' => 'Ctype',
+			'joinTable' => 'ctypes_customers',
 			'foreignKey' => 'customer_id',
-			'associationForeignKey' => 'lawer_id',
+			'associationForeignKey' => 'ctype_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+		),
+		'Ptype' => array(
+			'className' => 'Ptype',
+			'joinTable' => 'customers_ptypes',
+			'foreignKey' => 'customer_id',
+			'associationForeignKey' => 'ptype_id',
 			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
@@ -124,19 +138,6 @@ class Customer extends AppModel {
 			'joinTable' => 'customers_wys',
 			'foreignKey' => 'customer_id',
 			'associationForeignKey' => 'wy_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-		),
-		'Ctype' => array(
-			'className' => 'Ctype',
-			'joinTable' => 'ctypes_customers',
-			'foreignKey' => 'customer_id',
-			'associationForeignKey' => 'ctype_id',
 			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',

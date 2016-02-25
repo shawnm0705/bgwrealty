@@ -1,11 +1,11 @@
 <?php
-App::uses('Property', 'Model');
+App::uses('Ptype', 'Model');
 
 /**
- * Property Test Case
+ * Ptype Test Case
  *
  */
-class PropertyTest extends CakeTestCase {
+class PtypeTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,13 +13,15 @@ class PropertyTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.property',
-		'app.article',
-		'app.suburb',
+		'app.ptype',
 		'app.customer',
 		'app.user',
 		'app.employee',
 		'app.team',
+		'app.article',
+		'app.suburb',
+		'app.customers_suburb',
+		'app.property',
 		'app.deal',
 		'app.lawer',
 		'app.wy',
@@ -28,10 +30,8 @@ class PropertyTest extends CakeTestCase {
 		'app.summary',
 		'app.feedback',
 		'app.guidance',
-		'app.customers_suburb',
 		'app.ctype',
 		'app.ctypes_customer',
-		'app.ptype',
 		'app.customers_ptype',
 		'app.properties_ptype'
 	);
@@ -43,7 +43,7 @@ class PropertyTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Property = ClassRegistry::init('Property');
+		$this->Ptype = ClassRegistry::init('Ptype');
 	}
 
 /**
@@ -52,7 +52,7 @@ class PropertyTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->Property);
+		unset($this->Ptype);
 
 		parent::tearDown();
 	}
