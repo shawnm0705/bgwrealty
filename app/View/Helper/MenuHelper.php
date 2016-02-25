@@ -5,12 +5,38 @@ App::uses('AppHelper', 'View/Helper');
 class MenuHelper extends AppHelper {
 	public $helpers = array('Form','Html');
 
-	public function doctor($options = array()){	
+	public function homepage(){
 		echo '<div id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
-	    	<div class="container-fluid">
+	    	<div class="container">
 	        <div class="navbar-header">
             	<div class="div-logo">';
-	                echo $this->Html->image('logo.png').'</div>';
+	                echo $this->Html->image('logo.png', array('class' => 'logo')).'</div>';
+		    echo '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
+		    		<span class="sr-only">Toggle navigation</span>
+		    		<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+	            </button>
+	        </div>
+        <div class="collapse navbar-collapse navbar-menubuilder">
+            <ul class="nav navbar-nav navbar-left" id="top-menu">';
+            
+            echo '<li>'.$this->Html->link(__('首页'),'/').'</li>
+            		<li>'.$this->Html->link(__('公司简介'), array('controller' => 'pages', 'action' => 'about')).'</li>
+			    	<li>'.$this->Html->link(__('公司资讯'), array('controller' => 'pages', 'action' => 'info')).'</li>
+			    	<li>'.$this->Html->link(__('项目汇总'), array('controller' => 'pages', 'action' => 'home')).'</li>
+			    	<li>'.$this->Html->link(__('联系我们'), array('controller' => 'pages', 'action' => 'contact')).'</li>
+			    	<li>'.$this->Html->link(__('加入我们'), array('controller' => 'pages', 'action' => 'join')).'</li>
+			    </ul>
+	    	</div>
+	    </div>
+	    </div>';
+	}
+
+	public function doctor($options = array()){	
+		echo '<div id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+	    	<div class="container">
+	        <div class="navbar-header">
+            	<div class="div-logo">';
+	                echo $this->Html->image('logo.pgn', array('class' => 'logo')).'</div>';
 	                echo $this->Html->link(__('谐调-病例管理'), '#',array('class' => 'navbar-brand'));            
 		    echo '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
 		    		<span class="sr-only">Toggle navigation</span>

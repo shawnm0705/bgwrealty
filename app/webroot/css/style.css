@@ -29,6 +29,11 @@
 .div-logo{
   float: left;
   margin-right: 15px;
+  width: 110px;
+}
+.logo{
+  height: 65px;
+  width: 110px;
 }
 .under-menu{
   margin-top: 60px;
