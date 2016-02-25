@@ -55,40 +55,7 @@
   text-decoration: none;  
 }
 */
-/*++++++++++ Poem ++++++++++*/
-.poem p{
-  font-size: 16px;
-  text-indent: 18px;
-  margin: 20px 0;
-  line-height: 10px;
-}
-.poem-book-nav{
-  margin-bottom:20px;
-  text-align: center; 
-}
-/* Tab */
-.poem-tabs{
-  font-size: 20px;
-}
-.poem-tab-headers{
-  font-size: 25px;
-}
-/* Table */
-.poems-table{
-  font-size: 20px;
-  margin-top: 20px;
-}
-/* Checkbox */
-.poems-checkbox{
-  margin-top: 20px;
-}
-/* Link */
-.link-poem-title{
-  text-decoration: none;
-  color: #6cb14c;
-  margin-right: 20px;
-  padding-top: 10px;
-}
+
 /*++++++++++ Text ++++++++++*/
 .nav{
 	font-family: "YouYuan";
@@ -208,6 +175,9 @@ form div.checkbox-inline {
 }
 .label-100 label {
   width: 100px;
+}
+.label-150 label {
+  width: 150px;
 }
 .input-name{
   width:150px;

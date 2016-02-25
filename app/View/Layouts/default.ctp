@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>
-		<?php echo '谐调-'; ?>
+		<?php echo '创富地产-'; ?>
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
