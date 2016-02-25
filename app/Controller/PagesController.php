@@ -51,4 +51,9 @@ class PagesController extends AppController {
 	public function home(){
 		//$this->set('role', $this->Auth->user('role'));		
 	}
+
+	public function admin_home(){
+		//$this->set('role', $this->Auth->user('role'));		
+	}
+
 }

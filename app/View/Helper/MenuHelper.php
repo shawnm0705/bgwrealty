@@ -31,6 +31,88 @@ class MenuHelper extends AppHelper {
 	    </div>';
 	}
 
+	public function admin(){	
+		echo '<div id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+	    	<div class="container">
+	        <div class="navbar-header">
+            	<div class="div-logo">';
+	                echo $this->Html->image('logo.png', array('class' => 'logo')).'</div>';
+	                echo $this->Html->link(__('管理员'), '#',array('class' => 'navbar-brand'));            
+		    echo '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
+		    		<span class="sr-only">Toggle navigation</span>
+		    		<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+	            </button>
+	        </div>
+        <div class="collapse navbar-collapse navbar-menubuilder">
+            <ul class="nav navbar-nav navbar-left" id="top-menu">';
+            
+            echo '<li>'.$this->Html->link(__('首页'), array('admin' => true, 'controller' => 'pages', 'action' => 'home')).'</li>
+            		<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    内容管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看已有病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    客户管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看已有病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    团队管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看已有病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    业务管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新病例'), 
+            					array('admin' => true, 'admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看已有病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    用户管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新用户'), 
+            					array('admin' => true, 'controller' => 'users', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看所有用户'), 
+            					array('admin' => true, 'controller' => 'users', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    杂项管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看已有病例'), 
+            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    </ul>
+	    	</div>
+	    </div>
+	    </div>';
+	}
+
 	public function doctor($options = array()){	
 		echo '<div id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
 	    	<div class="container">
