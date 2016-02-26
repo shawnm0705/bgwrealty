@@ -70,12 +70,13 @@
 }
 #footer{
   text-align:center;
-  background: #FFFFFF;
   position: relative;
   padding-bottom: 50px;
   padding-top: 50px;
   font-family: SimHei;
   font-weight: bold;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
 }
 th,td.actions{
 	text-align: center;
@@ -111,6 +112,23 @@ th,td.actions{
 .dl-input dd{
   text-align: left;
 }*/
+.dl-view{
+  font-size: 25px;
+  margin: 20px 0;
+}
+.dl-view dt{
+  float: left;
+  text-align: left;
+  width: 120px;
+  margin-bottom: 20px;
+}
+.dl-200 dt{
+  width: 200px;
+}
+.dl-view dd{
+  text-align: left;
+  margin-bottom: 20px;
+}
 /*++++++++++ Buttons ++++++++++*/
 
 .div-button{

@@ -71,10 +71,14 @@ class MenuHelper extends AppHelper {
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    团队管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
-					    	<li>'.$this->Html->link(__('添加新病例'), 
-            					array('admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看已有病例'), 
-            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('添加新员工'), 
+            					array('admin' => true, 'controller' => 'employees', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看所有员工'), 
+            					array('admin' => true, 'controller' => 'employees', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('添加新团队'), 
+            					array('admin' => true, 'controller' => 'teams', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看所有团队'), 
+            					array('admin' => true, 'controller' => 'teams', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">

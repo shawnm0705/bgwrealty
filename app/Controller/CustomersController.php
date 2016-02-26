@@ -18,7 +18,12 @@ class CustomersController extends AppController {
  */
 	public function admin_index() {
 		$this->Customer->recursive = -1;
-		$this->set('customers', $this->Customer->find('all'));
+		$options = array(
+			'joins' => array(
+				array('table' => 'employees', 'alias' => 'Employee', 'type' => 'left',
+						'conditions' => 'Customer.employee_id = Employee.id')),
+			'fields' => array('Customer.*', 'Employee.name'));
+		$this->set('customers', $this->Customer->find('all', $options));
 		//$this->set('role', $this->Auth->user('role'));
 	}
 
@@ -27,14 +32,14 @@ class CustomersController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {
-				$this->Session->setFlash(__('病例已保存.'));
+				$this->Session->setFlash(__('客户信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('病例保存失败，请稍候再试.'));
+				$this->Session->setFlash(__('客户信息保存失败，请稍候再试.'));
 			}
 		}
 		$this->set('poemtagcates', $this->Customer->find('list'));
@@ -49,16 +54,16 @@ class CustomersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Customer->exists($id)) {
-			throw new NotFoundException(__('诗歌标签不存在'));
+			throw new NotFoundException(__('客户信息不存在'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Customer->save($this->request->data)) {
-				$this->Session->setFlash(__('诗歌标签已保存.'));
+				$this->Session->setFlash(__('客户信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('诗歌标签保存失败，请稍候再试.'));
+				$this->Session->setFlash(__('客户信息保存失败，请稍候再试.'));
 			}
 		} else {
 			$this->Customer->recursive = -1;
@@ -77,16 +82,16 @@ class CustomersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->Customer->id = $id;
 		if (!$this->Customer->exists()) {
-			throw new NotFoundException(__('诗歌标签不存在'));
+			throw new NotFoundException(__('客户信息不存在'));
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Customer->delete()) {
-			$this->Session->setFlash(__('诗歌标签已删除.'));
+			$this->Session->setFlash(__('客户信息已删除.'));
 		} else {
-			$this->Session->setFlash(__('诗歌标签删除失败，请稍候再试.'));
+			$this->Session->setFlash(__('客户信息删除失败，请稍候再试.'));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
