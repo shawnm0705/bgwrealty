@@ -23,8 +23,10 @@ class EmployeesController extends AppController {
 		$options = array(
 			'joins' => array(
 				array('table' => 'teams', 'alias' => 'Team', 'type' => 'left',
-						'conditions' => 'Employee.team_id = Team.id')),
-			'fields' => array('Employee.*', 'Team.name'));
+						'conditions' => 'Employee.team_id = Team.id'),
+				array('table' => 'users', 'alias' => 'User', 'type' => 'left',
+						'conditions' => 'Employee.user_id = User.id')),
+			'fields' => array('Employee.*', 'Team.name','User.username', 'User.active'));
 		$this->set('employees', $this->Employee->find('all', $options));
 	}
 
@@ -86,10 +88,13 @@ class EmployeesController extends AppController {
 			}
 		} else {
 			$this->Employee->recursive = -1;
-			$sql = "SELECT * FROM poemtags AS Employee WHERE id = $id LIMIT 1;";
-			$this->request->data = $this->Employee->query($sql)[0];
+			$options = array('conditions' => 'id = '.$id);
+			$this->request->data = $this->Employee->find('first', $options);
 		}
-		$this->set('poemtagcates', $this->Employee->Employeecate->find('list'));
+		
+		$teams = $this->Team->find('list');
+		$teams[0] = '暂不分组';
+		$this->set('teams', $teams);
 	}
 
 /**
