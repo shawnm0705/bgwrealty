@@ -31,6 +31,38 @@ class EmployeesController extends AppController {
 	}
 
 /**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function admin_view($id = null){
+		if (!$this->Employee->exists($id)) {
+			throw new NotFoundException(__('员工信息不存在'));
+		}
+		$this->Employee->recursive = -1;
+		$options = array(
+			'joins' => array(
+				array('table' => 'teams', 'alias' => 'Team', 'type' => 'left',
+						'conditions' => 'Employee.team_id = Team.id'),
+				array('table' => 'users', 'alias' => 'User', 'type' => 'left',
+						'conditions' => 'Employee.user_id = User.id')),
+			'fields' => array('Employee.*', 'Team.name','User.username', 'User.active'),
+			'conditions' => array('Employee.id' => $id));
+		$sql = "SELECT Employee.*, Team.name, User.username, User.active
+				FROM (SELECT Employee.*
+						FROM employees AS Employee
+						WHERE Employee.id = $id LIMIT 1) AS Employee
+				LEFT JOIN teams AS Team
+					ON Employee.team_id = Team.id
+				LEFT JOIN users AS User
+					ON Employee.user_id = User.id;";
+		$this->set('employee', $this->Employee->query($sql)[0]);
+
+	}
+
+/**
  * add method
  *
  * @return void

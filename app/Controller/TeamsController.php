@@ -25,7 +25,7 @@ class TeamsController extends AppController {
 	}
 
 /**
- * edit method
+ * view method
  *
  * @throws NotFoundException
  * @param string $id
