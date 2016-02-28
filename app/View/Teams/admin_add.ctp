@@ -6,8 +6,8 @@
 
 <div class="container">
 	<div class="row">
-		<?php echo $this->Html->link(__('返回列表'), array('action' => 'index'), array('class' => 'btn btn-custom button-action')); ?>
-		<div class="col-md-10 col-md-offset-1">
+		<?php echo $this->Html->link(__('返回列表'), array('action' => 'index'), array('class' => 'btn btn-custom button-action')); ?><br/>
+		<div class="col-md-6 col-md-offset-3">
 			<div class="form label-150">
 			<?php echo $this->Form->create('Team'); ?>
 				<fieldset>

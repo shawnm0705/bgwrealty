@@ -19,7 +19,7 @@
 				foreach($employees as $employee){
 					echo $employee.'<br/>';
 				}
-				?>&nbsp;</div></dd>
+				?>&nbsp;</dd>
 			</dl>	
 		</div>
 		<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改团队信息'), array('action' => 'edit', $team['Team']['id']), array('class' => 'btn btn-custom button-action')); ?></center>

@@ -24,23 +24,6 @@ class SuburbsController extends AppController {
 	}
 
 /**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function admin_view($id = null){
-		if (!$this->Suburb->exists($id)) {
-			throw new NotFoundException(__('区域信息不存在'));
-		}
-		$this->Suburb->recursive = -1;
-		$options = array('conditions' => array('id' => $id));
-		$this->set('suburb', $this->Suburb->find('first', $options));
-
-	}
-
-/**
  * add method
  *
  * @return void
