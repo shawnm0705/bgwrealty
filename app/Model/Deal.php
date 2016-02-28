@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Property $Property
  * @property Customer $Customer
  * @property Employee $Employee
- * @property Lawer $Lawer
+ * @property Lawyer $Lawyer
  * @property Wy $Wy
  */
 class Deal extends AppModel {
@@ -78,9 +78,9 @@ class Deal extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'Lawer' => array(
-			'className' => 'Lawer',
-			'foreignKey' => 'lawer_id',
+		'Lawyer' => array(
+			'className' => 'Lawyer',
+			'foreignKey' => 'lawyer_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

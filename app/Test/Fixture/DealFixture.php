@@ -17,7 +17,7 @@ class DealFixture extends CakeTestFixture {
 		'property_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'customer_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'employee_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-		'lawer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
+		'lawyer_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'wy_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'indexes' => array(
 			'PRIMARY' => array('column' => array('id', 'property_id', 'customer_id', 'employee_id'), 'unique' => 1),
@@ -41,7 +41,7 @@ class DealFixture extends CakeTestFixture {
 			'property_id' => 1,
 			'customer_id' => 1,
 			'employee_id' => 1,
-			'lawer_id' => 1,
+			'lawyer_id' => 1,
 			'wy_id' => 1
 		),
 	);

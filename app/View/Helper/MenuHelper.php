@@ -36,8 +36,7 @@ class MenuHelper extends AppHelper {
 	    	<div class="container">
 	        <div class="navbar-header">
             	<div class="div-logo">';
-	                echo $this->Html->image('logo.png', array('class' => 'logo')).'</div>';
-	                echo $this->Html->link(__('管理员'), '#',array('class' => 'navbar-brand'));            
+	                echo $this->Html->image('logo.png', array('class' => 'logo')).'</div>';           
 		    echo '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
 		    		<span class="sr-only">Toggle navigation</span>
 		    		<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -93,6 +92,16 @@ class MenuHelper extends AppHelper {
 			    	</li>
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    楼盘管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新楼盘'), 
+            					array('admin' => true, 'controller' => 'properties', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看所有楼盘'), 
+            					array('admin' => true, 'controller' => 'properties', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    用户管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('添加新用户'), 
@@ -105,10 +114,16 @@ class MenuHelper extends AppHelper {
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    杂项管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
-					    	<li>'.$this->Html->link(__('添加新病例'), 
-            					array('admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看已有病例'), 
-            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('区域列表'), 
+            					array('admin' => true, 'controller' => 'suburbs', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('客户分类列表'), 
+            					array('admin' => true, 'controller' => 'ctype', 'action' => 'index', 'KHFL')).'</li>
+					    	<li>'.$this->Html->link(__('客户来源列表'), 
+            					array('admin' => true, 'controller' => 'ctype', 'action' => 'index', 'KHLY')).'</li>
+					    	<li>'.$this->Html->link(__('物业列表'), 
+            					array('admin' => true, 'controller' => 'wys', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('律师列表'), 
+            					array('admin' => true, 'controller' => 'lawyers', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li>'.$this->Html->link(__('退出登录'), 

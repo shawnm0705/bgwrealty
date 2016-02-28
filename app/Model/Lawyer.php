@@ -1,12 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Lawer Model
+ * Lawyer Model
  *
  * @property Deal $Deal
- * @property Customer $Customer
  */
-class Lawer extends AppModel {
+class Lawyer extends AppModel {
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -19,7 +18,7 @@ class Lawer extends AppModel {
 	public $hasMany = array(
 		'Deal' => array(
 			'className' => 'Deal',
-			'foreignKey' => 'lawer_id',
+			'foreignKey' => 'lawyer_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

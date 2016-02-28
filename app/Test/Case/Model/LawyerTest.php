@@ -1,11 +1,11 @@
 <?php
-App::uses('Deal', 'Model');
+App::uses('Lawyer', 'Model');
 
 /**
- * Deal Test Case
+ * Lawyer Test Case
  *
  */
-class DealTest extends CakeTestCase {
+class LawyerTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,6 +13,7 @@ class DealTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
+		'app.lawyer',
 		'app.deal',
 		'app.property',
 		'app.article',
@@ -32,8 +33,7 @@ class DealTest extends CakeTestCase {
 		'app.properties_ptype',
 		'app.customers_suburb',
 		'app.wy',
-		'app.customers_wy',
-		'app.lawyer'
+		'app.customers_wy'
 	);
 
 /**
@@ -43,7 +43,7 @@ class DealTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Deal = ClassRegistry::init('Deal');
+		$this->Lawyer = ClassRegistry::init('Lawyer');
 	}
 
 /**
@@ -52,7 +52,7 @@ class DealTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->Deal);
+		unset($this->Lawyer);
 
 		parent::tearDown();
 	}
