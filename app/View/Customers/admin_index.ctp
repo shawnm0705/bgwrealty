@@ -1,15 +1,7 @@
 <?php 
 	// Title	
-	$this->assign('title', '客户列表');
-	echo $this->Menu->doctor();
-	// CSS
-	/*$this->start('css');
-	echo $this->Html->css('consultation-add');
-	$this->end();
-	// Javascript
-	$this->start('script');
-	echo $this->Html->script(array('bootstrap3-typeahead.min','Fangji/add'));
-	$this->end();*/
+	$this->assign('title', '员工列表');
+	echo $this->Menu->admin();
 	echo $this->element('JS_datatable');
 ?>
 
@@ -17,25 +9,61 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="index well">
-				<h2><?php echo __('我的方剂'); ?></h2>
+				<h2><?php echo __('所有员工'); ?></h2>
 				<table id="data_table" cellpadding="0" cellspacing="0">
 					<thead>
 					<tr>
-						<th>方剂名</th>
-						<th>时间</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>注册时间</th>
+						<th>所属团队</th>
+						<th>是否为组长</th>
+						<th>帐号</th>
+						<th>激活状态</th>
 						<th>操作</th>
 					</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($fangjis as $fangji): ?>
+						<?php foreach ($employees as $employee): ?>
 						<tr>
-							<td><?php echo h($fangji['Fangji']['name']); ?>&nbsp;</td>
-							<td><?php echo h($fangji['Fangji']['date']); ?>&nbsp;</td>
+							<td><?php echo h($employee['Employee']['name']); ?>&nbsp;</td>
+							<td><?php 
+							if($employee['Employee']['gender']){
+								echo '男';
+							}else{
+								echo '女';
+							};?>&nbsp;</td>
+							<td><?php echo h($employee['Employee']['date']); ?>&nbsp;</td>
+							<td><?php
+							if($employee['Employee']['team_id']){ 
+								echo h($employee['Team']['name']);
+							}else{
+								echo '未分组';
+							} ?>&nbsp;</td>
+							<td><?php 
+							if($employee['Employee']['leader']){
+								echo '是';
+							}else{
+								echo '否';
+							};?>&nbsp;</td>
+							<td><?php 
+							if($employee['Employee']['user_id']){
+								echo $employee['User']['username'];
+							}else{
+								echo '无帐号';
+							};?>&nbsp;</td>
+							<td><?php 
+							if($employee['User']['active']){
+								echo '已激活';
+							}else{
+								echo '未激活';
+							};?>&nbsp;</td>
 							<td class="actions">
 								<?php 
-								echo $this->Html->link(__('查看'), array('action' => 'view', h($fangji['Fangji']['id'])), array('class' => 'btn btn-custom button-action')); 
-								echo $this->Html->link(__('修改'), array('action' => 'edit', h($fangji['Fangji']['id'])), array('class' => 'btn btn-custom button-action')); 
-								echo $this->Form->postLink(__('删除'), array('action' => 'delete', $fangji['Fangji']['id']), array('class' => 'btn btn-custom button-action'), __('确定要删除该方剂?'));?>
+								echo $this->Action->index_action(array(
+									'id' => h($employee['Employee']['id']), 'name' => '员工',
+									'view' => 1, 'edit' => 1, 'delete' => 1));
+								?>
 							</td>
 						</tr>
 						<?php endforeach; ?>
