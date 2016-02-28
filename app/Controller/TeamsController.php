@@ -50,6 +50,7 @@ class TeamsController extends AppController {
  */
 	public function admin_add() {
 		if ($this->request->is('post')) {
+			$this->request->data['Team']['number'] = 0;
 			$this->Team->create();
 			if ($this->Team->save($this->request->data)) {
 				$this->Session->setFlash(__('团队信息已保存.'));

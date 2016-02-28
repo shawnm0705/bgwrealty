@@ -18,8 +18,8 @@
 					echo $this->Form->input('phone', array('label' => '手机', 'type' => 'text', 'div' => array('class' => 'input required')));
 					echo $this->Form->input('email', array('label' => 'E-mail', 'type' => 'text', 'div' => array('class' => 'input required')));
 					echo $this->Form->input('wechat', array('label' => '微信号', 'type' => 'text', 'div' => array('class' => 'input')));
-					echo $this->Form->input('team_id', array('label' => '分组', 'type' => 'select', 'options' => $teams, 'empty' => '请选择', 'div' => array('class' => 'input select required')));
-					echo $this->Form->input('leader', array('label' => '是否为组长', 'type' => 'select', 'options' => array(1 => '是', 0 => '否'), 'empty' => '请选择', 'div' => array('class' => 'input required')));
+					echo $this->Form->input('team_id', array('label' => '分组', 'type' => 'select', 'options' => $teams, 'selected' => 0, 'div' => array('class' => 'input select required')));
+					echo $this->Form->input('leader', array('label' => '是否为组长', 'type' => 'select', 'options' => array(1 => '是', 0 => '否'), 'selected' => 0, 'div' => array('class' => 'input required')));
 					
 					
 				?>

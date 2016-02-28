@@ -89,6 +89,15 @@ class EmployeesController extends AppController {
 			$this->request->data['Employee']['date'] = date('Y-m-d H:i:s');
 			$this->Employee->create();
 			if ($this->Employee->save($this->request->data)) {
+				// Team number
+				if($this->request->data['Employee']['team_id']){
+					$this->Team->recursive = -1;
+					$options = array('conditions' => array('id' => $this->request->data['Employee']['team_id']));
+					$team = $this->Team->find('first', $options);
+					$team['Team']['number'] += 1;
+					$this->Team->save($team);
+				}
+
 				$this->Session->setFlash(__('员工信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -113,6 +122,23 @@ class EmployeesController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Employee->save($this->request->data)) {
+				// Team number
+				if($this->request->data['Employee']['team_id'] != $this->request->data['Employee']['o_team_id']){
+					$this->Team->recursive = -1;
+					if($this->request->data['Employee']['team_id']){
+						$options = array('conditions' => array('id' => $this->request->data['Employee']['team_id']));
+						$team = $this->Team->find('first', $options);
+						$team['Team']['number'] += 1;
+						$this->Team->save($team);
+					}
+					if($this->request->data['Employee']['o_team_id']){
+						$options = array('conditions' => array('id' => $this->request->data['Employee']['o_team_id']));
+						$team = $this->Team->find('first', $options);
+						$team['Team']['number'] -= 1;
+						$this->Team->save($team);
+					}
+				}
+
 				$this->Session->setFlash(__('员工信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -122,6 +148,7 @@ class EmployeesController extends AppController {
 			$this->Employee->recursive = -1;
 			$options = array('conditions' => 'id = '.$id);
 			$this->request->data = $this->Employee->find('first', $options);
+			$this->set('team_id', $this->request->data['Employee']['team_id']);
 		}
 		
 		$teams = $this->Team->find('list');
