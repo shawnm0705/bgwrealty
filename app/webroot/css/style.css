@@ -124,6 +124,9 @@ th,td.actions{
 .dl-200 dt{
   width: 200px;
 }
+.dl-250 dt{
+  width: 250px;
+}
 .dl-view dd{
   text-align: left;
   margin-bottom: 20px;
@@ -200,6 +203,9 @@ form div.checkbox-inline {
 }
 .label-150 label {
   width: 150px;
+}
+.label-200 label {
+  width: 200px;
 }
 .input-name{
   width:150px;
