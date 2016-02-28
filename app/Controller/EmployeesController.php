@@ -35,21 +35,31 @@ class EmployeesController extends AppController {
  */
 	public function admin_add() {
 		if ($this->request->is('post')) {
+			// Add User
 			if($this->request->data['User']['username']){
-				echo 'yes';
+				$user['User']['username'] = $this->request->data['User']['username'];
+				$user['User']['password'] = substr(md5(time()), 0, 8);
+				$user['User']['p_default'] = $user['User']['password'];
+				$user['User']['role'] = 'employee';
+				$user['User']['active'] = 1;
+				$this->User->create();
+				$this->User->save($user);
+				$this->request->data['Employee']['user_id'] = $this->User->id;
+			}else{
+				$this->request->data['Employee']['user_id'] = 0;	
 			}
 
+			// Add Employee
 			$dob = $this->request->data['Employee']['dob']['year'].'-'.$this->request->data['Employee']['dob']['month'].'-'.$this->request->data['Employee']['dob']['day'];
 			$this->request->data['Employee']['dob'] = $dob;
 			$this->request->data['Employee']['date'] = date('Y-m-d H:i:s');
-			print_r($this->request->data);
-			/*$this->Employee->create();
+			$this->Employee->create();
 			if ($this->Employee->save($this->request->data)) {
 				$this->Session->setFlash(__('员工信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('员工信息保存失败，请稍候再试.'));
-			}*/
+			}
 		}
 		$teams = $this->Team->find('list');
 		$teams[0] = '暂不分组';
