@@ -4,7 +4,8 @@
 	<title>
 		<?php echo '创富地产-'; ?>
 		<?php echo $this->fetch('title'); ?>
-	</title>
+
+	</title><link type="image/x-icon" rel="icon" href="<?php echo $this->webroot;?>img/logo-small.png">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<?php
 		//echo $this->Html->meta('icon');

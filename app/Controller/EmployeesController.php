@@ -11,6 +11,8 @@ class EmployeesController extends AppController {
 		$this->Auth->allow('lists');
     }*/
     
+    public $uses = array('Employee', 'Team', 'User');
+
 /**
  * index method
  *
@@ -24,7 +26,6 @@ class EmployeesController extends AppController {
 						'conditions' => 'Employee.team_id = Team.id')),
 			'fields' => array('Employee.*', 'Team.name'));
 		$this->set('employees', $this->Employee->find('all', $options));
-		//$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
@@ -34,17 +35,25 @@ class EmployeesController extends AppController {
  */
 	public function admin_add() {
 		if ($this->request->is('post')) {
-			$this->Employee->create();
+			if($this->request->data['User']['username']){
+				echo 'yes';
+			}
+
+			$dob = $this->request->data['Employee']['dob']['year'].'-'.$this->request->data['Employee']['dob']['month'].'-'.$this->request->data['Employee']['dob']['day'];
+			$this->request->data['Employee']['dob'] = $dob;
+			$this->request->data['Employee']['date'] = date('Y-m-d H:i:s');
+			print_r($this->request->data);
+			/*$this->Employee->create();
 			if ($this->Employee->save($this->request->data)) {
 				$this->Session->setFlash(__('员工信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('员工信息保存失败，请稍候再试.'));
-			}
+			}*/
 		}
-		$this->set('poemtagcates', $this->Employee->find('list'));
-        //$this->set('username',$this->Auth->user('username'));
-		//$this->set('role', $this->Auth->user('role'));
+		$teams = $this->Team->find('list');
+		$teams[0] = '暂不分组';
+		$this->set('teams', $teams);
 	}
 
 /**
@@ -71,8 +80,6 @@ class EmployeesController extends AppController {
 			$this->request->data = $this->Employee->query($sql)[0];
 		}
 		$this->set('poemtagcates', $this->Employee->Employeecate->find('list'));
-        //$this->set('username',$this->Auth->user('username'));
-		$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
