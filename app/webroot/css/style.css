@@ -216,14 +216,18 @@ form div.checkbox-inline {
   text-align: center;
   margin-bottom: 20px;
 }
+.input-100{
+  width:100px;
+  padding: 0;
+}
+select[multiple]{
+  max-height: 200px;
+}
 /*
 form div.has-hint {
   margin-bottom: 0;
 }
-.input-number{
-  width:50px;
-  padding: 0;
-}
+
 .input-100{
   width:100px;
   padding: 0;

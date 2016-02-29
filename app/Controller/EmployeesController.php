@@ -11,7 +11,7 @@ class EmployeesController extends AppController {
 		$this->Auth->allow('lists');
     }*/
     
-    public $uses = array('Employee', 'Team', 'User');
+    public $uses = array('Employee', 'Team', 'User', 'Customer');
 
 /**
  * index method
@@ -42,14 +42,6 @@ class EmployeesController extends AppController {
 			throw new NotFoundException(__('员工信息不存在'));
 		}
 		$this->Employee->recursive = -1;
-		$options = array(
-			'joins' => array(
-				array('table' => 'teams', 'alias' => 'Team', 'type' => 'left',
-						'conditions' => 'Employee.team_id = Team.id'),
-				array('table' => 'users', 'alias' => 'User', 'type' => 'left',
-						'conditions' => 'Employee.user_id = User.id')),
-			'fields' => array('Employee.*', 'Team.name','User.username', 'User.active'),
-			'conditions' => array('Employee.id' => $id));
 		$sql = "SELECT Employee.*, Team.name, User.username, User.active
 				FROM (SELECT Employee.*
 						FROM employees AS Employee
@@ -59,6 +51,8 @@ class EmployeesController extends AppController {
 				LEFT JOIN users AS User
 					ON Employee.user_id = User.id;";
 		$this->set('employee', $this->Employee->query($sql)[0]);
+		$options = array('conditions' => array('employee_id' => $id));
+		$this->set('customers', $this->Customer->find('list', $options));
 
 	}
 

@@ -11,7 +11,7 @@ class CustomersController extends AppController {
 		$this->Auth->allow('lists');
     }*/
     
-    public $uses = array('Customer', 'Employee', 'User');
+    public $uses = array('Customer', 'Employee', 'User', 'Suburb', 'Wy', 'Ctype', 'Ptype');
 
 /**
  * index method
@@ -84,19 +84,55 @@ class CustomersController extends AppController {
 			}
 
 			// Add Customer
-			$dob = $this->request->data['Customer']['dob']['year'].'-'.$this->request->data['Customer']['dob']['month'].'-'.$this->request->data['Customer']['dob']['day'];
-			$this->request->data['Customer']['dob'] = $dob;
+			
 			$this->request->data['Customer']['date'] = date('Y-m-d H:i:s');
+			// suburbs
+			$suburb_ids = $this->request->data['Suburb']['Suburb'];
+			$suburbs = $this->Suburb->find('list', array('conditions' => array('id' => $suburb_ids)));
+			$suburbs_string = '';
+			foreach($suburbs as $suburb){
+				$suburbs_string .= $suburb.'<br/>';
+			}
+			$this->request->data['Customer']['suburbs'] = $suburbs_string;
+			// wys
+			$wy_ids = $this->request->data['Wy']['Wy'];
+			$wys = $this->Wy->find('list', array('conditions' => array('id' => $wy_ids)));
+			$wys_string = '';
+			foreach($wys as $wy){
+				$wys_string .= $wy.'<br/>';
+			}
+			$this->request->data['Customer']['wys'] = $wys_string;
+			// ptypes
+			$ptype_ids = $this->request->data['Ptype']['Ptype'];
+			$ptypes = $this->Ptype->find('list', array('conditions' => array('id' => $ptype_ids)));
+			$ptypes_string = '';
+			foreach($ptypes as $ptype){
+				$ptypes_string .= $ptype.'<br/>';
+			}
+			$this->request->data['Customer']['ptypes'] = $ptypes_string;
+			// cfls
+			$ctype_ids = $this->request->data['Ctype']['Ctype'];
+			$ctypes = $this->Ctype->find('list', array('conditions' => array('id' => $ctype_ids)));
+			$ctypes_string = '';
+			foreach($ctypes as $ctype){
+				$ctypes_string .= $ctype.'<br/>';
+			}
+			$this->request->data['Customer']['cfls'] = $ctypes_string;
+			// clys
+			$ctype_ids = $this->request->data['Customer']['Ctype2'];
+			$ctypes = $this->Ctype->find('list', array('conditions' => array('id' => $ctype_ids)));
+			$ctypes_string = '';
+			foreach($ctypes as $ctype){
+				$ctypes_string .= $ctype.'<br/>';
+			}
+			$this->request->data['Customer']['clys'] = $ctypes_string;
+			// combine cfl and cly
+			foreach($this->request->data['Customer']['Ctype2'] as $ctype){
+				array_push($this->request->data['Ctype']['Ctype'], $ctype);
+			}
+
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {
-				// Employee number
-				if($this->request->data['Customer']['employee_id']){
-					$this->Employee->recursive = -1;
-					$options = array('conditions' => array('id' => $this->request->data['Customer']['employee_id']));
-					$employee = $this->Employee->find('first', $options);
-					$employee['Employee']['number'] += 1;
-					$this->Employee->save($employee);
-				}
 
 				$this->Session->setFlash(__('客户信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
@@ -105,8 +141,14 @@ class CustomersController extends AppController {
 			}
 		}
 		$employees = $this->Employee->find('list');
-		$employees[0] = '暂不分组';
+		$employees[0] = '暂不分配';
 		$this->set('employees', $employees);
+		$this->set('suburbs', $this->Suburb->find('list'));
+		$this->set('wys', $this->Wy->find('list'));
+		$this->set('cfl', $this->Ctype->find('list', array('conditions' => array('type' => 'KHFL'))));
+		$this->set('cly', $this->Ctype->find('list', array('conditions' => array('type' => 'KHLY'))));
+		$this->set('ptypes', $this->Ptype->find('list'));
+
 	}
 
 /**
@@ -121,39 +163,81 @@ class CustomersController extends AppController {
 			throw new NotFoundException(__('客户信息不存在'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Customer->save($this->request->data)) {
-				// Employee number
-				if($this->request->data['Customer']['employee_id'] != $this->request->data['Customer']['o_employee_id']){
-					$this->Employee->recursive = -1;
-					if($this->request->data['Customer']['employee_id']){
-						$options = array('conditions' => array('id' => $this->request->data['Customer']['employee_id']));
-						$employee = $this->Employee->find('first', $options);
-						$employee['Employee']['number'] += 1;
-						$this->Employee->save($employee);
-					}
-					if($this->request->data['Customer']['o_employee_id']){
-						$options = array('conditions' => array('id' => $this->request->data['Customer']['o_employee_id']));
-						$employee = $this->Employee->find('first', $options);
-						$employee['Employee']['number'] -= 1;
-						$this->Employee->save($employee);
-					}
-				}
 
+			// suburbs
+			$suburb_ids = $this->request->data['Suburb']['Suburb'];
+			$suburbs = $this->Suburb->find('list', array('conditions' => array('id' => $suburb_ids)));
+			$suburbs_string = '';
+			foreach($suburbs as $suburb){
+				$suburbs_string .= $suburb.'<br/>';
+			}
+			$this->request->data['Customer']['suburbs'] = $suburbs_string;
+			// wys
+			$wy_ids = $this->request->data['Wy']['Wy'];
+			$wys = $this->Wy->find('list', array('conditions' => array('id' => $wy_ids)));
+			$wys_string = '';
+			foreach($wys as $wy){
+				$wys_string .= $wy.'<br/>';
+			}
+			$this->request->data['Customer']['wys'] = $wys_string;
+			// ptypes
+			$ptype_ids = $this->request->data['Ptype']['Ptype'];
+			$ptypes = $this->Ptype->find('list', array('conditions' => array('id' => $ptype_ids)));
+			$ptypes_string = '';
+			foreach($ptypes as $ptype){
+				$ptypes_string .= $ptype.'<br/>';
+			}
+			$this->request->data['Customer']['ptypes'] = $ptypes_string;
+			// cfls
+			$ctype_ids = $this->request->data['Ctype']['Ctype'];
+			$ctypes = $this->Ctype->find('list', array('conditions' => array('id' => $ctype_ids)));
+			$ctypes_string = '';
+			foreach($ctypes as $ctype){
+				$ctypes_string .= $ctype.'<br/>';
+			}
+			$this->request->data['Customer']['cfls'] = $ctypes_string;
+			// clys
+			$ctype_ids = $this->request->data['Customer']['Ctype2'];
+			$ctypes = $this->Ctype->find('list', array('conditions' => array('id' => $ctype_ids)));
+			$ctypes_string = '';
+			foreach($ctypes as $ctype){
+				$ctypes_string .= $ctype.'<br/>';
+			}
+			$this->request->data['Customer']['clys'] = $ctypes_string;
+			// combine cfl and cly
+			foreach($this->request->data['Customer']['Ctype2'] as $ctype){
+				array_push($this->request->data['Ctype']['Ctype'], $ctype);
+			}
+
+			if ($this->Customer->save($this->request->data)) {
 				$this->Session->setFlash(__('客户信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('客户信息保存失败，请稍候再试.'));
 			}
 		} else {
-			$this->Customer->recursive = -1;
-			$options = array('conditions' => 'id = '.$id);
+			$this->Customer->recursive = 1;
+			$options = array('conditions' => 'Customer.id = '.$id);
 			$this->request->data = $this->Customer->find('first', $options);
-			$this->set('employee_id', $this->request->data['Customer']['employee_id']);
+			$this->set('price_min', $this->request->data['Customer']['price_min']);
+			$this->set('price_max', $this->request->data['Customer']['price_max']);
+			$cly_selected = array();
+			foreach($this->request->data['Ctype'] as $cly){
+				if($cly['type'] == 'KHLY'){
+					array_push($cly_selected, $cly['id']);
+				}
+			}
+			$this->set('cly_selected', $cly_selected);
 		}
 		
 		$employees = $this->Employee->find('list');
-		$employees[0] = '暂不分组';
+		$employees[0] = '暂不分配';
 		$this->set('employees', $employees);
+		$this->set('suburbs', $this->Suburb->find('list'));
+		$this->set('wys', $this->Wy->find('list'));
+		$this->set('cfl', $this->Ctype->find('list', array('conditions' => array('type' => 'KHFL'))));
+		$this->set('cly', $this->Ctype->find('list', array('conditions' => array('type' => 'KHLY'))));
+		$this->set('ptypes', $this->Ptype->find('list'));
 	}
 
 /**

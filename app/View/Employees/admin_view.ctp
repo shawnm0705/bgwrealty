@@ -18,7 +18,7 @@
 					echo '男';
 				}else{
 					echo '女';
-				}; ?>&nbsp;</dd>
+				} ?>&nbsp;</dd>
 				<dt>生日：</dt>
 				<dd><?php echo h($employee['Employee']['dob']); ?>&nbsp;</dd>
 				<dt>手机：</dt>
@@ -40,21 +40,27 @@
 					echo '是';
 				}else{
 					echo '否';
-				}; ?>&nbsp;</dd>
+				} ?>&nbsp;</dd>
+				<dt>客户：</dt>
+				<dd><?php 
+				foreach($customers as $customer){
+					echo $customer.'<br/>';
+				} 
+				?>&nbsp;</dd>
 				<dt>帐号：</dt>
 				<dd><?php 
 				if($employee['Employee']['user_id']){
 					echo $employee['User']['username'];
 				}else{
 					echo '无帐号';
-				}; ?>&nbsp;</dd>
+				} ?>&nbsp;</dd>
 				<dt>激活：</dt>
 				<dd><?php 
 				if($employee['User']['active']){
 					echo '已激活';
 				}else{
 					echo '未激活';
-				}; ?>&nbsp;</dd>
+				} ?>&nbsp;</dd>
 			</dl>	
 		</div>
 		<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改员工信息'), array('action' => 'edit', $employee['Employee']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
