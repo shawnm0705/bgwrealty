@@ -116,6 +116,8 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('区域列表'), 
             					array('admin' => true, 'controller' => 'suburbs', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('户型列表'), 
+            					array('admin' => true, 'controller' => 'ptypes', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('客户分类列表'), 
             					array('admin' => true, 'controller' => 'ctypes', 'action' => 'index', 'KHFL')).'</li>
 					    	<li>'.$this->Html->link(__('客户来源列表'), 
