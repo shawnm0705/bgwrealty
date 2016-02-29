@@ -36,15 +36,15 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 
 	// ------- Custom Plugins
-	config.width = 420;
+	config.width = 1000;
 	config.height = 480;
 	config.language = 'zh-cn';
 	config.extraPlugins = 'popup';
 	config.extraPlugins = 'filebrowser';
     //config.extraPlugins = 'imagebrowser';
     config.extraPlugins = 'imgbrowse';
-	config.filebrowserImageUploadUrl = "/xietiao/ckeditor/plugins/imgupload.php";
+	config.filebrowserImageUploadUrl = "/bgwrealty/ckeditor/plugins/imgupload.php";
 	//------------config.filebrowserImageUploadUrl = "/ckeditor/plugins/imgupload.php";
-    config.filebrowserImageBrowseUrl = '/xietiao/ckeditor/plugins/imgbrowse/imgbrowse.html';
+    config.filebrowserImageBrowseUrl = '/bgwrealty/ckeditor/plugins/imgbrowse/imgbrowse.html';
     //------------config.filebrowserImageBrowseUrl = '/ckeditor/plugins/imgbrowse/imgbrowse.html';
 };

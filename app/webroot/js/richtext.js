@@ -1,8 +1,8 @@
 /*CKEDITOR.replace( 'richtextarea1', {
     customConfig: '/xietiao/js/ckeditor_config.js'
 });*/
-CKEDITOR.replace( 'richtextarea1');
-CKEDITOR.replace( 'richtextarea2');
+CKEDITOR.replace( 'richtextarea');
+//CKEDITOR.replace( 'richtextarea2');
 
 /*tinymce.init({
     selector: "#richtextarea1",

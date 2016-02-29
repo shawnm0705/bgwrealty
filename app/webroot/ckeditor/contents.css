@@ -15,15 +15,19 @@ body
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
 
-	margin: 20px;
+	margin: 10px;
 }
 
 .cke_editable
 {
 	font-size: 20px;
-	line-height: 1.6;
+	/*line-height: 1.6;*/
 }
 
+p
+{
+	margin: 5px 0;
+}
 blockquote
 {
 	font-style: italic;

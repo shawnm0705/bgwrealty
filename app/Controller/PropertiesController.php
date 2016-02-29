@@ -7,7 +7,7 @@ App::uses('AppController', 'Controller');
  */
 class PropertiesController extends AppController {
 
-    public $uses = array('Property');
+    public $uses = array('Property', 'Ptype');
 
 /**
  * index method
@@ -31,8 +31,22 @@ class PropertiesController extends AppController {
 			throw new NotFoundException(__('楼盘信息不存在'));
 		}
 		$this->Property->recursive = -1;
-		$options = array('conditions' => array('id' => $id));
-		$this->set('property', $this->Property->find('first', $options));
+		$options = array(
+			'joins' => array(
+				array('table' => 'properties_ptypes', 'type' => 'inner',
+					'conditions' => 'properties_ptypes.property_id = Property.id'),
+				array('table' => 'ptypes', 'alias' => 'Ptype', 'type' => 'inner',
+					'conditions' => 'properties_ptypes.ptype_id = Ptype.id')),
+			'fields' => array('Property.*', 'Ptype.name'),
+			'conditions' => array('Property.id' => $id));
+		$properties = $this->Property->find('all', $options);
+		$ptypes = '';
+		foreach($properties as $property){
+			$ptypes .= $property['Ptype']['name'].'<br/>';
+		}
+		$property = $properties[0];
+		$property['Ptype']['name'] = $ptypes;
+		$this->set('property', $property);
 
 	}
 
@@ -51,6 +65,7 @@ class PropertiesController extends AppController {
 				$this->Session->setFlash(__('楼盘信息保存失败，请稍候再试.'));
 			}
 		}
+		$this->set('ptypes', $this->Ptype->find('list'));
 	}
 
 /**
@@ -75,7 +90,7 @@ class PropertiesController extends AppController {
 			$options = array('conditions' => array('id' => $id));
 			$this->request->data = $this->Property->find('first', $options);
 		}
-
+		$this->set('ptypes', $this->Ptype->find('list'));
 	}
 
 /**

@@ -3,7 +3,7 @@
 // from: http://coursesweb.net/javascript/
 class imgbrowse {
   // IN $root - REPLACE "/imgup" WITH THE PATH TO THE FOLDER WITH IMAGES RELATIVE TO ROOT OF YOUR WEBSITE ON SERVER
-  protected $root = '/xietiao/app/webroot/img/upload';
+  protected $root = '/bgwrealty/app/webroot/img/upload';
   //---------------------protected $root = '/app/webroot/img/upload';
   protected $imgext = ['bmp', 'gif', 'jpg', 'jpe', 'jpeg', 'png', 'JPG', 'BMP', 'GIF', 'JPE', 'PNG'];    // allowed image extensions
   protected $imgdr = '';     // current folder (in $root) with images
