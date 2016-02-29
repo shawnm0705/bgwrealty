@@ -117,9 +117,9 @@ class MenuHelper extends AppHelper {
 					    	<li>'.$this->Html->link(__('区域列表'), 
             					array('admin' => true, 'controller' => 'suburbs', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('客户分类列表'), 
-            					array('admin' => true, 'controller' => 'ctype', 'action' => 'index', 'KHFL')).'</li>
+            					array('admin' => true, 'controller' => 'ctypes', 'action' => 'index', 'KHFL')).'</li>
 					    	<li>'.$this->Html->link(__('客户来源列表'), 
-            					array('admin' => true, 'controller' => 'ctype', 'action' => 'index', 'KHLY')).'</li>
+            					array('admin' => true, 'controller' => 'ctypes', 'action' => 'index', 'KHLY')).'</li>
 					    	<li>'.$this->Html->link(__('物业列表'), 
             					array('admin' => true, 'controller' => 'wys', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('律师列表'), 
