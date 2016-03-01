@@ -14,6 +14,8 @@
 				<dd><?php echo h($property['Property']['name']); ?>&nbsp;</dd>
 				<dt>地址：</dt>
 				<dd><?php echo h($property['Property']['address']); ?>&nbsp;</dd>
+				<dt>区域：</dt>
+				<dd><?php echo h($property['Suburb']['name']); ?>&nbsp;</dd>
 				<dt>户型：</dt>
 				<dd><?php echo $property['Ptype']['name']; ?>&nbsp;</dd>
 				<dt>是否显示：</dt>

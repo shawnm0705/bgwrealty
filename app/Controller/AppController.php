@@ -31,7 +31,7 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-/*
+
 	public $components = array(
         'Session',
         'Auth' => array(
@@ -65,11 +65,9 @@ class AppController extends Controller {
         }
 
         // Default deny
-        if($this->Auth->user()){
-            $this->redirect(array('controller' => 'users', 'action' => 'home'));
-        }else{
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        if(!$this->Auth->user('active')){
+            $this->redirect(array('controller' => 'users', 'action' => 'logout'));
         }
         return false;   
-    }*/
+    }
 }

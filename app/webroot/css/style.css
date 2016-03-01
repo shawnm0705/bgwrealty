@@ -24,9 +24,6 @@
 .div-modal{
 	text-align: center;
 }*/
-#top-menu{
-  border-bottom: 1px solid #e3e3e3;
-}
 /*++++++++++ Menu ++++++++++*/
 .div-logo{
   float: left;
@@ -42,6 +39,9 @@
 }
 .under-menu-admin{
   margin-top: 120px;
+}
+#top-menu{
+  border-bottom: 1px solid #e3e3e3;
 }
 /*
 .login-info{

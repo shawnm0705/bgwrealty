@@ -7,7 +7,7 @@ App::uses('AppController', 'Controller');
  */
 class PropertiesController extends AppController {
 
-    public $uses = array('Property', 'Ptype');
+    public $uses = array('Property', 'Ptype', 'Suburb');
 
 /**
  * index method
@@ -36,8 +36,10 @@ class PropertiesController extends AppController {
 				array('table' => 'properties_ptypes', 'type' => 'inner',
 					'conditions' => 'properties_ptypes.property_id = Property.id'),
 				array('table' => 'ptypes', 'alias' => 'Ptype', 'type' => 'inner',
-					'conditions' => 'properties_ptypes.ptype_id = Ptype.id')),
-			'fields' => array('Property.*', 'Ptype.name'),
+					'conditions' => 'properties_ptypes.ptype_id = Ptype.id'),
+				array('table' => 'suburbs', 'alias' => 'Suburb', 'type' => 'left',
+					'conditions' => 'Property.suburb_id = Suburb.id')),
+			'fields' => array('Property.*', 'Ptype.name', 'Suburb.name'),
 			'conditions' => array('Property.id' => $id));
 		$properties = $this->Property->find('all', $options);
 		$ptypes = '';
@@ -66,6 +68,7 @@ class PropertiesController extends AppController {
 			}
 		}
 		$this->set('ptypes', $this->Ptype->find('list'));
+		$this->set('suburbs', $this->Suburb->find('list'));
 	}
 
 /**
@@ -91,6 +94,7 @@ class PropertiesController extends AppController {
 			$this->request->data = $this->Property->find('first', $options);
 		}
 		$this->set('ptypes', $this->Ptype->find('list'));
+		$this->set('suburbs', $this->Suburb->find('list'));
 	}
 
 /**

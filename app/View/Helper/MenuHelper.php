@@ -126,6 +126,8 @@ class MenuHelper extends AppHelper {
             					array('admin' => true, 'controller' => 'wys', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('律师列表'), 
             					array('admin' => true, 'controller' => 'lawyers', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('首页滚动图片'), 
+            					array('admin' => true, 'controller' => 'pages', 'action' => 'slides')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li>'.$this->Html->link(__('退出登录'), 

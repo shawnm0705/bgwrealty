@@ -28,14 +28,14 @@ class UsersController extends AppController {
 	    }
 	}
 
-	public function login() {
+	/*public function login() {
 	    if ($this->request->is('post')) {
 	        if ($this->Auth->login()) {
 	            return $this->redirect($this->Auth->redirectUrl());
 	        }
 	        $this->Session->setFlash(__('用户名或密码错误!'));
 	    }
-	}
+	}*/
 
 	public function home(){		
 		
