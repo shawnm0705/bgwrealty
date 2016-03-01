@@ -1,67 +1,58 @@
 <?php 
 	// Title	
-	$this->assign('title', '员工列表');
+	$this->assign('title', '客户列表');
 	echo $this->Menu->admin();
 	echo $this->element('JS_datatable');
 ?>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="index well">
-				<h2><?php echo __('所有员工'); ?></h2>
+				<h2><?php echo __('所有客户'); ?></h2>
 				<table id="data_table" cellpadding="0" cellspacing="0">
 					<thead>
 					<tr>
 						<th>姓名</th>
-						<th>性别</th>
-						<th>注册时间</th>
-						<th>所属团队</th>
-						<th>是否为组长</th>
-						<th>帐号</th>
+						<th>购买目的</th>
+						<th>意向区域</th>
+						<th>意向价格</th>
+						<th>意向户型</th>
+						<th>客户分类</th>
+						<th>客户来源</th>
+						<th>帐号名</th>
 						<th>激活状态</th>
+						<th>负责业务员</th>
 						<th>操作</th>
 					</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($employees as $employee): ?>
+						<?php foreach ($customers as $customer): ?>
 						<tr>
-							<td><?php echo h($employee['Employee']['name']); ?>&nbsp;</td>
+							<td><?php echo h($customer['Customer']['name']); ?>&nbsp;</td>
+							<td><?php echo h($customer['Customer']['purpose']); ?>&nbsp;</td>
+							<td><?php echo $customer['Customer']['suburbs']; ?>&nbsp;</td>
+							<td><?php echo '$'.h($customer['Customer']['price_min']).',000 - $'.h($customer['Customer']['price_max']).',000'; ?>&nbsp;</td>
+							<td><?php echo $customer['Customer']['ptypes']; ?>&nbsp;</td>
+							<td><?php echo $customer['Customer']['cfls']; ?>&nbsp;</td>
+							<td><?php echo $customer['Customer']['clys']; ?>&nbsp;</td>
 							<td><?php 
-							if($employee['Employee']['gender']){
-								echo '男';
-							}else{
-								echo '女';
-							};?>&nbsp;</td>
-							<td><?php echo h($employee['Employee']['date']); ?>&nbsp;</td>
-							<td><?php
-							if($employee['Employee']['team_id']){ 
-								echo h($employee['Team']['name']);
-							}else{
-								echo '未分组';
-							} ?>&nbsp;</td>
-							<td><?php 
-							if($employee['Employee']['leader']){
-								echo '是';
-							}else{
-								echo '否';
-							};?>&nbsp;</td>
-							<td><?php 
-							if($employee['Employee']['user_id']){
-								echo $employee['User']['username'];
+							if($customer['Customer']['user_id']){
+								echo $customer['User']['username'];
 							}else{
 								echo '无帐号';
 							};?>&nbsp;</td>
 							<td><?php 
-							if($employee['User']['active']){
+							if($customer['User']['active']){
 								echo '已激活';
 							}else{
 								echo '未激活';
 							};?>&nbsp;</td>
+							<td><?php echo h($customer['Employee']['name']); ?>&nbsp;</td>
 							<td class="actions">
 								<?php 
 								echo $this->Action->index_action(array(
-									'id' => h($employee['Employee']['id']), 'name' => '员工',
+									'id' => h($customer['Customer']['id']), 'name' => '客户',
 									'view' => 1, 'edit' => 1, 'delete' => 1));
 								?>
 							</td>

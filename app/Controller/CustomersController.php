@@ -42,14 +42,6 @@ class CustomersController extends AppController {
 			throw new NotFoundException(__('客户信息不存在'));
 		}
 		$this->Customer->recursive = -1;
-		$options = array(
-			'joins' => array(
-				array('table' => 'employees', 'alias' => 'Employee', 'type' => 'left',
-						'conditions' => 'Customer.employee_id = Employee.id'),
-				array('table' => 'users', 'alias' => 'User', 'type' => 'left',
-						'conditions' => 'Customer.user_id = User.id')),
-			'fields' => array('Customer.*', 'Employee.name','User.username', 'User.active'),
-			'conditions' => array('Customer.id' => $id));
 		$sql = "SELECT Customer.*, Employee.name, User.username, User.active
 				FROM (SELECT Customer.*
 						FROM customers AS Customer
@@ -205,9 +197,14 @@ class CustomersController extends AppController {
 			}
 			$this->request->data['Customer']['clys'] = $ctypes_string;
 			// combine cfl and cly
-			foreach($this->request->data['Customer']['Ctype2'] as $ctype){
-				array_push($this->request->data['Ctype']['Ctype'], $ctype);
+			if($this->request->data['Ctype']['Ctype']){
+				foreach($this->request->data['Customer']['Ctype2'] as $ctype){
+					array_push($this->request->data['Ctype']['Ctype'], $ctype);
+				}
+			}else{
+				$this->request->data['Ctype']['Ctype'] = $this->request->data['Customer']['Ctype2'];
 			}
+			
 
 			if ($this->Customer->save($this->request->data)) {
 				$this->Session->setFlash(__('客户信息已保存.'));
