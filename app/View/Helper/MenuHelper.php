@@ -50,10 +50,10 @@ class MenuHelper extends AppHelper {
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    内容管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
-					    	<li>'.$this->Html->link(__('添加新病例'), 
-            					array('admin' => true, 'controller' => 'consultations', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看已有病例'), 
-            					array('admin' => true, 'controller' => 'consultations', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('添加新文章'), 
+            					array('admin' => true, 'controller' => 'articles', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看所有文章'), 
+            					array('admin' => true, 'controller' => 'articles', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">

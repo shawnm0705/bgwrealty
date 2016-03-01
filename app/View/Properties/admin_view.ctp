@@ -24,7 +24,7 @@
 					echo '否';
 				}; ?>&nbsp;</dd>
 				<p>楼盘信息：</p>
-				<?php echo $property['Property']['detail']; ?>&nbsp;
+				<div class="richtext"><?php echo $property['Property']['detail']; ?></div>
 			</dl>	
 		</div>
 		<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改楼盘信息'), array('action' => 'edit', $property['Property']['id']), array('class' => 'btn btn-custom button-action')); ?></center>

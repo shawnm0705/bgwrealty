@@ -20,11 +20,13 @@
 	margin-left: 0px;
 	margin-top: 50px;
 	padding-top: 50px;
-}*/
+}
 .div-modal{
 	text-align: center;
+}*/
+#top-menu{
+  border-bottom: 1px solid #e3e3e3;
 }
-
 /*++++++++++ Menu ++++++++++*/
 .div-logo{
   float: left;
@@ -130,6 +132,10 @@ th,td.actions{
 .dl-view dd{
   text-align: left;
   margin-bottom: 20px;
+}
+.dl-view .richtext{
+  border: 1px solid #e3e3e3;
+  padding:5px;
 }
 /*++++++++++ Buttons ++++++++++*/
 
