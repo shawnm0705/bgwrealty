@@ -22,6 +22,8 @@
 					echo $this->Form->input('team_id', array('label' => '分组', 'type' => 'select', 'options' => $teams, 'div' => array('class' => 'input select required')));
 					echo $this->Form->input('leader', array('label' => '是否为组长', 'type' => 'select', 'options' => array(0 => '否', 1 => '是'), 'div' => array('class' => 'input required')));
 					echo $this->Form->hidden('o_team_id', array('value' => $team_id));
+					echo $this->Form->hidden('o_leader', array('value' => $leader));
+					echo $this->Form->hidden('user_id', array('value' => $user_id));
 					
 				?>
 				</fieldset>

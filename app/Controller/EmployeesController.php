@@ -68,7 +68,11 @@ class EmployeesController extends AppController {
 				$user['User']['username'] = $this->request->data['User']['username'];
 				$user['User']['password'] = substr(md5(time()), 0, 8);
 				$user['User']['p_default'] = $user['User']['password'];
-				$user['User']['role'] = 'employee';
+				if($this->request->data['Employee']['leader']){
+					$user['User']['role'] = 'leader';
+				}else{
+					$user['User']['role'] = 'employee';
+				}
 				$user['User']['active'] = 1;
 				$this->User->create();
 				$this->User->save($user);
@@ -133,6 +137,19 @@ class EmployeesController extends AppController {
 					}
 				}
 
+				// Leader change
+				if($this->request->data['Employee']['user_id'] && 
+					$this->request->data['Employee']['leader'] != $this->request->data['Employee']['o_leader']){
+					$user = array();
+					$user['User']['id'] = $this->request->data['Employee']['user_id'];
+					if($this->request->data['Employee']['leader']){
+						$user['User']['role'] = 'leader';
+					}else{
+						$user['User']['role'] = 'employee';
+					}
+					$this->User->save($user);
+				}
+
 				$this->Session->setFlash(__('员工信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -143,6 +160,8 @@ class EmployeesController extends AppController {
 			$options = array('conditions' => 'id = '.$id);
 			$this->request->data = $this->Employee->find('first', $options);
 			$this->set('team_id', $this->request->data['Employee']['team_id']);
+			$this->set('leader', $this->request->data['Employee']['leader']);
+			$this->set('user_id', $this->request->data['Employee']['user_id']);
 		}
 		
 		$teams = $this->Team->find('list');

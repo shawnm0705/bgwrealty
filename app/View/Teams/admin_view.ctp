@@ -17,7 +17,11 @@
 				<dt>成员：</dt>
 				<dd><?php  
 				foreach($employees as $employee){
-					echo $employee.'<br/>';
+					echo $employee['Employee']['name'];
+					if($employee['Employee']['leader']){
+						echo '(组长)';
+					}
+					echo '<br/>';
 				}
 				?>&nbsp;</dd>
 			</dl>	

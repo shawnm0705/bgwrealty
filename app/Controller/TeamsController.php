@@ -39,7 +39,7 @@ class TeamsController extends AppController {
 		$options = array('conditions' => array('id' => $id));
 		$this->set('team', $this->Team->find('first', $options));
 		$options = array('conditions' => array('team_id' => $id));
-		$this->set('employees', $this->Employee->find('list', $options));
+		$this->set('employees', $this->Employee->find('all', $options));
 
 	}
 
