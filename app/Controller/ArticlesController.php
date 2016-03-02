@@ -8,9 +8,9 @@ App::uses('Folder', 'Utility');
  */
 class ArticlesController extends AppController {
 
-	/*public function beforeFilter() {
-		$this->Auth->allow('lists');
-    }*/
+	public function beforeFilter() {
+		$this->Auth->allow('view', 'view_more');
+    }
 
     public $uses = array('Article', 'Suburb', 'Property', 'Employee');
 
@@ -68,6 +68,59 @@ class ArticlesController extends AppController {
 		$employees[0] = '管理员';
 		$this->set(compact('suburbs', 'properties', 'employees'));
 		$this->set('types_list', $this->TYPES_LIST);
+	}
+
+	public function view($id = null){
+		if (!$this->Article->exists($id)) {
+			throw new NotFoundException(__('文章不存在'));
+		}
+		$this->Article->recursive = -1;
+		$this->set('article', $this->Article->find('first', array('conditions' => 'id = '.$id)));
+		$suburbs = $this->Suburb->find('list');
+		$properties = $this->Property->find('list');
+		$this->set(compact('suburbs', 'properties'));
+
+		// Articles
+		$types = array('YNDT', 'SCSJ', 'ZCXX', 'SZGH', 'JJDT');
+		$options = array(
+			'conditions' => array('type' => $types, 'status' => 'APPROVAL'),
+			'order' => 'date DESC');
+		$this->Article->recursive = -1;
+		$articles_list = $this->Article->find('all', $options);
+		$articles = array();
+		foreach($articles_list as $article){
+			$type = $article['Article']['type'];
+			if(isset($articles[$type])){
+				array_push($articles[$type], $article);
+			}else{
+				$articles[$type][0] = $article;
+			}
+		}
+		$this->set('articles', $articles);
+		$this->set('types_list', array(
+	    	'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态'));
+	}
+
+	public function view_more($this_type = null){
+		$types = array('YNDT', 'SCSJ', 'ZCXX', 'SZGH', 'JJDT');
+		$options = array(
+			'conditions' => array('type' => $types, 'status' => 'APPROVAL'),
+			'order' => 'date DESC');
+		$this->Article->recursive = -1;
+		$articles_list = $this->Article->find('all', $options);
+		$articles = array();
+		foreach($articles_list as $article){
+			$type = $article['Article']['type'];
+			if(isset($articles[$type])){
+				array_push($articles[$type], $article);
+			}else{
+				$articles[$type][0] = $article;
+			}
+		}
+		$this->set('articles', $articles);
+		$this->set('types_list', array(
+	    	'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态'));
+		$this->set('this_type', $this_type);
 	}
 
 /**

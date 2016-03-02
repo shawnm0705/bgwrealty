@@ -44,7 +44,7 @@
     <div class="row">
     	<div class="col-md-3">
     		<div class="login well">
-	    		<?php echo $this->Form->create('User'); ?>
+	    		<?php echo $this->Form->create('User', array('controller' => 'users', 'action' => 'login')); ?>
 		     	<div class="label-100">
 		     		<h3>用户登录</h3>
 				<?php
@@ -63,7 +63,6 @@
 	    </div>
     	<div class="col-md-6">
     		<div class="row">
-		    	
     		<?php
     		foreach($articles as $type => $article_group){
     			echo '<div class="col-md-12">
@@ -72,10 +71,18 @@
 					      <h2 class="panel-title">'.$types_list[$type].'</h2>
 					   </div>
 					   <div class="panel-body"><ul>';
+						  $n = 0;
 					      foreach($article_group as $article){
-					      	echo '<li>'.$this->Html->link(__($article['Article']['name']), 
-            					array('controller' => 'articles', 'action' => 'view', $article['Article']['id']));
-					      	echo '<br/>'.h($article['Article']['date']).'</li>';
+					      	if($n > 5){
+					      		echo '<br/>'.$this->Html->link('更多', array('controller' => 'articles', 'action' => 'view_more', $type));
+					      		break;
+					      	}else{
+					      		echo '<li>'.$this->Html->link(__($article['Article']['name']), 
+		        					array('controller' => 'articles', 'action' => 'view', $article['Article']['id']));
+						      	echo '<br/>'.h($article['Article']['date']).'</li>';
+						      	$n ++;
+					      	}
+					      	
 					      }
 					echo '</ul></div>
 					</div>

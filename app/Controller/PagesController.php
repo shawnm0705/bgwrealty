@@ -5,7 +5,7 @@ App::uses('Folder', 'Utility');
 class PagesController extends AppController {
 	
 	public function beforeFilter() {
-		$this->Auth->allow();
+		$this->Auth->allow('home');
     }
 /**
  * This controller does not use a model
@@ -23,16 +23,6 @@ class PagesController extends AppController {
  */
 	
 	public function home(){
-		if ($this->request->is('post')) {
-	        if ($this->Auth->login()) {
-	        	if($this->Auth->user('role') == 'admin'){
-	        		return $this->redirect(array('admin' => true, 'controller' => 'pages', 'action' => 'home'));
-	        	}else{
-		            return $this->redirect($this->Auth->redirectUrl());
-		        }
-	        }
-	        $this->Session->setFlash(__('用户名或密码错误!'));
-	    }
 	    // Slides
 		$dir = new Folder(WWW_ROOT.'img'.DS.'Slides'.DS);
 		$files = $dir->find('.+\..+', true);
@@ -62,8 +52,26 @@ class PagesController extends AppController {
 				
 	}
 
-	public function admin_slides(){
-				
+	public function admin_slides($img = null){
+		$dir_path = WWW_ROOT.'img'.DS.'Slides'.DS;
+		$dir = new Folder($dir_path);
+		if ($this->request->is('post')) {
+			// Upload Img
+			$filename = $this->request->data['Slide']['photo']['name'];
+			if($filename){
+				move_uploaded_file($this->request->data['Slide']['photo']['tmp_name'], $dir_path.$filename);
+			}
+		}elseif($img){
+			// Delete Img
+			$file = new File($dir_path.$img);
+			if($file->exists()){
+				$file->delete();
+			}
+		}
+		
+		// Slides
+		$slides = $dir->find('.+\..+', true);
+		$this->set('slides', $slides);
 	}
 
 }
