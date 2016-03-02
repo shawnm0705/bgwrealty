@@ -2,6 +2,9 @@
 	// Title	
 	$this->assign('title', '查看文章');
 	echo $this->Menu->admin();
+	$this->start('script');
+	echo $this->Html->script('Article/admin_view');
+	$this->end();
 ?>
 
 <div class="container">
@@ -18,17 +21,21 @@
 				<dd><?php echo h($suburbs[$article['Article']['suburb_id']]); ?>&nbsp;</dd>
 				<dt>相关楼盘：</dt>
 				<dd><?php echo h($properties[$article['Article']['property_id']]); ?>&nbsp;</dd>
+				<dt>相关文件：</dt>
+				<dd><?php echo $this->Html->link(__(h($article['Article']['filename'])), array('admin' => false, 'controller' => 'files', 'action' => 'Article', $article['Article']['filename']), array('target' => '_blank')); ?>&nbsp;</dd>
 				<dt>编写时间：</dt>
 				<dd><?php echo h($article['Article']['date']); ?>&nbsp;</dd>
 				<dt>作者：</dt>
 				<dd><?php echo h($employees[$article['Article']['employee_id']]); ?>&nbsp;</dd>
 				<dt>文章状态：</dt>
-				<dd><?php 
+				<dd><div id="status"><?php 
 				if($article['Article']['status'] == 'DRAFT'){
 					echo '审核中';
+					echo $this->Html->link(__('审核通过'), '#status', array('class' => 'btn btn-custom button-small', 'onclick' => 'change_s('.$article['Article']['id'].',1)', 'id' => 'btn-status'));
 				}elseif($article['Article']['status'] == 'APPROVAL'){
 					echo '已审核通过';
-				}; ?>&nbsp;</dd>
+					echo $this->Html->link(__('改为审核中'), '#status', array('class' => 'btn btn-custom button-small', 'onclick' => 'change_s('.$article['Article']['id'].',0)', 'id' => 'btn-status'));
+				} ?>&nbsp;</div></dd>
 				<p>内容：</p>
 				<div class="richtext"><?php echo $article['Article']['content']; ?></div>
 			</dl>	

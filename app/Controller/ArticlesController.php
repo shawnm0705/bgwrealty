@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Folder', 'Utility');
 /**
  * Articles Controller
  *
@@ -79,6 +80,18 @@ class ArticlesController extends AppController {
 			$this->request->data['Article']['date'] = date('Y-m-d H:i:s');
 			$this->request->data['Article']['employee_id'] = 0;
 			$this->request->data['Article']['status'] = 'APPROVAL';
+			$file = $this->request->data['Article']['filename'];
+			if($file['name']){
+				if($file['error']){
+					$this->Session->setFlash(__('上传文件有错误.'));
+					return $this->redirect(array('action' => 'add'));;
+				}else{
+					move_uploaded_file($file['tmp_name'], WWW_ROOT.'files'.DS.'Article'.DS.$file['name']);
+					$this->request->data['Article']['filename'] = $file['name'];
+				}
+			}else{
+				$this->request->data['Article']['filename'] = '';
+			}
 			$this->Article->create();
 			if ($this->Article->save($this->request->data)) {
 				$this->Session->setFlash(__('文章已保存.'));
@@ -107,6 +120,18 @@ class ArticlesController extends AppController {
 			throw new NotFoundException(__('文章不存在'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+			$file = $this->request->data['Article']['filename'];
+			if($file['name']){
+				if($file['error']){
+					$this->Session->setFlash(__('上传文件有错误.'));
+					return $this->redirect(array('action' => 'edit', $id));;
+				}else{
+					move_uploaded_file($file['tmp_name'], WWW_ROOT.'files'.DS.'Article'.DS.$file['name']);
+					$this->request->data['Article']['filename'] = $file['name'];
+				}
+			}else{
+				unset($this->request->data['Article']['filename']);
+			}
 			if ($this->Article->save($this->request->data)) {
 				$this->Session->setFlash(__('文章已保存.'));
 				return $this->redirect(array('action' => 'index'));
@@ -127,6 +152,20 @@ class ArticlesController extends AppController {
 		$this->set('type_selected', $this->request->data['Article']['type']);
 	}
 
+	public function admin_change_s($id = null){
+		$this->layout = false;
+		$article = array();
+		$article['Article']['id'] = $id;
+		$article['Article']['status'] = $this->request->query['status'];
+		$this->Article->save($article);
+		if($article['Article']['status'] == 'DRAFT'){
+			echo '审核中<a href="#status" class="btn btn-custom button-small" onclick="change_s('.$id.',1)" id="btn-status">审核通过</a>';
+		}elseif($article['Article']['status'] == 'APPROVAL'){
+			echo '已审核通过<a href="#status" class="btn btn-custom button-small" onclick="change_s('.$id.',0)" id="btn-status">改为审核中</a>';
+
+		}
+		$this->render('empty');
+	}
 /**
  * delete method
  *
