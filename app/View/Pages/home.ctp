@@ -82,7 +82,6 @@
 						      	echo '<br/>'.h($article['Article']['date']).'</li>';
 						      	$n ++;
 					      	}
-					      	
 					      }
 					echo '</ul></div>
 					</div>

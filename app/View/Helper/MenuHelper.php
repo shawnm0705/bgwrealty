@@ -20,11 +20,11 @@ class MenuHelper extends AppHelper {
             <ul class="nav navbar-nav navbar-left" id="top-menu">';
             
             echo '<li>'.$this->Html->link(__('首页'),'/').'</li>
-            		<li>'.$this->Html->link(__('公司简介'), array('controller' => 'pages', 'action' => 'about')).'</li>
-			    	<li>'.$this->Html->link(__('公司资讯'), array('controller' => 'pages', 'action' => 'info')).'</li>
+            		<li>'.$this->Html->link(__('公司简介'), array('controller' => 'pages', 'action' =>'display', 'about')).'</li>
+			    	<li>'.$this->Html->link(__('公司资讯'), array('controller' => 'pages', 'action' =>'display', 'info')).'</li>
 			    	<li>'.$this->Html->link(__('项目汇总'), array('controller' => 'pages', 'action' => 'home')).'</li>
-			    	<li>'.$this->Html->link(__('联系我们'), array('controller' => 'pages', 'action' => 'contact')).'</li>
-			    	<li>'.$this->Html->link(__('加入我们'), array('controller' => 'pages', 'action' => 'join')).'</li>
+			    	<li>'.$this->Html->link(__('联系我们'), array('controller' => 'pages', 'action' =>'display', 'contact')).'</li>
+			    	<li>'.$this->Html->link(__('加入我们'), array('controller' => 'pages', 'action' => 'display','join')).'</li>
 			    </ul>
 	    	</div>
 	    </div>
@@ -128,6 +128,8 @@ class MenuHelper extends AppHelper {
             					array('admin' => true, 'controller' => 'lawyers', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('首页滚动图片'), 
             					array('admin' => true, 'controller' => 'pages', 'action' => 'slides')).'</li>
+					    	<li>'.$this->Html->link(__('首页页面'), 
+            					array('admin' => true, 'controller' => 'pages', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li>'.$this->Html->link(__('退出登录'), 
