@@ -1,15 +1,7 @@
-.div-index{
-	margin-bottom: 20px;
-	padding: 20px;
-}
-.div-index h1,h2,h3{
-	text-align: left;
-
-}
 .slide,
 .carousel-inner .item img{
-	width: 408px;
-	height: 265px;
+	width: 816px;
+	height: 530px;
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	margin-bottom: 30px;
@@ -17,22 +9,22 @@
 .slider-selection {
     background: #BABABA !important;
 }
-.panel-title>a{
-	font-size: 22px;
-	color: #337ab7;
-}
 dl{
-	font-size: 20px;
+	font-size: 15px;
 }
 dt{
   float: left;
   text-align: left;
   width: 120px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 dd{
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+.div-view{
+	margin-bottom: 20px;
+	padding: 20px;
 }
 div.input{
 	font-size: 20px !important;

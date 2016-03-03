@@ -3,11 +3,9 @@
 	$this->assign('title', '首页');
 	echo $this->Menu->homepage();
 	$this->start('css');
-	echo $this->Html->css(array('Page/home','slider'));
+	echo $this->Html->css(array('Page/home'));
 	$this->end();
-	$this->start('script');
-	echo $this->Html->script(array('modernizr', 'bootstrap-slider', 'Property/index'));
-	$this->end();
+	echo $this->element('JS_slider');
 ?>
 <div class="container">
     <div class="row">
@@ -93,21 +91,12 @@
 			</div>
 		</div>
 		<div class="col-md-3">
-    		<div class="login well">
-	    		<?php echo $this->Form->create('Property', array('controller' => 'properties', 'action' => 'index', 'type' => 'get')); ?>
-		     	<div class="label-100">
-		     		<h3>筛选楼盘</h3>
-				<?php
-					echo $this->Form->input('suburb_id', array('label' => '区域', 'type' => 'select', 'options' => $suburbs, 'empty' => '---请选择---', 'class' => 'input-name'));
-					echo $this->Form->input('price', array('label' => '价格', 'type' => 'password', 'class' => 'input-name', 'id' => 'price', 'data-slider-min' => 100, 'data-slider-max' => 2000, 'between' => '<b>$</b>', 'after' => ',000'));
-				?>
-				</div>
-				<div class="div-left-button">
-					<?php 
-						echo $this->Form->end(array('label' => '查找', 'class' => 'btn btn-custom', 'id' => 'submit-button', 'onclick' => 'this.disabled=true;this.form.submit();return true;', 'div' => false)); 
-					?>
-				</div>
-	    	</div>
+    		<?php 
+			$options['suburbs'] = $suburbs;
+			$options['ptypes'] = $ptypes_all;
+			$options['price'] = 100;
+			echo $this->Input->p_filter($options); 
+			?>
 		</div>
     </div>
 </div>

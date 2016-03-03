@@ -3,32 +3,21 @@
 	$this->assign('title', '楼盘汇总');
 	echo $this->Menu->homepage();
 	$this->start('css');
-	echo $this->Html->css(array('Property/index','slider'));
+	echo $this->Html->css(array('Property/index'));
 	$this->end();
-	$this->start('script');
-	echo $this->Html->script(array('modernizr', 'bootstrap-slider', 'Property/index'));
-	$this->end();
+	echo $this->element('JS_slider');
 
 ?>
 
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
-    		<div class="login well">
-	    		<?php echo $this->Form->create('Property', array('action' => 'index','type' => 'get')); ?>
-		     	<div class="label-100">
-		     		<h1>筛选楼盘</h1>
-				<?php
-					echo $this->Form->input('suburb_id', array('label' => '区域', 'type' => 'select', 'options' => $suburbs, 'empty' => '---请选择---', 'class' => 'input-name'));
-					echo $this->Form->input('price', array('label' => '价格', 'type' => 'password', 'class' => 'input-name', 'id' => 'price', 'data-slider-value' => $price, 'data-slider-min' => 100, 'data-slider-max' => 2000, 'between' => '<b>$</b>', 'after' => ',000'));
-				?>
-				</div>
-				<div class="div-left-button">
-					<?php 
-						echo $this->Form->end(array('label' => '查找', 'class' => 'btn btn-custom', 'id' => 'submit-button', 'onclick' => 'this.disabled=true;this.form.submit();return true;', 'div' => false)); 
-					?>
-				</div>
-	    	</div>
+			<?php 
+			$options['suburbs'] = $suburbs;
+			$options['ptypes'] = $ptypes_all;
+			$options['price'] = $price;
+			echo $this->Input->p_filter($options); 
+			?>
 		</div>
 		<div class="col-md-9">
 			<div class="div-index">
@@ -77,10 +66,12 @@
 								// Content
 							echo '<div class="col-md-6">
 									<dl>
-										<dt>区域：</dt>
-										<dd>'.h($suburbs[$property['Property']['suburb_id']]).'&nbsp;</dd>
 										<dt>地址：</dt>
 										<dd>'.h($property['Property']['address']).'&nbsp;</dd>
+										<dt>区域：</dt>
+										<dd>'.h($suburbs[$property['Property']['suburb_id']]).'&nbsp;</dd>
+										<dt>户型：</dt>
+										<dd>'.$ptypes[$property['Property']['id']].'&nbsp;</dd>
 										<dt>价格范围：</dt>
 										<dd>$'.h($property['Property']['price_min']).' 000 - $'.h($property['Property']['price_max']).' 000&nbsp;</dd>
 									</dl>

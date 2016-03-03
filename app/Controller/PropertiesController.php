@@ -29,7 +29,8 @@ class PropertiesController extends AppController {
 		$this->Property->recursive = -1;
 		$options = array('order' => 'id DESC');
 		$this->set('price', 100);
-		if(isset($this->request->query)){
+		// Filter
+		if(isset($this->request->query) && $this->request->query){
 			$options['conditions'] = array();
 			if($this->request->query['suburb_id']){
 				$options['conditions']['suburb_id'] = $this->request->query['suburb_id'];
@@ -40,9 +41,16 @@ class PropertiesController extends AppController {
 				$options['conditions']['price_max > '] = $this->request->query['price'];
 				$this->set('price', $this->request->query['price']);
 			}
+			if($this->request->query['ptype_id']){
+				$options['joins'] = array(array('table' => 'properties_ptypes', 
+					'conditions' => 'properties_ptypes.property_id = Property.id'));
+				$options['conditions']['properties_ptypes.ptype_id'] = $this->request->query['ptype_id'];
+				$this->request->data['Property']['ptype_id'] = $this->request->query['ptype_id'];
+			}
 		}
 		$properties = $this->Property->find('all', $options);
 		$suburbs = $this->Suburb->find('list');
+		$ptypes_all = $this->Ptype->find('list');
 
 		// Ptypes
 		$this->Ptype->recursive = -1;
@@ -71,7 +79,7 @@ class PropertiesController extends AppController {
 			$slides[$property_id] = $dir->find('.+\..+', true);
 		}
 
-		$this->set(compact('ptypes', 'properties','suburbs', 'slides'));
+		$this->set(compact('ptypes', 'properties','suburbs', 'slides', 'ptypes_all'));
 	}
 
 /**
@@ -104,6 +112,36 @@ class PropertiesController extends AppController {
 		$property = $properties[0];
 		$property['Ptype']['name'] = $ptypes;
 		$this->set('property', $property);
+	}
+
+	public function view($id = null){
+		if (!$this->Property->exists($id)) {
+			throw new NotFoundException(__('楼盘信息不存在'));
+		}
+		$this->Property->recursive = -1;
+		$options = array(
+			'joins' => array(
+				array('table' => 'properties_ptypes', 'type' => 'inner',
+					'conditions' => 'properties_ptypes.property_id = Property.id'),
+				array('table' => 'ptypes', 'alias' => 'Ptype', 'type' => 'inner',
+					'conditions' => 'properties_ptypes.ptype_id = Ptype.id')),
+			'fields' => array('Property.*', 'Ptype.name'),
+			'conditions' => array('Property.id' => $id));
+		$properties = $this->Property->find('all', $options);
+		$ptypes = '';
+		foreach($properties as $property){
+			$ptypes .= $property['Ptype']['name'].'<br/>';
+		}
+		$property = $properties[0];
+		$property['Ptype']['name'] = $ptypes;
+		$suburbs = $this->Suburb->find('list');
+		$ptypes_all = $this->Ptype->find('list');
+
+		//Slides
+		$dir_path = WWW_ROOT.'img'.DS.'Properties'.DS.$id;
+		$dir = new Folder($dir_path);
+		$slides = $dir->find('.+\..+', true);
+		$this->set(compact('slides', 'property', 'suburbs', 'ptypes_all'));
 	}
 
 	public function admin_images($property_id = null){

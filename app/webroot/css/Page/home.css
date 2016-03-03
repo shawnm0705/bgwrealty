@@ -6,6 +6,9 @@
 	-webkit-border-radius: 10px;
 	margin-bottom: 30px;
 }
+.slider-selection {
+    background: #BABABA !important;
+}
 body {
     background: rgba(0,0,0,1);
     background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(139,139,139,1) 35%, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 85%, rgba(227,227,227,1) 100%);
