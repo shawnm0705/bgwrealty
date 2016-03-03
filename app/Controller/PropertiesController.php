@@ -1,11 +1,16 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('Folder', 'Utility');
 /**
  * Properties Controller
  *
  * @property Property $Property
  */
 class PropertiesController extends AppController {
+
+	public function beforeFilter() {
+		$this->Auth->allow('index', 'view');
+    }
 
     public $uses = array('Property', 'Ptype', 'Suburb');
 
@@ -17,6 +22,56 @@ class PropertiesController extends AppController {
 	public function admin_index() {
 		$this->Property->recursive = -1;
 		$this->set('properties', $this->Property->find('all'));
+	}
+
+	public function index() {
+		// Properties
+		$this->Property->recursive = -1;
+		$options = array('order' => 'id DESC');
+		$this->set('price', 100);
+		if(isset($this->request->query)){
+			$options['conditions'] = array();
+			if($this->request->query['suburb_id']){
+				$options['conditions']['suburb_id'] = $this->request->query['suburb_id'];
+				$this->request->data['Property']['suburb_id'] = $this->request->query['suburb_id'];
+			}
+			if($this->request->query['price']){
+				$options['conditions']['price_min < '] = $this->request->query['price'];
+				$options['conditions']['price_max > '] = $this->request->query['price'];
+				$this->set('price', $this->request->query['price']);
+			}
+		}
+		$properties = $this->Property->find('all', $options);
+		$suburbs = $this->Suburb->find('list');
+
+		// Ptypes
+		$this->Ptype->recursive = -1;
+		$options = array(
+			'joins' => array(
+				array('table' => 'properties_ptypes', 'conditions' => 'properties_ptypes.ptype_id = Ptype.id')),
+			'fields' => array('Ptype.*', 'properties_ptypes.property_id'));
+		$ptypes_list = $this->Ptype->find('all', $options);
+		$ptypes = array();
+		foreach($ptypes_list as $ptype){
+			$property_id = $ptype['properties_ptypes']['property_id'];
+			$ptype_name = $ptype['Ptype']['name'];
+			if(isset($ptypes[$property_id])){
+				$ptypes[$property_id] .= '<br/>'.$ptype_name;
+			}else{
+				$ptypes[$property_id] = $ptype_name;
+			}
+		}
+
+		// Slides
+		$slides = array();
+		foreach($properties as $property){
+			$property_id = $property['Property']['id'];
+			$dir_path = WWW_ROOT.'img'.DS.'Properties'.DS.$property_id;
+			$dir = new Folder($dir_path);
+			$slides[$property_id] = $dir->find('.+\..+', true);
+		}
+
+		$this->set(compact('ptypes', 'properties','suburbs', 'slides'));
 	}
 
 /**
@@ -49,9 +104,28 @@ class PropertiesController extends AppController {
 		$property = $properties[0];
 		$property['Ptype']['name'] = $ptypes;
 		$this->set('property', $property);
-
 	}
 
+	public function admin_images($property_id = null){
+		$this->layout = false;
+		$dir_path = WWW_ROOT.'img'.DS.'Properties'.DS.$property_id;
+		$dir = new Folder($dir_path);
+		if ($this->request->is('post')) {
+			// Upload Img
+			$filename = $this->request->data['Image']['photo']['name'];
+			if($filename){
+				move_uploaded_file($this->request->data['Image']['photo']['tmp_name'], $dir_path.DS.$filename);
+			}
+		}elseif(isset($this->request->query['image'])){
+			// Delete Img
+			$file = new File($dir_path.DS.$this->request->query['image']);
+			if($file->exists()){
+				$file->delete();
+			}
+		}
+		$images = $dir->find('.+\..+', true);
+		$this->set(compact('images', 'property_id'));
+	}
 /**
  * add method
  *
@@ -61,6 +135,8 @@ class PropertiesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Property->create();
 			if ($this->Property->save($this->request->data)) {
+				$dir_path = WWW_ROOT.'img'.DS.'Properties'.DS.$this->Property->id;
+				new Folder($dir_path, true, 0755);
 				$this->Session->setFlash(__('楼盘信息已保存.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -95,6 +171,8 @@ class PropertiesController extends AppController {
 		}
 		$this->set('ptypes', $this->Ptype->find('list'));
 		$this->set('suburbs', $this->Suburb->find('list'));
+		$this->set('price_min', $this->request->data['Property']['price_min']);
+		$this->set('price_max', $this->request->data['Property']['price_max']);
 	}
 
 /**
@@ -111,6 +189,8 @@ class PropertiesController extends AppController {
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Property->delete()) {
+			$dir = new Folder(WWW_ROOT.'img'.DS.'Properties'.DS.$id);
+			$dir->delete();
 			$this->Session->setFlash(__('楼盘信息已删除.'));
 		} else {
 			$this->Session->setFlash(__('楼盘信息删除失败，请稍候再试.'));

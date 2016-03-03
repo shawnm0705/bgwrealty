@@ -1,0 +1,36 @@
+.div-index{
+	margin-bottom: 20px;
+	padding: 20px;
+}
+.div-index h1,h2,h3{
+	text-align: left;
+
+}
+.slide,
+.carousel-inner .item img{
+	width: 408px;
+	height: 265px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	margin-bottom: 30px;
+}
+.panel-title>a{
+	font-size: 22px;
+	color: #337ab7;
+}
+dl{
+	font-size: 20px;
+}
+dt{
+  float: left;
+  text-align: left;
+  width: 120px;
+  margin-bottom: 20px;
+}
+dd{
+  text-align: left;
+  margin-bottom: 20px;
+}
+.input{
+	font-size: 20px !important;
+}

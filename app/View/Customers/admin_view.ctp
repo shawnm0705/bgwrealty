@@ -41,7 +41,7 @@
 				<dt>意向户型：</dt>
 				<dd><?php echo $customer['Customer']['ptypes']; ?>&nbsp;</dd>
 				<dt>意向价格：</dt>
-				<dd><?php echo '$'.h($customer['Customer']['price_min']).',000 - $'.h($customer['Customer']['price_max']).',000' ?>&nbsp;</dd>
+				<dd><?php echo '$'.h($customer['Customer']['price_min']).' 000 - $'.h($customer['Customer']['price_max']).' 000' ?>&nbsp;</dd>
 				<dt>意向物业：</dt>
 				<dd><?php echo $customer['Customer']['wys']; ?>&nbsp;</dd>
 

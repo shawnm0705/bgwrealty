@@ -12,7 +12,7 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $uses = array('Page','Article');
+	public $uses = array('Page','Article', 'Suburb');
 	public $PAGES_LIST = array('about' => '公司简介', 'info' => '公司资讯', 'contact' => '联系我们', 'join' => '加入我们');
 
 /**
@@ -44,7 +44,8 @@ class PagesController extends AppController {
 				$articles[$type][0] = $article;
 			}
 		}
-		$this->set('articles', $articles);
+		$suburbs = $this->Suburb->find('list');
+		$this->set(compact('articles', 'suburbs'));
 		$this->set('types_list', array(
 	    	'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态'));
 	}

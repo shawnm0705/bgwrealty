@@ -18,6 +18,8 @@
 				<dd><?php echo h($property['Suburb']['name']); ?>&nbsp;</dd>
 				<dt>户型：</dt>
 				<dd><?php echo $property['Ptype']['name']; ?>&nbsp;</dd>
+				<dt>价格范围：</dt>
+				<dd><?php echo '$'.h($property['Property']['price_min']).' 000 - $'.h($property['Property']['price_max']).' 000' ?>&nbsp;</dd>
 				<dt>是否显示：</dt>
 				<dd><?php 
 				if($property['Property']['display']){
@@ -31,4 +33,9 @@
 		</div>
 		<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改楼盘信息'), array('action' => 'edit', $property['Property']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
 	</div>
-</div>
+</div>	
+<?php
+echo '<iframe frameborder=0  name="main"  src="'.$this->Html->url(array('action' => 'images', h($property['Property']['id']))).'" width="100%" height="600px" style="border:1px solid ;">
+	</iframe>';
+?>
+

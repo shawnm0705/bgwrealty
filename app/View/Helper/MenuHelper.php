@@ -22,7 +22,7 @@ class MenuHelper extends AppHelper {
             echo '<li>'.$this->Html->link(__('首页'),'/').'</li>
             		<li>'.$this->Html->link(__('公司简介'), array('controller' => 'pages', 'action' =>'display', 'about')).'</li>
 			    	<li>'.$this->Html->link(__('公司资讯'), array('controller' => 'pages', 'action' =>'display', 'info')).'</li>
-			    	<li>'.$this->Html->link(__('项目汇总'), array('controller' => 'pages', 'action' => 'home')).'</li>
+			    	<li>'.$this->Html->link(__('楼盘汇总'), array('controller' => 'properties', 'action' => 'index')).'</li>
 			    	<li>'.$this->Html->link(__('联系我们'), array('controller' => 'pages', 'action' =>'display', 'contact')).'</li>
 			    	<li>'.$this->Html->link(__('加入我们'), array('controller' => 'pages', 'action' => 'display','join')).'</li>
 			    </ul>

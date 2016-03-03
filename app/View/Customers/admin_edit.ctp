@@ -25,7 +25,7 @@
 					echo '<h3>需求信息</h3>';
 					echo $this->Form->input('purpose', array('label' => '购房目的', 'type' => 'select', 'options' => array('自住' => '自住', '投资' => '投资'), 'empty' => '请选择', 'div' => array('class' => 'input required')));
 					?>
-					<div class="input text"><label for="CustomerPriceMin">意向价格</label>$<input name="data[Customer][price_min]" type="text" id="CustomerPriceMin" class="input-100" value="<?php echo $price_min;?>"/>,000&nbsp;-&nbsp;$<input name="data[Customer][price_max]" type="text" id="CustomerPriceMax" class="input-100" value="<?php echo $price_max;?>"/>,000</div>
+					<div class="input text"><label for="CustomerPriceMin">意向价格</label>$<input name="data[Customer][price_min]" type="text" id="CustomerPriceMin" class="input-100" value="<?php echo $price_min;?>"/> 000&nbsp;-&nbsp;$<input name="data[Customer][price_max]" type="text" id="CustomerPriceMax" class="input-100" value="<?php echo $price_max;?>"/> 000</div>
 				<?php
 					echo $this->Form->input('Suburb', array('label' => '意向区域', 'type' => 'select', 'multiple' => true));
 					echo $this->Form->input('Ptype', array('label' => '意向户型', 'type' => 'select', 'multiple' => true));

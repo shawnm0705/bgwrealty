@@ -19,6 +19,7 @@
 					echo $this->Form->input('suburb_id', array('label' => '区域', 'type' => 'select', 'empty' => '---请选择---', 'div' => array('class' => 'input required')));
 					echo $this->Form->input('display', array('label' => '是否显示', 'type' => 'select', 'options' => array(1 => '是', 0 => '否'), 'div' => array('class' => 'input required')));
 					echo $this->Form->input('Ptype', array('label' => '户型', 'type' => 'select', 'multiple' => true));
+					echo '<div class="input text"><label for="PropertyPriceMin">价格范围</label>$<input name="data[Property][price_min]" type="text" id="PropertyPriceMin" class="input-100"/> 000&nbsp;-&nbsp;$<input name="data[Property][price_max]" type="text" id="PropertyPriceMax" class="input-100"/> 000</div>';
 					echo $this->Form->input('detail', array('label' => false, 'type' => 'textarea', 'id' => 'richtextarea', 'before' => '<label for="richtextarea">楼盘信息</label><br/>'));
 				?>
 				</fieldset>
