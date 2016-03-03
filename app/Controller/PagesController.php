@@ -115,6 +115,15 @@ class PagesController extends AppController {
 		$this->set('pages_list', $this->PAGES_LIST);
 	}
 
+/*
+	Backup Data From Database
+*/
+	public function admin_backup(){
+		$backupFile = WWW_ROOT.'files'.DS.'bgwrealty.sql';
+		$command = " ../../../../bin/mysqldump -u root bgw  >$backupFile";
+		system($command);
+	}
+
 }
 
 
