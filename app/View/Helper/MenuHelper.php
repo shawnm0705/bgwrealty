@@ -146,6 +146,79 @@ class MenuHelper extends AppHelper {
 	    </div>';
 	}
 
+	public function employee(){	
+		echo '<div id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+	    	<div class="container">
+	        <div class="navbar-header">
+            	<div class="div-logo">';
+	                echo $this->Html->image('logo.png', array('class' => 'logo')).'</div>';           
+		    echo '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
+		    		<span class="sr-only">Toggle navigation</span>
+		    		<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+	            </button>
+	        </div>
+        <div class="collapse navbar-collapse navbar-menubuilder">
+            <ul class="nav navbar-nav navbar-left" id="top-menu">';
+            
+            echo '<li>'.$this->Html->link(__('首页'), array('employee' => true, 'controller' => 'pages', 'action' => 'home')).'</li>
+            		<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    内容管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新文章'), 
+            					array('employee' => true, 'controller' => 'articles', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看我的文章'), 
+            					array('employee' => true, 'controller' => 'articles', 'action' => 'myindex')).'</li>
+					    	<li>'.$this->Html->link(__('查看所有文章'), 
+            					array('employee' => true, 'controller' => 'articles', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    客户管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加新客户'), 
+            					array('employee' => true, 'controller' => 'customers', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看我的客户'), 
+            					array('employee' => true, 'controller' => 'customers', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    业务管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('添加客户联系记录'), 
+            					array('employee' => true, 'controller' => 'contacts', 'action' => 'add')).'</li>
+					    	<li>'.$this->Html->link(__('查看客户联系记录'), 
+            					array('employee' => true, 'controller' => 'contacts', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    楼盘管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('查看所有楼盘'), 
+            					array('employee' => true, 'controller' => 'properties', 'action' => 'index')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    帐号管理<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('查看我的帐号信息'), 
+            					array('employee' => true, 'controller' => 'employees', 'action' => 'view')).'</li>
+					    	<li>'.$this->Html->link(__('添加客户帐号'), 
+            					array('employee' => true, 'controller' => 'users', 'action' => 'add', 'customer')).'</li>
+				    	</ul>
+			    	</li>
+			    	<li>'.$this->Html->link(__('退出登录'), 
+            					array('employee' => false, 'controller' => 'users', 'action' => 'logout')).'</li>
+			    </ul>
+	    	</div>
+	    </div>
+	    </div>';
+	}
+
 
 	public function breadcrumb($lists = null){
 		echo '<div class="container-fluid">

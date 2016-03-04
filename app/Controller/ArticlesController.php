@@ -10,6 +10,9 @@ class ArticlesController extends AppController {
 
 	public function beforeFilter() {
 		$this->Auth->allow('view', 'view_more');
+		if($this->Auth->user('role') == 'employee'){
+	    	$this->Auth->allow('employee_add','employee_edit', 'employee_index', 'employee_myindex', 'employee_view');
+	    }
     }
 
     public $uses = array('Article', 'Suburb', 'Property', 'Employee');
@@ -47,6 +50,18 @@ class ArticlesController extends AppController {
 		$this->set('types_list', $this->TYPES_LIST);
 	}
 
+	public function employee_myindex() {
+		$this->Article->recursive = -1;
+		$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
+		$this->set('articles', $this->Article->find('all', $options));
+		$suburbs = $this->Suburb->find('list');
+		$suburbs[0] = '无相关区域';
+		$properties = $this->Property->find('list');
+		$properties[0] = '无相关楼盘';
+		$this->set(compact('suburbs', 'properties'));
+		$this->set('types_list', $this->TYPES_LIST);
+	}
+
 /**
  * view method
  *
@@ -67,6 +82,20 @@ class ArticlesController extends AppController {
 		$employees = $this->Employee->find('list');
 		$employees[0] = '管理员';
 		$this->set(compact('suburbs', 'properties', 'employees'));
+		$this->set('types_list', $this->TYPES_LIST);
+	}
+
+	public function employee_view($id = null){
+		if (!$this->Article->exists($id)) {
+			throw new NotFoundException(__('文章不存在'));
+		}
+		$this->Article->recursive = -1;
+		$this->set('article', $this->Article->find('first', array('conditions' => 'id = '.$id)));
+		$suburbs = $this->Suburb->find('list');
+		$suburbs[0] = '无相关区域';
+		$properties = $this->Property->find('list');
+		$properties[0] = '无相关楼盘';
+		$this->set(compact('suburbs', 'properties'));
 		$this->set('types_list', $this->TYPES_LIST);
 	}
 

@@ -22,7 +22,7 @@ class UsersController extends AppController {
 	public function beforeFilter() {
 	    parent::beforeFilter();
 	    // Allow users to login and logout.
-	    $this->Auth->allow('login', 'logout', 'check', 'register', 'findpassword');
+	    $this->Auth->allow('login', 'logout', 'check', 'register', 'resetpassword');
 	    if($this->Auth->user('role')){
 	    	$this->Auth->allow('home');
 	    }
@@ -31,11 +31,17 @@ class UsersController extends AppController {
 	public function login() {
 		if ($this->request->is('post')) {
 	        if ($this->Auth->login()) {
-	        	if($this->Auth->user('role') == 'admin'){
-	        		return $this->redirect(array('admin' => true, 'controller' => 'pages', 'action' => 'home'));
-	        	}else{
-		            return $this->redirect($this->Auth->redirectUrl());
-		        }
+	        	if($this->Auth->user('active')){
+		        	if($this->Auth->user('role') == 'admin'){
+		        		return $this->redirect(array('admin' => true, 'controller' => 'pages', 'action' => 'home'));
+		        	}elseif($this->Auth->user('role') == 'employee'){
+		        		return $this->redirect(array('employee' => true, 'controller' => 'pages', 'action' => 'home'));
+		        	}else{
+			            return $this->redirect($this->Auth->redirectUrl());
+			        }
+			    }else{
+			    	$this->redirect(array('controller' => 'users', 'action' => 'logout'));
+			    }
 	        }
 	        $this->Session->setFlash(__('用户名或密码错误!'));
 	    }
@@ -44,11 +50,6 @@ class UsersController extends AppController {
 
 	public function admin_login() {
         return $this->redirect(array('admin' => false, 'controller' => 'pages', 'action' => 'home'));
-	}
-
-	public function home(){		
-		
-		$this->set('role',$this->Auth->user('role'));
 	}
 
 	public function logout() {
@@ -95,24 +96,6 @@ class UsersController extends AppController {
 		$this->Customer->recursive = -1;
 		$this->set('customers', $this->Customer->find('list'));
 		$this->set('roles', array('admin' => '管理员', 'customer' => '客户', 'employee' => '员工', 'leader' => '组长'));
-	}
-
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		$this->layout = false;
-		$this->User->recursive = -1;
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('不存在该账号'));
-		}
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
-		$this->set('roles', $this->ROLES);
 	}
 
 /**
@@ -211,36 +194,6 @@ class UsersController extends AppController {
 			$this->set('people', $people);
 		}
 		$this->set('role', $role);
-	}
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		$this->User->recursive = -1;
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('不存在该账号'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('账号信息已保存.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('账号信息保存失败，请稍候再试.'));
-				return $this->redirect(array('action' => 'edit', $id));
-			}
-		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
-			$this->set('user', $this->request->data);
-			$this->set('user_id', $id);
-		}
-		$this->set('roles', $this->ROLES);
-		$this->set('role', $this->Auth->user('role'));
 	}
 
 	public function check($username = null){

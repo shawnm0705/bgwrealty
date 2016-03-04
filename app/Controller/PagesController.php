@@ -6,6 +6,9 @@ class PagesController extends AppController {
 	
 	public function beforeFilter() {
 		$this->Auth->allow('home', 'display');
+		if($this->Auth->user('role') == 'employee'){
+	    	$this->Auth->allow('employee_home');
+	    }
     }
 /**
  * This controller does not use a model
@@ -53,6 +56,10 @@ class PagesController extends AppController {
 
 	public function admin_home(){
 				
+	}
+
+	public function employee_home(){
+
 	}
 
 	public function admin_slides($img = null){
@@ -119,9 +126,11 @@ class PagesController extends AppController {
 	Backup Data From Database
 */
 	public function admin_backup(){
-		$backupFile = WWW_ROOT.'files'.DS.'bgwrealty'.date('Y-m-d-H-i-s').'.sql';
+		$filename = 'bgwrealty'.date('Y-m-d-H-i-s').'.sql';
+		$backupFile = WWW_ROOT.'files'.DS.$filename;
 		$command = " ../../../../bin/mysqldump -u root bgw  >$backupFile";
 		system($command);
+		$this->set('filename', $filename);
 	}
 
 }
