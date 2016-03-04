@@ -71,6 +71,7 @@ class CustomersController extends AppController {
 				$this->User->create();
 				$this->User->save($user);
 				$this->request->data['Customer']['user_id'] = $this->User->id;
+				//-------------------------------Send Notification Email-------------------------------
 			}else{
 				$this->request->data['Customer']['user_id'] = 0;	
 			}
@@ -125,6 +126,13 @@ class CustomersController extends AppController {
 
 			$this->Customer->create();
 			if ($this->Customer->save($this->request->data)) {
+				// Add User/role_id
+				if($this->request->data['Customer']['user_id']){
+					$user_s = array();
+					$user_s['User']['id'] = $this->request->data['Customer']['user_id'];
+					$user_s['User']['role_id'] = $this->Customer->id;
+					$this->User->save($user_s);
+				}
 
 				$this->Session->setFlash(__('客户信息已保存.'));
 				return $this->redirect(array('action' => 'index'));

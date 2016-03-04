@@ -102,11 +102,15 @@ class MenuHelper extends AppHelper {
 			    	</li>
 			    	<li role="presentation" class="dropdown">
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-					    用户管理<span class="caret"></span></a>
+					    帐号管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
-					    	<li>'.$this->Html->link(__('添加新用户'), 
-            					array('admin' => true, 'controller' => 'users', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看所有用户'), 
+					    	<li>'.$this->Html->link(__('添加客户帐号'), 
+            					array('admin' => true, 'controller' => 'users', 'action' => 'add', 'customer')).'</li>
+					    	<li>'.$this->Html->link(__('添加员工帐号'), 
+            					array('admin' => true, 'controller' => 'users', 'action' => 'add', 'employee')).'</li>
+					    	<li>'.$this->Html->link(__('添加管理员帐号'), 
+            					array('admin' => true, 'controller' => 'users', 'action' => 'add', 'admin')).'</li>
+					    	<li>'.$this->Html->link(__('查看所有帐号'), 
             					array('admin' => true, 'controller' => 'users', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>

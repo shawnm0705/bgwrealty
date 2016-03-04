@@ -2,14 +2,18 @@
 	// Title	
 	$this->assign('title', '查看员工信息');
 	echo $this->Menu->admin();
+	$this->start('script');
+	echo $this->Html->script('User/active');
+	$this->end();
 ?>
 
 <div class="container">
 	<div class="row">
 		<?php echo $this->Html->link(__('返回列表'), array('action' => 'index'), array('class' => 'btn btn-custom button-action')); ?>
 		<center><h1>员工信息</h1></center>
-		<div class="col-md-10 col-md-offset-3">
+		<div class="col-md-6 col-md-offset-3">
 			<dl class="dl-view dl-200">
+				<h2>个人信息</h2>
 				<dt>姓名：</dt>
 				<dd><?php echo h($employee['Employee']['name']); ?>&nbsp;</dd>
 				<dt>性别：</dt>
@@ -27,6 +31,7 @@
 				<dd><?php echo h($employee['Employee']['email']); ?>&nbsp;</dd>
 				<dt>微信：</dt>
 				<dd><?php echo h($employee['Employee']['wechat']); ?>&nbsp;</dd>
+				<h2>业务信息</h2>
 				<dt>所属团队：</dt>
 				<dd><?php 
 				if($employee['Team']['name']){ 
@@ -47,6 +52,7 @@
 					echo $customer.'<br/>';
 				} 
 				?>&nbsp;</dd>
+				<h2>管理信息</h2>
 				<dt>帐号：</dt>
 				<dd><?php 
 				if($employee['Employee']['user_id']){
@@ -55,14 +61,20 @@
 					echo '无帐号';
 				} ?>&nbsp;</dd>
 				<dt>激活：</dt>
-				<dd><?php 
+				<dd><div id="active">
+				<?php 
 				if($employee['User']['active']){
 					echo '已激活';
 				}else{
 					echo '未激活';
-				} ?>&nbsp;</dd>
+					$employee['User']['active'] = 0;
+				} 
+				if($employee['Employee']['user_id']){
+					echo $this->Html->link(__('修改激活状态'), '#active', array('class' => 'btn btn-custom button-small', 'onclick' => 'active('.$employee['Employee']['user_id'].','.$employee['User']['active'].')', 'id' => 'btn-active'));
+				}
+				?>&nbsp;</dd>
 			</dl>	
+			<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改员工信息'), array('action' => 'edit', $employee['Employee']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
 		</div>
-		<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改员工信息'), array('action' => 'edit', $employee['Employee']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
 	</div>
 </div>

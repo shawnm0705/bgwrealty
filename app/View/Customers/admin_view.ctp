@@ -2,6 +2,9 @@
 	// Title	
 	$this->assign('title', '查看客户信息');
 	echo $this->Menu->admin();
+	$this->start('script');
+	echo $this->Html->script('User/active');
+	$this->end();
 ?>
 
 <div class="container">
@@ -19,7 +22,7 @@
 					echo '男';
 				}else{
 					echo '女';
-				}; ?>&nbsp;</dd>
+				} ?>&nbsp;</dd>
 				<dt>注册时间：</dt>
 				<dd><?php echo h($customer['Customer']['date']); ?>&nbsp;</dd>
 				<dt>手机：</dt>
@@ -59,17 +62,22 @@
 					echo $customer['User']['username'];
 				}else{
 					echo '无帐号';
-				}; ?>&nbsp;</dd>
+				} ?>&nbsp;</dd>
 				<dt>激活：</dt>
-				<dd><?php 
+				<dd><div id="active">
+				<?php 
 				if($customer['User']['active']){
 					echo '已激活';
 				}else{
 					echo '未激活';
-				}; ?>&nbsp;</dd>
+					$customer['User']['active'] = 0;
+				}
+				if($customer['Customer']['user_id']){
+					echo $this->Html->link(__('修改激活状态'), '#active', array('class' => 'btn btn-custom button-small', 'onclick' => 'active('.$customer['Customer']['user_id'].','.$customer['User']['active'].')', 'id' => 'btn-active'));
+				}
+				?>&nbsp;</div></dd>
 			</dl>	
 			<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改客户信息'), array('action' => 'edit', $customer['Customer']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
 		</div>
-		
 	</div>
 </div>

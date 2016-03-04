@@ -18,6 +18,20 @@ class ActionHelper extends AppHelper {
 				echo '<li>'.$this->Html->link(__('查看'), array('action' => 'view', h($id))).'</li>'; 
 			}
 		}
+		if(isset($options['view_people'])){
+			if($options['role'] == 'customer'){
+				$people = 'customers';
+			}elseif($options['role'] == 'employee' || $options['role'] == 'leader'){
+				$people = 'employees';
+			}
+			if($options['role'] != 'admin'){
+				if(isset($options['view_text'])){
+					echo '<li>'.$this->Html->link(__($options['view_text']), array('controller' => $people, 'action' => 'view', h($options['people_id']))).'</li>'; 
+				}else{
+					echo '<li>'.$this->Html->link(__('查看人员信息'), array('controller' => $people, 'action' => 'view', h($options['people_id']))).'</li>'; 
+				}
+			}
+		}
 		if(isset($options['edit'])){
 			if(isset($options['edit_text'])){
 				echo '<li>'.$this->Html->link(__($options['edit_text']), array('action' => 'view', h($id))).'</li>'; 

@@ -623,6 +623,7 @@ CREATE TABLE `users` (
   `p_default` varchar(20) DEFAULT NULL,
   `role` varchar(45) DEFAULT NULL,
   `active` tinyint(1) DEFAULT '1',
+  `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -633,7 +634,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'shawnm0705@gmail.com','$2a$10$9NbWpq4Q/9ZIO0FhKB.67ugpL5J5cJGxF4qVui4P2oTepZvSzMdw.','71','employee',1),(2,'yg2@bgwrealty.com.au','$2a$10$3/a/OM6a9TzxBIaClnOA1uTcvnYpwZ0..kpaR.MLcdLahM2s4G88S','1344e249','employee',1),(3,'admin','$2a$10$b6ca.2lgJIJcicu4uuJJ/.Z7pnY3Y5Kl8RLisi6cL8C0bWKzey/qS',NULL,'admin',1);
+INSERT INTO `users` VALUES (1,'shawnm0705@gmail.com','$2a$10$9NbWpq4Q/9ZIO0FhKB.67ugpL5J5cJGxF4qVui4P2oTepZvSzMdw.','71','employee',1,1),(2,'yg2@bgwrealty.com.au','$2a$10$3/a/OM6a9TzxBIaClnOA1uTcvnYpwZ0..kpaR.MLcdLahM2s4G88S','1344e249','employee',1,3),(3,'admin','$2a$10$b6ca.2lgJIJcicu4uuJJ/.Z7pnY3Y5Kl8RLisi6cL8C0bWKzey/qS','admin','admin',1,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -674,4 +675,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-03 19:28:21
+-- Dump completed on 2016-03-03 20:28:13

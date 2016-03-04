@@ -77,6 +77,7 @@ class EmployeesController extends AppController {
 				$this->User->create();
 				$this->User->save($user);
 				$this->request->data['Employee']['user_id'] = $this->User->id;
+				//-------------------------------Send Notification Email-------------------------------
 			}else{
 				$this->request->data['Employee']['user_id'] = 0;	
 			}
@@ -94,6 +95,14 @@ class EmployeesController extends AppController {
 					$team = $this->Team->find('first', $options);
 					$team['Team']['number'] += 1;
 					$this->Team->save($team);
+				}
+
+				// Add User/role_id
+				if($this->request->data['Employee']['user_id']){
+					$user_s = array();
+					$user_s['User']['id'] = $this->request->data['Employee']['user_id'];
+					$user_s['User']['role_id'] = $this->Employee->id;
+					$this->User->save($user_s);
 				}
 
 				$this->Session->setFlash(__('员工信息已保存.'));
