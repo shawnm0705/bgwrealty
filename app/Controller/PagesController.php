@@ -119,7 +119,7 @@ class PagesController extends AppController {
 	Backup Data From Database
 */
 	public function admin_backup(){
-		$backupFile = WWW_ROOT.'files'.DS.'bgwrealty.sql';
+		$backupFile = WWW_ROOT.'files'.DS.'bgwrealty'.date('Y-m-d-H-i-s').'.sql';
 		$command = " ../../../../bin/mysqldump -u root bgw  >$backupFile";
 		system($command);
 	}
