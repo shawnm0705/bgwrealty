@@ -1,7 +1,11 @@
 <?php 
 	// Title	
 	$this->assign('title', '我的文章列表');
-	echo $this->Menu->admin();
+	if($role == 'employee'){
+		echo $this->Menu->employee();
+	}elseif($role == 'leader'){
+		echo $this->Menu->leader();
+	}
 	echo $this->element('JS_datatable');
 ?>
 

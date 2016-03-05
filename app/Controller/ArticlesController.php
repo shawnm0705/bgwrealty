@@ -10,8 +10,9 @@ class ArticlesController extends AppController {
 
 	public function beforeFilter() {
 		$this->Auth->allow('view', 'view_more');
-		if($this->Auth->user('role') == 'employee'){
-	    	$this->Auth->allow('employee_add','employee_edit', 'employee_index', 'employee_myindex', 'employee_view');
+		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
+	    	$this->Auth->allow('employee_add','employee_edit', 'employee_index', 'employee_myindex', 
+	    		'employee_view', 'employee_view_more', 'employee_delete');
 	    }
     }
 
@@ -50,6 +51,25 @@ class ArticlesController extends AppController {
 		$this->set('types_list', $this->TYPES_LIST);
 	}
 
+	public function employee_index() {
+		$this->Article->recursive = -1;
+		$options = array('conditions' => array('status' => 'APPROVAL'),
+			'order' => 'date DESC');
+		$articles_list = $this->Article->find('all', $options);
+		$articles = array();
+		foreach($articles_list as $article){
+			$type = $article['Article']['type'];
+			if(isset($articles[$type])){
+				array_push($articles[$type], $article);
+			}else{
+				$articles[$type][0] = $article;
+			}
+		}
+		$this->set('articles', $articles);
+		$this->set('types_array', $this->TYPES_ARRAY);
+		$this->set('role', $this->Auth->user('role'));
+	}
+
 	public function employee_myindex() {
 		$this->Article->recursive = -1;
 		$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
@@ -60,6 +80,7 @@ class ArticlesController extends AppController {
 		$properties[0] = '无相关楼盘';
 		$this->set(compact('suburbs', 'properties'));
 		$this->set('types_list', $this->TYPES_LIST);
+		$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
@@ -90,13 +111,41 @@ class ArticlesController extends AppController {
 			throw new NotFoundException(__('文章不存在'));
 		}
 		$this->Article->recursive = -1;
-		$this->set('article', $this->Article->find('first', array('conditions' => 'id = '.$id)));
+		$options = array('conditions' => array('id' => $id));
+		$article = $this->Article->find('first', $options);
+		if($article['Article']['status'] == 'DRAFT' && $article['Article']['employee_id'] != $this->Auth->user('id')){
+			return $this->redirect(array('action' => 'index'));
+		}
 		$suburbs = $this->Suburb->find('list');
 		$suburbs[0] = '无相关区域';
 		$properties = $this->Property->find('list');
 		$properties[0] = '无相关楼盘';
-		$this->set(compact('suburbs', 'properties'));
+		$this->set(compact('suburbs', 'properties', 'article'));
 		$this->set('types_list', $this->TYPES_LIST);
+		$this->set('role', $this->Auth->user('role'));
+	}
+
+	public function employee_view_more($this_type = null){
+		if(!$this_type){
+			return $this->redirect(array('action' => 'index'));
+		}
+		$options = array(
+			'conditions' => array('status' => 'APPROVAL'),
+			'order' => 'date DESC');
+		$this->Article->recursive = -1;
+		$articles_list = $this->Article->find('all', $options);
+		$articles = array();
+		foreach($articles_list as $article){
+			$type = $article['Article']['type'];
+			if(isset($articles[$type])){
+				array_push($articles[$type], $article);
+			}else{
+				$articles[$type][0] = $article;
+			}
+		}
+		$this->set('types_list', $this->TYPES_LIST);
+		$this->set(compact('articles','this_type'));
+		$this->set('role', $this->Auth->user('role'));
 	}
 
 	public function view($id = null){
@@ -166,7 +215,7 @@ class ArticlesController extends AppController {
 			if($file['name']){
 				if($file['error']){
 					$this->Session->setFlash(__('上传文件有错误.'));
-					return $this->redirect(array('action' => 'add'));;
+					return $this->redirect(array('action' => 'add'));
 				}else{
 					move_uploaded_file($file['tmp_name'], WWW_ROOT.'files'.DS.'Article'.DS.$file['name']);
 					$this->request->data['Article']['filename'] = $file['name'];
@@ -188,6 +237,40 @@ class ArticlesController extends AppController {
 		$properties[0] = '无相关楼盘';
 		$this->set(compact('suburbs', 'properties'));
 		$this->set('types_array', $this->TYPES_ARRAY);
+	}
+
+	public function employee_add() {
+		if ($this->request->is('post')) {
+			$this->request->data['Article']['date'] = date('Y-m-d H:i:s');
+			$this->request->data['Article']['employee_id'] = $this->Auth->user('id');
+			$this->request->data['Article']['status'] = 'DRAFT';
+			$file = $this->request->data['Article']['filename'];
+			if($file['name']){
+				if($file['error']){
+					$this->Session->setFlash(__('上传文件有错误.'));
+					return $this->redirect(array('action' => 'add'));
+				}else{
+					move_uploaded_file($file['tmp_name'], WWW_ROOT.'files'.DS.'Article'.DS.$file['name']);
+					$this->request->data['Article']['filename'] = $file['name'];
+				}
+			}else{
+				$this->request->data['Article']['filename'] = '';
+			}
+			$this->Article->create();
+			if ($this->Article->save($this->request->data)) {
+				$this->Session->setFlash(__('文章已保存.'));
+				return $this->redirect(array('action' => 'myindex'));
+			} else {
+				$this->Session->setFlash(__('文章保存失败，请稍候再试.'));
+			}
+		}
+		$suburbs = $this->Suburb->find('list');
+		$suburbs[0] = '无相关区域';
+		$properties = $this->Property->find('list');
+		$properties[0] = '无相关楼盘';
+		$this->set(compact('suburbs', 'properties'));
+		$this->set('types_array', $this->TYPES_ARRAY);
+		$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
@@ -234,6 +317,47 @@ class ArticlesController extends AppController {
 		$this->set('type_selected', $this->request->data['Article']['type']);
 	}
 
+	public function employee_edit($id = null) {
+		if (!$this->Article->exists($id)) {
+			throw new NotFoundException(__('文章不存在'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			$file = $this->request->data['Article']['filename'];
+			if($file['name']){
+				if($file['error']){
+					$this->Session->setFlash(__('上传文件有错误.'));
+					return $this->redirect(array('action' => 'edit', $id));;
+				}else{
+					move_uploaded_file($file['tmp_name'], WWW_ROOT.'files'.DS.'Article'.DS.$file['name']);
+					$this->request->data['Article']['filename'] = $file['name'];
+				}
+			}else{
+				unset($this->request->data['Article']['filename']);
+			}
+			if ($this->Article->save($this->request->data)) {
+				$this->Session->setFlash(__('文章已保存.'));
+				return $this->redirect(array('action' => 'myindex'));
+			} else {
+				$this->Session->setFlash(__('文章保存失败，请稍候再试.'));
+			}
+		}else{
+			$this->Article->recursive = -1;
+			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id'), 'status' => 'DRAFT'));
+			$this->request->data = $this->Article->find('first', $options);
+			if(!$this->request->data){
+				return $this->redirect(array('action' => 'myindex'));
+			}
+		}
+		$suburbs = $this->Suburb->find('list');
+		$suburbs[0] = '无相关区域';
+		$properties = $this->Property->find('list');
+		$properties[0] = '无相关楼盘';
+		$this->set(compact('suburbs', 'properties'));
+		$this->set('types_array', $this->TYPES_ARRAY);
+		$this->set('type_selected', $this->request->data['Article']['type']);
+		$this->set('role', $this->Auth->user('role'));
+	}
+
 	public function admin_change_s($id = null){
 		$this->layout = false;
 		$article = array();
@@ -267,5 +391,25 @@ class ArticlesController extends AppController {
 			$this->Session->setFlash(__('文章删除失败，请稍候再试.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function employee_delete($id = null) {
+		$this->Article->id = $id;
+		if (!$this->Article->exists()) {
+			throw new NotFoundException(__('文章不存在'));
+		}
+		$this->Article->recursive = -1;
+		$options = array('conditions' => array('id' => $id));
+		$article = $this->Article->find('first', $options);
+		if($article['Article']['status'] == 'APPROVAL' || $article['Article']['employee_id'] != $this->Auth->user('id')){
+			return $this->redirect(array('action' => 'myindex'));
+		}
+		$this->request->allowMethod('post', 'delete');
+		if ($this->Article->delete()) {
+			$this->Session->setFlash(__('文章已删除.'));
+		} else {
+			$this->Session->setFlash(__('文章删除失败，请稍候再试.'));
+		}
+		return $this->redirect(array('action' => 'myindex'));
 	}
 }

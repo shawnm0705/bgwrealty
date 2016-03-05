@@ -1,13 +1,19 @@
 <?php 
 	// Title	
 	$this->assign('title', '查看文章');
-	echo $this->Menu->employee();
+	if($role == 'employee'){
+		echo $this->Menu->employee();
+	}elseif($role == 'leader'){
+		echo $this->Menu->leader();
+	}
+	$this->start('css');
+	echo $this->Html->css('Article/view');
+	$this->end();
 ?>
 
 <div class="container">
 	<div class="row">
 		<?php echo $this->Html->link(__('返回列表'), array('action' => 'index'), array('class' => 'btn btn-custom button-action')); ?>
-		<center><h1>查看文章</h1></center>
 		<div class="col-md-10 col-md-offset-1">
 			<div class="div-article-view"><center>
 				<?php 

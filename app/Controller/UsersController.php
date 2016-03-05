@@ -51,6 +51,12 @@ class UsersController extends AppController {
 	public function admin_login() {
         return $this->redirect(array('admin' => false, 'controller' => 'pages', 'action' => 'home'));
 	}
+	public function employee_login() {
+        return $this->redirect(array('employee' => false, 'controller' => 'pages', 'action' => 'home'));
+	}
+	public function customer_login() {
+        return $this->redirect(array('customer' => false, 'controller' => 'pages', 'action' => 'home'));
+	}
 
 	public function logout() {
 	    return $this->redirect($this->Auth->logout());
