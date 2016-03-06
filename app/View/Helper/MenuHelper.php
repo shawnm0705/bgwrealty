@@ -197,8 +197,9 @@ class MenuHelper extends AppHelper {
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    楼盘管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
-					    	<li>'.$this->Html->link(__('查看所有楼盘'), 
-            					array('employee' => true, 'controller' => 'properties', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('楼盘汇总'), 
+					    		array('employee' => false, 'controller' => 'properties', 'action' => 'index'), 
+					    		array('target' => '_blank')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">

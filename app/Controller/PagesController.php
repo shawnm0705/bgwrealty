@@ -52,6 +52,9 @@ class PagesController extends AppController {
 		$this->set(compact('articles', 'suburbs', 'ptypes_all'));
 		$this->set('types_list', array(
 	    	'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态'));
+		if($this->Auth->user('role')){
+			$this->set('role', $this->Auth->user('role'));
+		}
 	}
 
 	public function admin_home(){

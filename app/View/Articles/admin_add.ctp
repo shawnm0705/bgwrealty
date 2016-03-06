@@ -28,6 +28,7 @@
 					</div>
 				<?php
 					echo $this->Form->input('name', array('label' => '文章名', 'type' => 'text', 'div' => array('class' => 'input text required')));
+					echo $this->Form->input('hidden', array('label' => false, 'type' => 'text', 'class' => 'input-hidden'));
 					echo $this->Form->input('suburb_id', array('label' => '相关区域', 'type' => 'select', 'options' => $suburbs, 'selected' => 0));
 					echo $this->Form->input('property_id', array('label' => '相关楼盘', 'type' => 'select', 'options' => $properties, 'selected' => 0));
 					echo $this->Form->input('filename', array('label' => '相关文件', 'type' => 'file'));

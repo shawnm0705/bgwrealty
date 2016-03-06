@@ -30,7 +30,10 @@
 					<tbody>
 						<?php foreach ($articles as $article): ?>
 						<tr>
-							<td><?php echo h($types_list[$article['Article']['type']]); ?>&nbsp;</td>
+							<td><?php 
+							if($article['Article']['type']){
+								echo h($types_list[$article['Article']['type']]); 
+							}?>&nbsp;</td>
 							<td><?php echo h($article['Article']['name']); ?>&nbsp;</td>
 							<td><?php echo h($article['Article']['date']); ?>&nbsp;</td>
 							<td><?php echo h($suburbs[$article['Article']['suburb_id']]); ?>&nbsp;</td>

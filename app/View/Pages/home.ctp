@@ -45,21 +45,23 @@
     <div class="row">
     	<div class="col-md-3">
     		<div class="login well">
-	    		<?php echo $this->Form->create('User', array('controller' => 'users', 'action' => 'login')); ?>
-		     	<div class="label-100">
-		     		<h3>用户登录</h3>
-				<?php
-					echo $this->Form->input('username', array('label' => '用户名', 'type' => 'text', 'class' => 'input-name'));
-					echo $this->Form->input('password', array('label' => '密码', 'type' => 'password', 'class' => 'input-name'));
-				?>
-				</div>
-				<div class="div-left-button">
-					<?php 
+	    		<?php 
+	    		if(isset($role) && $role == 'employee'){
+	    			echo $this->Html->link(__('转到内部管理系统'), array('employee' => true, 'controller' => 'pages', 'action' => 'home'), array('class' => 'btn btn-custom'));
+	    		}else{
+		    		echo $this->Form->create('User', array('controller' => 'users', 'action' => 'login')); 
+			     	echo '<div class="label-100">
+			     		<h3>用户登录</h3>';
+						echo $this->Form->input('username', array('label' => '用户名', 'type' => 'text', 'class' => 'input-name'));
+						echo $this->Form->input('password', array('label' => '密码', 'type' => 'password', 'class' => 'input-name'));
+					echo '</div>
+					<div class="div-left-button">';
 						echo $this->Form->end(array('label' => '登录', 'class' => 'btn btn-custom', 'id' => 'submit-button', 'onclick' => 'this.disabled=true;this.form.submit();return true;', 'div' => false)); 
 						//echo $this->Html->link(__('注册'), array('controller' => 'users', 'action' => 'register'), array('class' => 'btn btn-custom btn-left'));
 						//echo $this->Html->link(__('忘记密码'), array('controller' => 'users', 'action' => 'findpassword'), array('class' => 'btn btn-custom btn-left'));
-					?>
-				</div>
+					echo '</div>';
+				}
+				?>
 	    	</div>
 	    </div>
     	<div class="col-md-6">

@@ -58,6 +58,9 @@
 #custom-bootstrap-menu.navbar-default .navbar-toggle:focus .icon-bar {
     background-color: #FFFFFF;
 }
+.dropdown-menu {
+    min-width: 0;
+}
 /*+++++++++++++++
     Home Page Button
 +++++++++++++++*/
@@ -93,6 +96,8 @@
     opacity: .5;
     filter: alpha(opacity=50);
 }
+
+
 
 
 
