@@ -6,18 +6,30 @@ class InputHelper extends AppHelper {
 	public $helpers = array('Form','Html');
 
 	public function date($options = array()){	
-
+		if(isset($options['year_min'])){
+			$year_min = $options['year_min'];
+		}else{
+			$year_min = 80;
+		}
 		echo '<div class="input select required"><label>'.$options['label'].'</label>
 			<select name="'.$options['name'].'[year]">
 			<option value="">请选择</option>';
-			for($i=date('Y')-80;$i<=date('Y');$i++){
-				echo '<option value="'.$i.'">'.$i.'</option>';	
+			for($i=date('Y')-$year_min;$i<=date('Y');$i++){
+				if(isset($options['year_selected']) && $i == $options['year_selected']){
+					echo '<option value="'.$i.'" selected="selected">'.$i.'</option>';
+				}else{
+					echo '<option value="'.$i.'">'.$i.'</option>';	
+				}
 			}
 		echo '</select>年
 			<select name="'.$options['name'].'[month]">
 			<option value="">请选择</option>';
 			for($i=1;$i<=12;$i++){
-				echo '<option value="'.$i.'">'.$i.'</option>';	
+				if(isset($options['month_selected']) && $i == $options['month_selected']){
+					echo '<option value="'.$i.'" selected="selected">'.$i.'</option>';
+				}else{
+					echo '<option value="'.$i.'">'.$i.'</option>';	
+				}	
 			}
 		echo '</select>月
 			<select name="'.$options['name'].'[day]">

@@ -6,7 +6,7 @@ class PagesController extends AppController {
 	
 	public function beforeFilter() {
 		$this->Auth->allow('home', 'display');
-		if($this->Auth->user('role') == 'employee'){
+		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
 	    	$this->Auth->allow('employee_home');
 	    }
     }
