@@ -33,18 +33,12 @@
 					echo $this->Form->input('Suburb', array('label' => '意向区域', 'type' => 'select', 'multiple' => true));
 					echo $this->Form->input('Ptype', array('label' => '意向户型', 'type' => 'select', 'multiple' => true));
 					echo $this->Form->input('Wy', array('label' => '意向物业', 'type' => 'select', 'multiple' => true, 'options' => $wys));
-				?>
-				<div style="margin-bottom:20px;">
-          			<label></label>
-	          			<a class="btn btn-primary" role="button" data-toggle="collapse" href="#add-user" aria-expanded="false" aria-controls="add-user">添加帐号 (非必填)</a>
-						<div class="collapse well" id="add-user">
-							<?php 
-							echo $this->Form->input('User.username', array('label' => '邮箱', 'type' => 'text', 'div' => array('class' => 'input required')));
-							?>
-						</div>
-					</div>
-				</fieldset>
-			<?php echo $this->element('Submit'); ?>
+					
+					echo '<h3>帐号信息</h3>';
+					echo $this->Form->input('User.username', array('label' => '邮箱', 'type' => 'text', 'div' => array('class' => 'input required')));
+							
+				echo '</fieldset>';
+			echo $this->element('Submit'); ?>
 			</div>
 		</div>
 	</div>

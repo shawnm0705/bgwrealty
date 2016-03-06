@@ -208,8 +208,6 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('查看我的帐号信息'), 
             					array('employee' => true, 'controller' => 'employees', 'action' => 'view')).'</li>
-					    	<li>'.$this->Html->link(__('添加客户帐号'), 
-            					array('employee' => true, 'controller' => 'users', 'action' => 'add', 'customer')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li>'.$this->Html->link(__('退出登录'), 
