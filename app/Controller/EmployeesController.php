@@ -7,9 +7,11 @@ App::uses('AppController', 'Controller');
  */
 class EmployeesController extends AppController {
 
-	/*public function beforeFilter() {
-		$this->Auth->allow('lists');
-    }*/
+	public function beforeFilter() {
+		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
+	    	$this->Auth->allow('employee_view', 'employee_edit');
+	    }
+    }
     
     public $uses = array('Employee', 'Team', 'User', 'Customer');
 
@@ -54,6 +56,24 @@ class EmployeesController extends AppController {
 		$options = array('conditions' => array('employee_id' => $id));
 		$this->set('customers', $this->Customer->find('list', $options));
 
+	}
+
+	public function employee_view(){
+		$id = $this->Auth->user('role_id');
+		if (!$this->Employee->exists($id)) {
+			throw new NotFoundException(__('个人信息不存在'));
+		}
+		$this->Employee->recursive = -1;
+		$sql = "SELECT Employee.*, Team.name
+				FROM (SELECT Employee.*
+						FROM employees AS Employee
+						WHERE Employee.id = $id LIMIT 1) AS Employee
+				LEFT JOIN teams AS Team
+					ON Employee.team_id = Team.id;";
+		$this->set('employee', $this->Employee->query($sql)[0]);
+		$options = array('conditions' => array('employee_id' => $id));
+		$this->set('customers', $this->Customer->find('list', $options));
+		$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
@@ -176,6 +196,27 @@ class EmployeesController extends AppController {
 		$teams = $this->Team->find('list');
 		$teams[0] = '暂不分组';
 		$this->set('teams', $teams);
+	}
+
+	public function employee_edit() {
+		$id = $this->Auth->user('role_id');
+		if (!$this->Employee->exists($id)) {
+			throw new NotFoundException(__('个人信息不存在'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->Employee->save($this->request->data)) {
+				$this->Session->setFlash(__('个人信息已保存.'));
+				return $this->redirect(array('action' => 'view'));
+			} else {
+				$this->Session->setFlash(__('个人信息保存失败，请稍候再试.'));
+			}
+		} else {
+			$this->Employee->recursive = -1;
+			$options = array('conditions' => 'id = '.$id);
+			$this->request->data = $this->Employee->find('first', $options);
+		}
+		
+		$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
