@@ -86,6 +86,10 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('查看客户联系记录'), 
             					array('controller' => 'contacts', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('查看员工计划'), 
+            					array('controller' => 'plans', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('查看员工工作总结'), 
+            					array('controller' => 'summaries', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">
@@ -177,7 +181,7 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('添加新客户'), 
             					array('employee' => true, 'controller' => 'customers', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看我的客户'), 
+					    	<li>'.$this->Html->link(__('我的客户'), 
             					array('employee' => true, 'controller' => 'customers', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
@@ -185,10 +189,12 @@ class MenuHelper extends AppHelper {
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    业务管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
-					    	<li>'.$this->Html->link(__('添加客户联系记录'), 
-            					array('employee' => true, 'controller' => 'contacts', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看客户联系记录'), 
+					    	<li>'.$this->Html->link(__('客户联系记录'), 
             					array('employee' => true, 'controller' => 'contacts', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('我的计划'), 
+            					array('controller' => 'plans', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('我的工作总结'), 
+            					array('controller' => 'summaries', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">

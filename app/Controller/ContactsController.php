@@ -109,7 +109,7 @@ class ContactsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_edit($id = null) {
+/*	public function admin_edit($id = null) {
 		if (!$this->Contact->exists($id)) {
 			throw new NotFoundException(__('联系记录不存在'));
 		}
@@ -121,11 +121,12 @@ class ContactsController extends AppController {
 				$this->Session->setFlash(__('联系记录保存失败，请稍候再试.'));
 			}
 		}else{
+			$this->Contact->recursive = -1;
 			$options = array('conditions' => array('id' => $id));
 			$this->request->data = $this->Contact->find('first', $options);
 		}
 	}
-
+*/
 	public function employee_edit($id = null) {
 		if (!$this->Contact->exists($id)) {
 			throw new NotFoundException(__('联系记录不存在'));
@@ -143,8 +144,11 @@ class ContactsController extends AppController {
 			}
 		}else{
 			$this->Contact->recursive = -1;
-			$options = array('conditions' => array('id' => $id));
+			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
 			$this->request->data = $this->Contact->find('first', $options);
+			if(!$this->request->data){
+				return $this->redirect(array('action' => 'index'));
+			}
 			$week_before = new DateTime(date('Y-m-d H:i:s', strtotime('-7 day')));
 			$date = new DateTime($this->request->data['Contact']['date']);
 			if($this->request->data['Contact']['employee_id'] != $this->Auth->user('id') || $week_before >= $date){

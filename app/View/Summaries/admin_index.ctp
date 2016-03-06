@@ -1,6 +1,6 @@
 <?php 
 	// Title	
-	$this->assign('title', '联系记录列表');
+	$this->assign('title', '总结列表');
 	echo $this->Menu->admin();
 	echo $this->element('JS_datatable');
 ?>
@@ -9,28 +9,30 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="index well">
-				<h2><?php echo __('所有联系记录'); ?></h2>
+				<h2><?php echo __('所有总结'); ?></h2>
 				<table id="data_table" cellpadding="0" cellspacing="0">
 					<thead>
 					<tr>
+						<th>标题</th>
+						<th>类型</th>
 						<th>时间</th>
-						<th>客户</th>
 						<th>员工</th>
 						<th>内容</th>
 						<th>操作</th>
 					</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($contacts as $contact): ?>
+						<?php foreach ($summaries as $summary): ?>
 						<tr>
-							<td><?php echo h($contact['Contact']['time']); ?>&nbsp;</td>
-							<td><?php echo h($contact['Customer']['name']); ?>&nbsp;</td>
-							<td><?php echo h($contact['Employee']['name']); ?>&nbsp;</td>
-							<td><?php echo h($contact['Contact']['content']); ?>&nbsp;</td>
+							<td><?php echo h($summary['Summary']['name']); ?>&nbsp;</td>
+							<td><?php echo h($type_list[$summary['Summary']['type']]); ?>&nbsp;</td>
+							<td><?php echo h($summary['Summary']['date']); ?>&nbsp;</td>
+							<td><?php echo h($summary['Employee']['name']); ?>&nbsp;</td>
+							<td><?php echo h($summary['Summary']['content']); ?>&nbsp;</td>
 							<td class="actions">
 								<?php 
 								echo $this->Action->index_action(array(
-									'id' => h($contact['Contact']['id']), 'name' => '联系记录',
+									'id' => h($summary['Summary']['id']), 'name' => '总结',
 									'delete' => 1));
 								?>&nbsp;
 							</td>
