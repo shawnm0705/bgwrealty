@@ -20,7 +20,20 @@
 					echo $this->Input->date(array('label' => '时间', 'name' =>'data[Contact][time]', 
 						'year_min' => 1, 'year_selected' => date('Y'), 'month_selected' => date('m')));
 					echo $this->Form->input('customer_id', array('label' => '客户', 'type' => 'select', 'empty' => '---请选择---', 'div' => array('class' => 'input required')));
-					echo $this->Form->input('content', array('label' => '联系内容', 'type' => 'textarea', 'div' => array('class' => 'input required')));
+					echo $this->Form->input('type', array('label' => '联系方式', 'type' => 'text'));
+					echo $this->Form->input('xg', array('label' => '效果', 'type' => 'text'));
+					echo $this->Form->input('khyx', array('label' => '客户意向', 'type' => 'text'));
+					echo $this->Form->input('kpsj', array('label' => '看盘时间', 'type' => 'text'));
+					echo $this->Form->input('property_id', array('label' => '楼盘', 'type' => 'select', 'empty' => '---请选择---'));
+					echo $this->Form->input('ptype_id', array('label' => '拟推户型', 'type' => 'select', 'empty' => '---请选择---'));
+					echo $this->Form->input('kpjg', array('label' => '看盘结果', 'type' => 'text'));
+					echo $this->Form->input('khyj', array('label' => '客户意见', 'type' => 'text'));
+					echo $this->Form->input('ctype_id', array('label' => '意向判断', 'type' => 'select', 'empty' => '---请选择---'));
+					echo $this->Form->input('hxfw', array('label' => '后续服务', 'type' => 'text'));
+					echo $this->Form->input('zjmsj', array('label' => '再见面时间', 'type' => 'text'));
+					echo $this->Form->input('gjjh', array('label' => '跟进计划', 'type' => 'textarea'));
+					echo $this->Form->input('sxzz', array('label' => '所需支持', 'type' => 'textarea'));
+					echo $this->Form->input('content', array('label' => '备注', 'type' => 'textarea'));
 				?>
 				</fieldset>
 			<?php echo $this->element('Submit'); ?>

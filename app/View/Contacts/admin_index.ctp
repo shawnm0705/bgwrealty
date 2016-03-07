@@ -16,7 +16,7 @@
 						<th>时间</th>
 						<th>客户</th>
 						<th>员工</th>
-						<th>内容</th>
+						<th>备注</th>
 						<th>操作</th>
 					</tr>
 					</thead>
@@ -31,7 +31,7 @@
 								<?php 
 								echo $this->Action->index_action(array(
 									'id' => h($contact['Contact']['id']), 'name' => '联系记录',
-									'delete' => 1));
+									'view' => 1, 'delete' => 1));
 								?>&nbsp;
 							</td>
 						</tr>

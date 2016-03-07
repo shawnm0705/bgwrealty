@@ -9,11 +9,11 @@ class ContactsController extends AppController {
 
 	public function beforeFilter() {
 		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
-	    	$this->Auth->allow('employee_add', 'employee_edit', 'employee_index', 'employee_delete');
+	    	$this->Auth->allow('employee_add', 'employee_edit', 'employee_index', 'employee_view', 'employee_delete');
 	    }
     }
 
-    public $uses = array('Contact', 'Employee', 'Customer');
+    public $uses = array('Contact', 'Employee', 'Customer', 'Property', 'Ptype', 'Ctype');
 
 /**
  * index method
@@ -44,18 +44,55 @@ class ContactsController extends AppController {
  * @param string $id
  * @return void
  */
-/*	public function admin_view($id = null){
+	public function admin_view($id = null){
 		if (!$this->Contact->exists($id)) {
 			throw new NotFoundException(__('联系记录不存在'));
 		}
 		$this->Contact->recursive = -1;
-		$options = array('conditions' => array('id' => $id));
+		$options = array(
+			'joins' => array(
+				array('table' => 'customers', 'alias' => 'Customer',
+					'conditions' => 'Contact.customer_id = Customer.id'),
+				array('table' => 'employees', 'alias' => 'Employee',
+					'conditions' => 'Contact.employee_id = Employee.id'),
+				array('table' => 'properties', 'alias' => 'Property', 'type' => 'left',
+					'conditions' => 'Contact.property_id = Property.id'),
+				array('table' => 'ptypes', 'alias' => 'Ptype', 'type' => 'left',
+					'conditions' => 'Contact.ptype_id = Ptype.id'),
+				array('table' => 'ctypes', 'alias' => 'Ctype', 'type' => 'left',
+					'conditions' => 'Contact.ctype_id = Ctype.id')),
+			'conditions' => array('Contact.id' => $id),
+			'fields' => array('Contact.*', 'Customer.name','Employee.name','Property.name','Ptype.name','Ctype.name'));
 		$this->set('contact', $this->Contact->find('first', $options));
-		$options = array('conditions' => array('contact_id' => $id));
-		$this->set('employees', $this->Employee->find('all', $options));
 
 	}
-*/
+
+	public function employee_view($id = null){
+		if (!$this->Contact->exists($id)) {
+			throw new NotFoundException(__('联系记录不存在'));
+		}
+		$this->Contact->recursive = -1;
+		$options = array(
+			'joins' => array(
+				array('table' => 'customers', 'alias' => 'Customer',
+					'conditions' => 'Contact.customer_id = Customer.id'),
+				array('table' => 'properties', 'alias' => 'Property', 'type' => 'left',
+					'conditions' => 'Contact.property_id = Property.id'),
+				array('table' => 'ptypes', 'alias' => 'Ptype', 'type' => 'left',
+					'conditions' => 'Contact.ptype_id = Ptype.id'),
+				array('table' => 'ctypes', 'alias' => 'Ctype', 'type' => 'left',
+					'conditions' => 'Contact.ctype_id = Ctype.id')),
+			'conditions' => array('Contact.id' => $id, 'Contact.employee_id' => $this->Auth->user('id')),
+			'fields' => array('Contact.*', 'Customer.name','Property.name','Ptype.name','Ctype.name'));
+		$contact = $this->Contact->find('first', $options);
+		if($contact){
+			$this->set('contact', $contact);
+		}else{
+			return $this->redirect(array('action' => 'index'));
+		}
+		$this->set('role', $this->Auth->user('role'));
+	}
+
 /**
  * add method
  *
@@ -99,6 +136,13 @@ class ContactsController extends AppController {
 		$this->Customer->recursive = -1;
 		$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
 		$this->set('customers', $this->Customer->find('list',$options));
+		$this->Property->recursive = -1;
+		$this->set('properties', $this->Property->find('list'));
+		$this->Ptype->recursive = -1;
+		$this->set('ptypes', $this->Ptype->find('list'));
+		$this->Ctype->recursive = -1;
+		$options = array('conditions' => array('type' => 'KHFL'));
+		$this->set('ctypes', $this->Ctype->find('list', $options));
 		$this->set('role', $this->Auth->user('role'));
 	}
 
@@ -157,6 +201,13 @@ class ContactsController extends AppController {
 			$this->Customer->recursive = -1;
 			$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
 			$this->set('customers', $this->Customer->find('list',$options));
+			$this->Property->recursive = -1;
+			$this->set('properties', $this->Property->find('list'));
+			$this->Ptype->recursive = -1;
+			$this->set('ptypes', $this->Ptype->find('list'));
+			$this->Ctype->recursive = -1;
+			$options = array('conditions' => array('type' => 'KHFL'));
+			$this->set('ctypes', $this->Ctype->find('list', $options));
 		}
 		$this->set('role', $this->Auth->user('role'));
 	}
