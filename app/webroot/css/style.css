@@ -227,6 +227,9 @@ form div.checkbox-inline {
 .label-200 label {
   width: 200px;
 }
+.label-250 label {
+  width: 250px;
+}
 .input-name{
   width:150px;
   padding: 0;

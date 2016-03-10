@@ -12,8 +12,10 @@ class InputHelper extends AppHelper {
 			$year_min = 80;
 		}
 		echo '<div class="input select required"><label>'.$options['label'].'</label>
-			<select name="'.$options['name'].'[year]">
-			<option value="">请选择</option>';
+			<select name="'.$options['name'].'[year]">';
+			if(!isset($options['empty']) || $options['empty']){
+				echo '<option value="">-请选择-</option>';
+			}
 			for($i=date('Y')-$year_min;$i<=date('Y');$i++){
 				if(isset($options['year_selected']) && $i == $options['year_selected']){
 					echo '<option value="'.$i.'" selected="selected">'.$i.'</option>';
@@ -22,8 +24,10 @@ class InputHelper extends AppHelper {
 				}
 			}
 		echo '</select>年
-			<select name="'.$options['name'].'[month]">
-			<option value="">请选择</option>';
+			<select name="'.$options['name'].'[month]">';
+			if(!isset($options['empty']) || $options['empty']){
+				echo '<option value="">-请选择-</option>';
+			}
 			for($i=1;$i<=12;$i++){
 				if(isset($options['month_selected']) && $i == $options['month_selected']){
 					echo '<option value="'.$i.'" selected="selected">'.$i.'</option>';
@@ -32,8 +36,10 @@ class InputHelper extends AppHelper {
 				}	
 			}
 		echo '</select>月
-			<select name="'.$options['name'].'[day]">
-			<option value="">请选择</option>';
+			<select name="'.$options['name'].'[day]">';
+			if(!isset($options['empty']) || $options['empty']){
+				echo '<option value="">-请选择-</option>';
+			}
 			for($i=1;$i<=31;$i++){
 				echo '<option value="'.$i.'">'.$i.'</option>';	
 			}
@@ -51,9 +57,9 @@ class InputHelper extends AppHelper {
 	     	echo '<div class="label-100">
 		     		<h1>筛选楼盘</h1>';
 		     		echo $this->Form->input('suburb_id', array('label' => '区域', 'type' => 'select', 
-		     			'options' => $options['suburbs'], 'empty' => '---请选择---', 'class' => 'input-name'));
+		     			'options' => $options['suburbs'], 'empty' => '-请选择-', 'class' => 'input-name'));
 					echo $this->Form->input('ptype_id', array('label' => '户型', 'type' => 'select', 
-						'options' => $options['ptypes'], 'empty' => '---请选择---', 'class' => 'input-name'));
+						'options' => $options['ptypes'], 'empty' => '-请选择-', 'class' => 'input-name'));
 					echo $this->Form->input('price', array('label' => '价格', 'type' => 'password', 
 						'class' => 'input-name', 'id' => 'price', 'data-slider-value' => $options['price'], 
 						'data-slider-min' => 100, 'data-slider-max' => 2000, 'between' => '<b>$</b>', 'after' => ',000'));				

@@ -14,26 +14,25 @@ class DealTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'app.deal',
-		'app.property',
-		'app.article',
-		'app.suburb',
 		'app.customer',
 		'app.user',
 		'app.employee',
 		'app.team',
+		'app.article',
+		'app.suburb',
+		'app.customers_suburb',
+		'app.property',
+		'app.ptype',
+		'app.customers_ptype',
+		'app.properties_ptype',
 		'app.plan',
 		'app.summary',
 		'app.feedback',
 		'app.guidance',
 		'app.ctype',
 		'app.ctypes_customer',
-		'app.ptype',
-		'app.customers_ptype',
-		'app.properties_ptype',
-		'app.customers_suburb',
 		'app.wy',
-		'app.customers_wy',
-		'app.lawyer'
+		'app.customers_wy'
 	);
 
 /**

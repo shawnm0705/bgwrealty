@@ -28,7 +28,7 @@
 					echo '<br/>相关楼盘：'.h($properties[$article['Article']['property_id']]); 
 				}
 				if($article['Article']['filename']){
-					echo '<br/>相关文件：'.$this->Html->link(__(h($article['Article']['filename'])), array('/files/Article/'.$article['Article']['filename']), array('target' => '_blank', 'download' => $article['Article']['filename'])); 
+					echo '<br/>相关文件：'.$this->Html->link(__(h($article['Article']['filename'])), array('employee' => false, 'controller' => 'files', 'action' => 'Article', $article['Article']['filename']), array('target' => '_blank', 'download' => $article['Article']['filename'])); 
 				}
 				 ?>
 			</div>		

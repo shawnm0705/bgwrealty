@@ -52,7 +52,7 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('添加新文章'), 
             					array('admin' => true, 'controller' => 'articles', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看所有文章'), 
+					    	<li>'.$this->Html->link(__('所有文章'), 
             					array('admin' => true, 'controller' => 'articles', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
@@ -62,7 +62,7 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('添加新客户'), 
             					array('admin' => true, 'controller' => 'customers', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看所有客户'), 
+					    	<li>'.$this->Html->link(__('所有客户'), 
             					array('admin' => true, 'controller' => 'customers', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
@@ -72,11 +72,11 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('添加新员工'), 
             					array('admin' => true, 'controller' => 'employees', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看所有员工'), 
+					    	<li>'.$this->Html->link(__('所有员工'), 
             					array('admin' => true, 'controller' => 'employees', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('添加新团队'), 
             					array('admin' => true, 'controller' => 'teams', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看所有团队'), 
+					    	<li>'.$this->Html->link(__('所有团队'), 
             					array('admin' => true, 'controller' => 'teams', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
@@ -84,11 +84,15 @@ class MenuHelper extends AppHelper {
 					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
 					    业务管理<span class="caret"></span></a>
 					    <ul class="navbar-nav dropdown-menu" role="menu">
-					    	<li>'.$this->Html->link(__('查看客户联系记录'), 
+					    	<li>'.$this->Html->link(__('在售清单'), 
+            					array('controller' => 'deals', 'action' => 'index', 'ZS')).'</li>
+					    	<li>'.$this->Html->link(__('成交清单'), 
+            					array('controller' => 'deals', 'action' => 'index', 'CJ')).'</li>
+					    	<li>'.$this->Html->link(__('客户联系记录'), 
             					array('controller' => 'contacts', 'action' => 'index')).'</li>
-					    	<li>'.$this->Html->link(__('查看员工计划'), 
+					    	<li>'.$this->Html->link(__('员工计划'), 
             					array('controller' => 'plans', 'action' => 'index')).'</li>
-					    	<li>'.$this->Html->link(__('查看员工工作总结'), 
+					    	<li>'.$this->Html->link(__('员工工作总结'), 
             					array('controller' => 'summaries', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
@@ -98,7 +102,7 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('添加新楼盘'), 
             					array('admin' => true, 'controller' => 'properties', 'action' => 'add')).'</li>
-					    	<li>'.$this->Html->link(__('查看所有楼盘'), 
+					    	<li>'.$this->Html->link(__('所有楼盘'), 
             					array('admin' => true, 'controller' => 'properties', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
@@ -112,7 +116,7 @@ class MenuHelper extends AppHelper {
             					array('admin' => true, 'controller' => 'users', 'action' => 'add', 'employee')).'</li>
 					    	<li>'.$this->Html->link(__('添加管理员帐号'), 
             					array('admin' => true, 'controller' => 'users', 'action' => 'add', 'admin')).'</li>
-					    	<li>'.$this->Html->link(__('查看所有帐号'), 
+					    	<li>'.$this->Html->link(__('所有帐号'), 
             					array('admin' => true, 'controller' => 'users', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
@@ -191,6 +195,10 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('客户联系记录'), 
             					array('employee' => true, 'controller' => 'contacts', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('在售清单'), 
+            					array('controller' => 'deals', 'action' => 'index', 'ZS')).'</li>
+					    	<li>'.$this->Html->link(__('成交清单'), 
+            					array('controller' => 'deals', 'action' => 'index', 'CJ')).'</li>
 					    	<li>'.$this->Html->link(__('我的计划'), 
             					array('controller' => 'plans', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('我的工作总结'), 

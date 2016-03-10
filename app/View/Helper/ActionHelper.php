@@ -18,6 +18,15 @@ class ActionHelper extends AppHelper {
 				echo '<li>'.$this->Html->link(__('查看'), array('action' => 'view', h($id))).'</li>'; 
 			}
 		}
+		if(isset($options['next']) && $options['next']){
+			if(isset($options['next_text'])){
+				echo '<li>'.$this->Html->link(__($options['next_text']), array('action' => 'add', 
+					h($options['status']), '?' => array('deal_id' => $options['deal_id']))).'</li>'; 
+			}else{
+				echo '<li>'.$this->Html->link(__('进行下一步'), array('action' => 'add', 
+					h($options['status']), '?' => array('deal_id' => $options['deal_id']))).'</li>'; 
+			}
+		}
 		if(isset($options['view_people'])){
 			if($options['role'] == 'customer'){
 				$people = 'customers';
@@ -32,13 +41,14 @@ class ActionHelper extends AppHelper {
 				}
 			}
 		}
-		if(isset($options['edit'])){
+		if(isset($options['edit']) && $options['edit']){
 			if(isset($options['edit_text'])){
 				echo '<li>'.$this->Html->link(__($options['edit_text']), array('action' => 'view', h($id))).'</li>'; 
 			}else{
 				echo '<li>'.$this->Html->link(__('修改'), array('action' => 'edit', h($id))).'</li>'; 
 			}
-		}if(isset($options['delete'])){
+		}
+		if(isset($options['delete']) && $options['delete']){
 			if(isset($options['delete_text'])){
 				echo '<li>'.$this->Html->link(__($options['delete_text']), array('action' => 'view', h($id))).'</li>'; 
 			}else{

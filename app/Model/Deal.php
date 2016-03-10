@@ -3,11 +3,9 @@ App::uses('AppModel', 'Model');
 /**
  * Deal Model
  *
- * @property Property $Property
  * @property Customer $Customer
+ * @property Property $Property
  * @property Employee $Employee
- * @property Lawyer $Lawyer
- * @property Wy $Wy
  */
 class Deal extends AppModel {
 
@@ -17,7 +15,7 @@ class Deal extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'property_id' => array(
+		'customer_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -27,7 +25,7 @@ class Deal extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'customer_id' => array(
+		'property_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -57,13 +55,6 @@ class Deal extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Property' => array(
-			'className' => 'Property',
-			'foreignKey' => 'property_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'Customer' => array(
 			'className' => 'Customer',
 			'foreignKey' => 'customer_id',
@@ -71,23 +62,16 @@ class Deal extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
+		'Property' => array(
+			'className' => 'Property',
+			'foreignKey' => 'property_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'Employee' => array(
 			'className' => 'Employee',
 			'foreignKey' => 'employee_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Lawyer' => array(
-			'className' => 'Lawyer',
-			'foreignKey' => 'lawyer_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Wy' => array(
-			'className' => 'Wy',
-			'foreignKey' => 'wy_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
