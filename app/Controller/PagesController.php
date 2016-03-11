@@ -17,6 +17,8 @@ class PagesController extends AppController {
  */
 	public $uses = array('Page', 'Article', 'Suburb', 'Ptype');
 	public $PAGES_LIST = array('about' => '公司简介', 'info' => '公司资讯', 'contact' => '联系我们', 'join' => '加入我们');
+	public $PAGES_ARRAY = array('about', 'info', 'contact', 'join');
+	public $INFO_ARRAY = array('电话', 'E-mail', '地址');
 
 /**
  * Displays a view
@@ -87,9 +89,11 @@ class PagesController extends AppController {
 		$this->set('slides', $slides);
 	}
 
+	// Home pages
 	public function admin_index(){
 		$this->Page->recursive = -1;
-		$this->set('pages', $this->Page->find('all'));
+		$options = array('conditions' => array('cate' => $this->PAGES_ARRAY));
+		$this->set('pages', $this->Page->find('all', $options));
 		$this->set('pages_list', $this->PAGES_LIST);
 	}
 
@@ -111,6 +115,32 @@ class PagesController extends AppController {
 			$this->set('cate', $this->request->data['Page']['cate']);
 		}
 		$this->set('pages_list', $this->PAGES_LIST);
+	}
+
+	// Informations
+	public function admin_info(){
+		$this->Page->recursive = -1;
+		$options = array('conditions' => array('cate' => $this->INFO_ARRAY));
+		$this->set('pages', $this->Page->find('all', $options));
+	}
+
+	public function admin_infoedit($id = null){
+		if (!$this->Page->exists($id)) {
+			throw new NotFoundException(__('信息不存在'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->Page->save($this->request->data)) {
+				$this->Session->setFlash(__('信息已保存.'));
+				return $this->redirect(array('action' => 'info'));
+			} else {
+				$this->Session->setFlash(__('信息保存失败，请稍候再试.'));
+			}
+		}else{
+			$this->Page->recursive = -1;
+			$options = array('conditions' => array('id' => $id));
+			$this->request->data = $this->Page->find('first', $options);
+			$this->set('cate', $this->request->data['Page']['cate']);
+		}
 	}
 
 	public function display($cate = null){

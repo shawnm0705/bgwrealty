@@ -140,6 +140,8 @@ class MenuHelper extends AppHelper {
             					array('admin' => true, 'controller' => 'pages', 'action' => 'slides')).'</li>
 					    	<li>'.$this->Html->link(__('首页页面'), 
             					array('admin' => true, 'controller' => 'pages', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('公司信息'), 
+            					array('admin' => true, 'controller' => 'pages', 'action' => 'info')).'</li>
 					    	<li>'.$this->Html->link(__('数据备份'), 
             					array('admin' => true, 'controller' => 'pages', 'action' => 'backup')).'</li>
 				    	</ul>
