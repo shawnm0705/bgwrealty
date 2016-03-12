@@ -30,7 +30,8 @@
 								if($employee['Employee']['id'] != $me['Employee']['id']){
 									echo $this->Action->index_action(array(
 										'id' => h($employee['Employee']['id']),
-										'teammate' => 1, 'team_id' => $me['Team']['id']));
+										'teammate' => 1, 'team_id' => $me['Team']['id'],
+										'contact' => 1));
 									//================= More Action
 								}
 								?>

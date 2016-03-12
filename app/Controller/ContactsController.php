@@ -25,13 +25,28 @@ class ContactsController extends AppController {
 		$this->set('contacts', $this->Contact->find('all'));
 	}
 
-	public function employee_index() {
+	public function employee_index($id = null) {
+		if(!$id){
+			$id = $this->Auth->user('role_id');
+		}elseif($this->Auth->user('role') == 'leader'){
+			// Leader
+			$team_id = $this->request->query['team_id'];
+			$this->Employee->recursive = -1;
+			$options = array('conditions' => array('id' => $id, 'team_id' => $team_id));
+			$employee = $this->Employee->find('first', $options);
+			if(!$employee){
+				return $this->redirect(array('controller' => 'teams', 'action' => 'myteam'));	
+			}
+			$this->set('employee', $employee);
+		}else{
+			return $this->redirect(array('controller' => 'teams', 'action' => 'myteam'));
+		}
 		$this->Contact->recursive = -1;
 		$options = array(
 			'joins' => array(
 				array('table' => 'customers', 'alias' => 'Customer', 
 					'conditions' => 'Contact.customer_id = Customer.id')),
-			'conditions' => 'Contact.employee_id = '.$this->Auth->user('id'),
+			'conditions' => 'Contact.employee_id = '.$id,
 			'fields' => array('Customer.name', 'Contact.*'));
 		$this->set('contacts', $this->Contact->find('all', $options));
 		$this->set('role', $this->Auth->user('role'));
@@ -71,6 +86,12 @@ class ContactsController extends AppController {
 		if (!$this->Contact->exists($id)) {
 			throw new NotFoundException(__('联系记录不存在'));
 		}
+		if(isset($this->request->query['employee_id'])){
+			$employee_id = $this->request->query['employee_id'];
+		}else{
+			$employee_id = $this->Auth->user('role_id');
+		}
+		$role = $this->Auth->user('role');
 		$this->Contact->recursive = -1;
 		$options = array(
 			'joins' => array(
@@ -82,15 +103,19 @@ class ContactsController extends AppController {
 					'conditions' => 'Contact.ptype_id = Ptype.id'),
 				array('table' => 'ctypes', 'alias' => 'Ctype', 'type' => 'left',
 					'conditions' => 'Contact.ctype_id = Ctype.id')),
-			'conditions' => array('Contact.id' => $id, 'Contact.employee_id' => $this->Auth->user('id')),
+			'conditions' => array('Contact.id' => $id, 'Contact.employee_id' => $employee_id),
 			'fields' => array('Contact.*', 'Customer.name','Property.name','Ptype.name','Ctype.name'));
 		$contact = $this->Contact->find('first', $options);
 		if($contact){
 			$this->set('contact', $contact);
 		}else{
-			return $this->redirect(array('action' => 'index'));
+			if($role == 'employee'){
+				return $this->redirect(array('action' => 'index'));
+			}else{
+				return $this->redirect(array('controller' => 'teams', 'action' => 'myteam'));
+			}
 		}
-		$this->set('role', $this->Auth->user('role'));
+		$this->set('role', $role);
 	}
 
 /**
@@ -121,7 +146,7 @@ class ContactsController extends AppController {
 				$time = $this->request->data['Contact']['time']['year'].'-'.$this->request->data['Contact']['time']['month'].'-'.$this->request->data['Contact']['time']['day'];
 				$this->request->data['Contact']['time'] = $time;
 				$this->request->data['Contact']['date'] = date('Y-m-d H:i:s');
-				$this->request->data['Contact']['employee_id'] = $this->Auth->user('id');
+				$this->request->data['Contact']['employee_id'] = $this->Auth->user('role_id');
 				$this->Contact->create();
 				if ($this->Contact->save($this->request->data)) {
 					$this->Session->setFlash(__('联系记录已保存.'));
@@ -134,7 +159,7 @@ class ContactsController extends AppController {
 			}
 		}
 		$this->Customer->recursive = -1;
-		$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
+		$options = array('conditions' => 'employee_id = '.$this->Auth->user('role_id'));
 		$this->set('customers', $this->Customer->find('list',$options));
 		$this->Property->recursive = -1;
 		$this->set('properties', $this->Property->find('list'));
@@ -188,18 +213,18 @@ class ContactsController extends AppController {
 			}
 		}else{
 			$this->Contact->recursive = -1;
-			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
+			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id')));
 			$this->request->data = $this->Contact->find('first', $options);
 			if(!$this->request->data){
 				return $this->redirect(array('action' => 'index'));
 			}
 			$week_before = new DateTime(date('Y-m-d H:i:s', strtotime('-7 day')));
 			$date = new DateTime($this->request->data['Contact']['date']);
-			if($this->request->data['Contact']['employee_id'] != $this->Auth->user('id') || $week_before >= $date){
+			if($this->request->data['Contact']['employee_id'] != $this->Auth->user('role_id') || $week_before >= $date){
 				return $this->redirect(array('action' => 'index'));
 			}
 			$this->Customer->recursive = -1;
-			$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
+			$options = array('conditions' => 'employee_id = '.$this->Auth->user('role_id'));
 			$this->set('customers', $this->Customer->find('list',$options));
 			$this->Property->recursive = -1;
 			$this->set('properties', $this->Property->find('list'));
@@ -243,7 +268,7 @@ class ContactsController extends AppController {
 		$contact = $this->Contact->find('first', $options);
 		$week_before = new DateTime(date('Y-m-d H:i:s', strtotime('-7 day')));
 		$date = new DateTime($contact['Contact']['date']);
-		if($contact['Contact']['employee_id'] != $this->Auth->user('id') || $week_before >= $date){
+		if($contact['Contact']['employee_id'] != $this->Auth->user('role_id') || $week_before >= $date){
 			return $this->redirect(array('action' => 'index'));
 		}
 		$this->request->allowMethod('post', 'delete');

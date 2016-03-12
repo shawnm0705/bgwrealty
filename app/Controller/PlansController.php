@@ -31,7 +31,7 @@ class PlansController extends AppController {
 	public function employee_index() {
 		$role = $this->Auth->user('role');
 		$this->Plan->recursive = -1;
-		$options = array('conditions' => 'Plan.employee_id = '.$this->Auth->user('id'));
+		$options = array('conditions' => 'Plan.employee_id = '.$this->Auth->user('role_id'));
 		$this->set('plans', $this->Plan->find('all', $options));
 		if($role == 'employee'){
 			$this->set('type_list', $this->TYPE_LIST_E);
@@ -84,7 +84,7 @@ class PlansController extends AppController {
 		$role = $this->Auth->user('role');
 		if ($this->request->is('post')) {
 			$this->request->data['Plan']['date'] = date('Y-m-d H:i:s');
-			$this->request->data['Plan']['employee_id'] = $this->Auth->user('id');
+			$this->request->data['Plan']['employee_id'] = $this->Auth->user('role_id');
 			$this->Plan->create();
 			if ($this->Plan->save($this->request->data)) {
 				$this->Session->setFlash(__('计划已保存.'));
@@ -141,7 +141,7 @@ class PlansController extends AppController {
 			}
 		}else{
 			$this->Plan->recursive = -1;
-			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
+			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id')));
 			$this->request->data = $this->Plan->find('first', $options);
 			if(!$this->request->data){
 				return $this->redirect(array('action' => 'index'));
@@ -187,7 +187,7 @@ class PlansController extends AppController {
 			return $this->redirect(array('action' => 'index'));
 		}
 		$this->Plan->recursive = -1;
-		$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
+		$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id')));
 		$plan = $this->Plan->find('first', $options);
 		if(!$plan){
 			return $this->redirect(array('action' => 'index'));

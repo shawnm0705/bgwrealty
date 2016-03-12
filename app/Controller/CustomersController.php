@@ -40,8 +40,9 @@ class CustomersController extends AppController {
 				array('table' => 'users', 'alias' => 'User', 'type' => 'left',
 						'conditions' => 'Customer.user_id = User.id')),
 			'fields' => array('Customer.*','User.username', 'User.active'),
-			'conditions' => array('Customer.employee_id' => $this->Auth->user('id')));
-		$this->set('customers', $this->Customer->find('all', $options));
+			'conditions' => array('Customer.employee_id' => $this->Auth->user('role_id')));
+		$customers = $this->Customer->find('all', $options);
+		$this->set('customers', $customers);
 		$this->set('role', $this->Auth->user('role'));
 	}
 
@@ -76,7 +77,7 @@ class CustomersController extends AppController {
 		$sql = "SELECT Customer.*, User.username, User.active
 				FROM (SELECT Customer.*
 						FROM customers AS Customer
-						WHERE Customer.id = $id AND Customer.employee_id = ".$this->Auth->user('id')." LIMIT 1) 
+						WHERE Customer.id = $id AND Customer.employee_id = ".$this->Auth->user('role_id')." LIMIT 1) 
 							AS Customer
 				LEFT JOIN users AS User
 					ON Customer.user_id = User.id;";
@@ -205,7 +206,7 @@ class CustomersController extends AppController {
 			// Add Customer
 			
 			$this->request->data['Customer']['date'] = date('Y-m-d H:i:s');
-			$this->request->data['Customer']['employee_id'] = $this->Auth->user('id');
+			$this->request->data['Customer']['employee_id'] = $this->Auth->user('role_id');
 			// suburbs
 			$suburb_ids = $this->request->data['Suburb']['Suburb'];
 			$suburbs = $this->Suburb->find('list', array('conditions' => array('id' => $suburb_ids)));
@@ -434,7 +435,7 @@ class CustomersController extends AppController {
 			}
 		} else {
 			$this->Customer->recursive = 1;
-			$options = array('conditions' => array('Customer.id' => $id, 'Customer.employee_id' => $this->Auth->user('id')));
+			$options = array('conditions' => array('Customer.id' => $id, 'Customer.employee_id' => $this->Auth->user('role_id')));
 			$this->request->data = $this->Customer->find('first', $options);
 			if(!$this->request->data){
 				return $this->redirect(array('action' => 'index'));

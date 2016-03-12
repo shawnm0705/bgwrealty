@@ -66,6 +66,15 @@ class ActionHelper extends AppHelper {
 					$id, '?' => array('team_id' => $options['team_id']))).'</li>'; 
 			}
 		}
+		if(isset($options['contact']) && $options['contact']){
+			echo '<li>'.$this->Html->link(__('客户联系记录'), array('controller' => 'contacts', 'action' => 'index', 
+					$id, '?' => array('team_id' => $options['team_id']))).'</li>'; 
+		}
+		// Leader/Contact/index
+		if(isset($options['teamview']) && $options['teamview']){
+			echo '<li>'.$this->Html->link(__('详细信息'), array('action' => 'view', 
+					$id, '?' => array('employee_id' => $options['employee_id']))).'</li>'; 
+		}
 	    echo '</ul></div>';
 		
 	}

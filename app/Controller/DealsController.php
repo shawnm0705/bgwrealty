@@ -49,7 +49,7 @@ class DealsController extends AppController {
 		}
 		$this->Deal->recursive = 0;
 		$options = array('conditions' => 
-			array('Deal.employee_id' => $this->Auth->user('id'), 'Deal.status' => $this->TYPES[$type]));
+			array('Deal.employee_id' => $this->Auth->user('role_id'), 'Deal.status' => $this->TYPES[$type]));
 		$this->set('deals', $this->Deal->find('all', $options));
 		$this->set('status_list', $this->STATUS_LIST);
 		$this->set('status_date', $this->STATUS_DATE);
@@ -81,7 +81,7 @@ class DealsController extends AppController {
 			throw new NotFoundException(__('销售信息不存在'));
 		}
 		$this->Deal->recursive = 0;
-		$options = array('conditions' => array('Deal.id' => $id, 'Deal.employee_id' => $this->Auth->user('id')));
+		$options = array('conditions' => array('Deal.id' => $id, 'Deal.employee_id' => $this->Auth->user('role_id')));
 		$deal = $this->Deal->find('first', $options);
 		if(!$deal){
 			return $this->redirect(array('action' => 'index', 'ZS'));
@@ -97,7 +97,7 @@ class DealsController extends AppController {
 		}
 		$this->Deal->recursive = 0;
 		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
-			$options = array('conditions' => array('Deal.id' => $id, 'Deal.employee_id' => $this->Auth->user('id')));
+			$options = array('conditions' => array('Deal.id' => $id, 'Deal.employee_id' => $this->Auth->user('role_id')));
 		}
 		$options = array('conditions' => array('Deal.id' => $id));
 		$deal = $this->Deal->find('first', $options);
@@ -146,7 +146,7 @@ class DealsController extends AppController {
 		$role = $this->Auth->user('role');
 		if ($this->request->is('post')) {
 			if($status == 'C'){
-				$this->request->data['Deal']['employee_id'] = $this->Auth->user('id');
+				$this->request->data['Deal']['employee_id'] = $this->Auth->user('role_id');
 				$this->Deal->create();
 				$deal_id = $this->Deal->id;
 			}elseif(isset($this->request->data['Deal']['id'])){
@@ -199,7 +199,7 @@ class DealsController extends AppController {
 			$this->set('id', $this->request->query['deal_id']);
 		}else{
 			$this->Customer->recursive = -1;
-			$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
+			$options = array('conditions' => 'employee_id = '.$this->Auth->user('role_id'));
 			$this->set('customers', $this->Customer->find('list', $options));
 			$this->Property->recursive = -1;
 			$this->set('properties', $this->Property->find('list'));
@@ -279,7 +279,7 @@ class DealsController extends AppController {
 			}
 		}else{
 			$this->Deal->recursive = -1;
-			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
+			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id')));
 			$this->request->data = $this->Deal->find('first', $options);
 			if(!$this->request->data){
 				return $this->redirect(array('action' => 'index', 'ZS'));
@@ -293,7 +293,7 @@ class DealsController extends AppController {
 			}
 			if($status == 'C'){
 				$this->Customer->recursive = -1;
-				$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
+				$options = array('conditions' => 'employee_id = '.$this->Auth->user('role_id'));
 				$this->set('customers', $this->Customer->find('list', $options));
 				$this->Property->recursive = -1;
 				$this->set('properties', $this->Property->find('list'));
@@ -331,7 +331,7 @@ class DealsController extends AppController {
 			return $this->redirect(array('action' => 'index', 'ZS'));
 		}
 		$this->Deal->recursive = -1;
-		$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
+		$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id')));
 		$deal = $this->Deal->find('first', $options);
 		$status = $deal['Deal']['status'];
 		if(!$deal || $deal['Deal']['status'] != 'C'){

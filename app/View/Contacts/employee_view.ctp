@@ -10,7 +10,13 @@
 
 <div class="container">
 	<div class="row">
-		<?php echo $this->Html->link(__('返回列表'), array('action' => 'index'), array('class' => 'btn btn-custom button-action')); ?>
+		<?php 
+		if($role == 'employee'){
+			echo $this->Html->link(__('返回列表'), array('action' => 'index'), array('class' => 'btn btn-custom button-action')); 
+		}else{
+			echo $this->Html->link(__('返回我的团队'), array('controller' => 'teams', 'action' => 'myteam'), array('class' => 'btn btn-custom button-action')); 
+		}
+		?>
 		<center><h1>查看联系记录</h1></center>
 		<div class="col-md-8 col-md-offset-3">
 			<dl class="dl-view dl-250">
@@ -48,6 +54,10 @@
 				<dd><?php echo h($contact['Contact']['content']); ?>&nbsp;</dd>
 			</dl>	
 		</div>
-		<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改联系记录信息'), array('action' => 'edit', $contact['Contact']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
+		<center style="margin-bottom:20px;">
+		<?php 
+		if($role == 'employee'){
+			echo $this->Html->link(__('修改联系记录信息'), array('action' => 'edit', $contact['Contact']['id']), array('class' => 'btn btn-custom button-action')); 
+		}?></center>
 	</div>
 </div>

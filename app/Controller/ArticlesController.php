@@ -72,7 +72,7 @@ class ArticlesController extends AppController {
 
 	public function employee_myindex() {
 		$this->Article->recursive = -1;
-		$options = array('conditions' => 'employee_id = '.$this->Auth->user('id'));
+		$options = array('conditions' => 'employee_id = '.$this->Auth->user('role_id'));
 		$this->set('articles', $this->Article->find('all', $options));
 		$suburbs = $this->Suburb->find('list');
 		$suburbs[0] = '无相关区域';
@@ -113,7 +113,7 @@ class ArticlesController extends AppController {
 		$this->Article->recursive = -1;
 		$options = array('conditions' => array('id' => $id));
 		$article = $this->Article->find('first', $options);
-		if($article['Article']['status'] == 'DRAFT' && $article['Article']['employee_id'] != $this->Auth->user('id')){
+		if($article['Article']['status'] == 'DRAFT' && $article['Article']['employee_id'] != $this->Auth->user('role_id')){
 			return $this->redirect(array('action' => 'index'));
 		}
 		$suburbs = $this->Suburb->find('list');
@@ -242,7 +242,7 @@ class ArticlesController extends AppController {
 	public function employee_add() {
 		if ($this->request->is('post')) {
 			$this->request->data['Article']['date'] = date('Y-m-d H:i:s');
-			$this->request->data['Article']['employee_id'] = $this->Auth->user('id');
+			$this->request->data['Article']['employee_id'] = $this->Auth->user('role_id');
 			$this->request->data['Article']['status'] = 'DRAFT';
 			$file = $this->request->data['Article']['filename'];
 			if($file['name']){
@@ -342,7 +342,7 @@ class ArticlesController extends AppController {
 			}
 		}else{
 			$this->Article->recursive = -1;
-			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id'), 'status' => 'DRAFT'));
+			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id'), 'status' => 'DRAFT'));
 			$this->request->data = $this->Article->find('first', $options);
 			if(!$this->request->data){
 				return $this->redirect(array('action' => 'myindex'));
@@ -401,7 +401,7 @@ class ArticlesController extends AppController {
 		$this->Article->recursive = -1;
 		$options = array('conditions' => array('id' => $id));
 		$article = $this->Article->find('first', $options);
-		if($article['Article']['status'] == 'APPROVAL' || $article['Article']['employee_id'] != $this->Auth->user('id')){
+		if($article['Article']['status'] == 'APPROVAL' || $article['Article']['employee_id'] != $this->Auth->user('role_id')){
 			return $this->redirect(array('action' => 'myindex'));
 		}
 		$this->request->allowMethod('post', 'delete');

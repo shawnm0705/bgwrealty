@@ -31,7 +31,7 @@ class SummariesController extends AppController {
 	public function employee_index() {
 		$role = $this->Auth->user('role');
 		$this->Summary->recursive = -1;
-		$options = array('conditions' => 'Summary.employee_id = '.$this->Auth->user('id'));
+		$options = array('conditions' => 'Summary.employee_id = '.$this->Auth->user('role_id'));
 		$this->set('summaries', $this->Summary->find('all', $options));
 		if($role == 'employee'){
 			$this->set('type_list', $this->TYPE_LIST_E);
@@ -84,7 +84,7 @@ class SummariesController extends AppController {
 		$role = $this->Auth->user('role');
 		if ($this->request->is('post')) {
 			$this->request->data['Summary']['date'] = date('Y-m-d H:i:s');
-			$this->request->data['Summary']['employee_id'] = $this->Auth->user('id');
+			$this->request->data['Summary']['employee_id'] = $this->Auth->user('role_id');
 			$this->Summary->create();
 			if ($this->Summary->save($this->request->data)) {
 				$this->Session->setFlash(__('总结已保存.'));
@@ -141,7 +141,7 @@ class SummariesController extends AppController {
 			}
 		}else{
 			$this->Summary->recursive = -1;
-			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
+			$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id')));
 			$this->request->data = $this->Summary->find('first', $options);
 			if(!$this->request->data){
 				return $this->redirect(array('action' => 'index'));
@@ -187,7 +187,7 @@ class SummariesController extends AppController {
 			return $this->redirect(array('action' => 'index'));
 		}
 		$this->Summary->recursive = -1;
-		$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('id')));
+		$options = array('conditions' => array('id' => $id, 'employee_id' => $this->Auth->user('role_id')));
 		$summary = $this->Summary->find('first', $options);
 		if(!$summary){
 			return $this->redirect(array('action' => 'index'));
