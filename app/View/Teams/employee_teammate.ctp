@@ -30,8 +30,8 @@
 				<h2>业务信息</h2>
 				<dt>客户：</dt>
 				<dd><?php 
-				foreach($customers as $customer){
-					echo $customer.'<br/>';
+				foreach($customers as $id => $customer){
+					echo $this->Html->link(__($customer), array('action' => 'teamcustomer', $id, '?' => array('e_id' => $employee['Employee']['id']))).'<br/>';
 				} 
 				?>&nbsp;</dd>
 			</dl>	

@@ -9,7 +9,7 @@ class TeamsController extends AppController {
 
 	public function beforeFilter() {
 		if($this->Auth->user('role') == 'leader'){
-			$this->Auth->allow('employee_myteam', 'employee_teammate');
+			$this->Auth->allow('employee_myteam', 'employee_teammate', 'employee_teamcustomer');
 		}
     }
 
@@ -48,6 +48,20 @@ class TeamsController extends AppController {
 		$options = array('conditions' => array('employee_id' => $id));
 		$this->set('customers', $this->Customer->find('list', $options));
     }
+
+    public function employee_teamcustomer($id = null){
+		if (!$this->Customer->exists($id)) {
+			throw new NotFoundException(__('客户信息不存在'));
+		}
+		$employee_id = $this->request->query['e_id'];
+		$this->Customer->recursive = -1;
+		$options = array('conditions' => array('id' => $id, 'employee_id' => $employee_id));
+		$customer = $this->Customer->find('first', $options);
+		if(!$customer){
+			return $this->redirect(array('action' => 'myteam'));
+		}
+		$this->set('customer', $customer);
+	}
 
 /**
  * index method
