@@ -10,11 +10,11 @@ class DealsController extends AppController {
 
 	public function beforeFilter() {
 		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
-	    	$this->Auth->allow('employee_add', 'employee_edit', 'employee_index', 'employee_delete', 'employee_view');
+	    	$this->Auth->allow('employee_add', 'employee_edit', 'employee_index', 'employee_delete', 'employee_view', 'saf');
 	    }
     }
 
-    public $uses = array('Deal', 'Employee', 'Customer', 'Property');
+    public $uses = array('Deal', 'Employee', 'Customer', 'Property', 'Page');
 
     public $STATUS_LIST = array('C' => '出合同', 'Q' => '签合同', 'J' => '交换合同', 'D' => '贷款', 'Y' => '验房', 
     	'JF' => '交房', 'CZ' => '出租');
@@ -88,6 +88,34 @@ class DealsController extends AppController {
 		}
 		$this->set('status_types', $this->STATUS_TYPES);
 		$this->set(compact('role', 'deal'));
+	}
+
+	public function saf($id = null){
+		$this->layout = false;
+		if (!$this->Deal->exists($id)) {
+			throw new NotFoundException('销售信息不存在');
+		}
+		$this->Deal->recursive = 0;
+		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
+			$options = array('conditions' => array('Deal.id' => $id, 'Deal.employee_id' => $this->Auth->user('id')));
+		}
+		$options = array('conditions' => array('Deal.id' => $id));
+		$deal = $this->Deal->find('first', $options);
+		if(!$deal){
+			return $this->redirect(array('employee' => true, 'controller' => 'deals', 'action' => 'index', 'ZS'));
+		}
+		$this->set('deal', $deal);
+		$this->Page->recursive = -1;
+		$page_list = $this->Page->find('all');
+		$pages = array();
+		foreach($page_list as $page){
+			$cate = $page['Page']['cate'];
+			$content = $page['Page']['content'];
+			if($cate == '电话' || $cate == 'E-mail' || $cate == '地址'){
+				$pages[$cate] = $content;
+			}
+		}
+		$this->set('pages', $pages);
 	}
 
 /**

@@ -1,0 +1,33 @@
+.div-logo{
+  float: left;
+  margin-right: 15px;
+  width: 110px;
+}
+.logo{
+  height: 65px;
+  width: 110px;
+}
+.div-info{
+
+}
+.div-info dt{
+	width: 100px;
+	float: left;
+}
+.div-deal{
+	margin: 30px auto;
+}
+.div-deal dt{
+	width: 100px;
+	float: left;
+}
+.div-deal div{
+	margin: 10px auto;
+}
+.container{
+	margin: 50px auto;
+}
+h2{
+	text-align: center;
+	margin-bottom: 30px;
+}

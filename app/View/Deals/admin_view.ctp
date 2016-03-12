@@ -20,8 +20,9 @@
 					<dt>客户：</dt>
 					<dd>'.h($deal['Customer']['name']).'&nbsp;</dd>
 					<dt>楼盘：</dt>
-					<dd>'.h($deal['Property']['name']).'&nbsp;</dd>
-					<h2>出合同</h2>
+					<dd>'.h($deal['Property']['name']).'&nbsp;</dd>';
+				echo $this->Html->link(__('Sales Advise Form'), array('admin' => false, 'action' => 'saf', $id), array('target' => '_blank'));
+				echo '<h2>出合同</h2>
 					<dt>记录时间</dt>
 					<dd>'.h($deal['Deal']['c_date']).'&nbsp;</dd>
 					<dt>房号</dt>
