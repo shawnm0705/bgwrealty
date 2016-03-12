@@ -7,11 +7,47 @@ App::uses('AppController', 'Controller');
  */
 class TeamsController extends AppController {
 
-	/*public function beforeFilter() {
-		$this->Auth->allow('lists');
-    }*/
+	public function beforeFilter() {
+		if($this->Auth->user('role') == 'leader'){
+			$this->Auth->allow('employee_myteam', 'employee_teammate');
+		}
+    }
 
-    public $uses = array('Team', 'Employee');
+    public $uses = array('Team', 'Employee', 'Customer');
+
+    
+    public function employee_myteam(){
+    	$id = $this->Auth->user('role_id');
+    	$this->Employee->recursive = -1;
+    	$options = array(
+    		'joins' => array(
+    			array('table' => 'teams', 'alias' => 'Team', 'conditions' => 'Team.id = Employee.team_id')),
+    		'conditions' => 'Employee.id = '.$id,
+    		'fields' => array('Team.*', 'Employee.id'));
+    	$me = $this->Employee->find('first', $options);
+    	$this->set('me', $me);
+    	$team_id = $me['Team']['id'];
+    	$options = array('conditions' => 'team_id = '.$team_id);
+    	$this->set('employees', $this->Employee->find('all', $options));
+    }
+
+    public function employee_teammate($id = null){
+    	if (!$this->Employee->exists($id)) {
+			throw new NotFoundException(__('成员信息不存在'));
+		}
+		if(!isset($this->request->query['team_id']) || !$this->request->query['team_id']){
+			return $this->redirect(array('action' => 'myteam'));
+		}
+		$this->Employee->recursive = -1;
+		$options = array('conditions' => array('id' => $id, 'team_id' => $this->request->query['team_id']));
+		$employee = $this->Employee->find('first', $options);
+		if(!$employee){
+			return $this->redirect(array('action' => 'myteam'));	
+		}
+		$this->set('employee', $employee);
+		$options = array('conditions' => array('employee_id' => $id));
+		$this->set('customers', $this->Customer->find('list', $options));
+    }
 
 /**
  * index method
@@ -21,7 +57,6 @@ class TeamsController extends AppController {
 	public function admin_index() {
 		$this->Team->recursive = -1;
 		$this->set('teams', $this->Team->find('all'));
-		//$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
@@ -59,8 +94,6 @@ class TeamsController extends AppController {
 				$this->Session->setFlash(__('团队信息保存失败，请稍候再试.'));
 			}
 		}
-        //$this->set('username',$this->Auth->user('username'));
-		//$this->set('role', $this->Auth->user('role'));
 	}
 
 /**
@@ -85,9 +118,6 @@ class TeamsController extends AppController {
 			$options = array('conditions' => array('id' => $id));
 			$this->request->data = $this->Team->find('first', $options);
 		}
-
-        //$this->set('username',$this->Auth->user('username'));
-		//$this->set('role', $this->Auth->user('role'));
 	}
 
 /**

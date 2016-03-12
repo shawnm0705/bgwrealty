@@ -56,6 +56,16 @@ class ActionHelper extends AppHelper {
 					 __('确定要删除该'.$options['name'].'?')).'</li>';
 			}
 		}
+		// Leader/Team/myteam
+		if(isset($options['teammate']) && $options['teammate']){
+			if(isset($options['teammate_text'])){
+				echo '<li>'.$this->Html->link(__($options['teammate_text']), array('action' => 'teammate', 
+					$id, '?' => array('team_id' => $options['team_id']))).'</li>'; 
+			}else{
+				echo '<li>'.$this->Html->link(__('成员信息'), array('action' => 'teammate', 
+					$id, '?' => array('team_id' => $options['team_id']))).'</li>'; 
+			}
+		}
 	    echo '</ul></div>';
 		
 	}

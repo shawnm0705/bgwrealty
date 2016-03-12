@@ -60,11 +60,11 @@ class PagesController extends AppController {
 	}
 
 	public function admin_home(){
-				
+		
 	}
 
 	public function employee_home(){
-
+		$this->set('role', $this->Auth->user('role'));
 	}
 
 	public function admin_slides($img = null){

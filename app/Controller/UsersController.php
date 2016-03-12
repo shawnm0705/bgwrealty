@@ -34,12 +34,13 @@ class UsersController extends AppController {
 	        	if($this->Auth->user('active')){
 		        	if($this->Auth->user('role') == 'admin'){
 		        		return $this->redirect(array('admin' => true, 'controller' => 'pages', 'action' => 'home'));
-		        	}elseif($this->Auth->user('role') == 'employee'){
+		        	}elseif($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
 		        		return $this->redirect(array('employee' => true, 'controller' => 'pages', 'action' => 'home'));
 		        	}else{
 			            return $this->redirect($this->Auth->redirectUrl());
 			        }
 			    }else{
+			    	$this->Session->setFlash(__('帐户未激活.'));
 			    	$this->redirect(array('controller' => 'users', 'action' => 'logout'));
 			    }
 	        }
@@ -244,6 +245,22 @@ class UsersController extends AppController {
 
 		}
 		$this->render('empty');
+	}
+
+	public function resetpassword($id = null){
+		if($this->Auth->user('role') == 'admin'){
+			if($this->request->query['role'] == 'employee'){
+				$options = array('conditions' => array('role_id' => $id, 'role' => array('employee', 'leader')));
+			}else{
+				$options = array('conditions' => array('role_id' => $id, 'role' => 'customer'));
+			}
+			$this->User->recursive = -1;
+			$user = $this->User->find('first', $options);
+			$user['User']['password'] = $user['User']['p_default'];
+			$this->User->save($user);
+			$this->Session->setFlash(__('密码已重置.'));
+			return $this->redirect(array('admin' => true, 'controller' => 'employees', 'action' => 'view', $id));
+		}
 	}
 
 /**

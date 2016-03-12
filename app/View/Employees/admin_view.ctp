@@ -74,7 +74,16 @@
 				}
 				?>&nbsp;</dd>
 			</dl>	
-			<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改员工信息'), array('action' => 'edit', $employee['Employee']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
+			<center style="margin-bottom:20px;">
+				<?php 
+				echo $this->Html->link(__('修改员工信息'), array('action' => 'edit', $employee['Employee']['id']), array('class' => 'btn btn-custom button-left')); 
+				echo $this->Form->postLink(__('重置密码'), array('admin' => false, 'controller' => 'users', 'action' => 'resetpassword', $employee['Employee']['id'], '?' => array('role' => 'employee')), array('class' => 'btn btn-custom button-left'), __('确定要重置该用户的密码?'));?>
+			</center>
 		</div>
 	</div>
 </div>
+
+
+
+
+
