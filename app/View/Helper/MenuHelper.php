@@ -275,6 +275,8 @@ class MenuHelper extends AppHelper {
 					    <ul class="navbar-nav dropdown-menu" role="menu">
 					    	<li>'.$this->Html->link(__('我的团队'), 
             					array('controller' => 'teams', 'action' => 'myteam')).'</li>
+					    	<li>'.$this->Html->link(__('指导方案'), 
+            					array('controller' => 'guidances', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">

@@ -31,7 +31,7 @@
 									echo $this->Action->index_action(array(
 										'id' => h($employee['Employee']['id']),
 										'teammate' => 1, 'team_id' => $me['Team']['id'],
-										'contact' => 1));
+										'contact' => 1, 'guidance_add' => 1));
 									//================= More Action
 								}
 								?>
