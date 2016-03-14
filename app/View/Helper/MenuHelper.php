@@ -349,14 +349,22 @@ class MenuHelper extends AppHelper {
 			    		'action' =>'display', 'info')).'</li>
 			    	<li>'.$this->Html->link(__('楼盘汇总'), array('customer' => false,'controller' => 'properties', 
 			    		'action' => 'index')).'</li>
-			    	<li>'.$this->Html->link(__('研究报告'), array('customer' => true,'controller' => 'articles', 
-			    		'action' => 'index')).'</li>
-			    	<li>'.$this->Html->link(__('服务反馈'), array('customer' => true,'controller' => 'feedbacks', 
-			    		'action' => 'view')).'</li>
 			    	<li>'.$this->Html->link(__('联系我们'), array('customer' => false,'controller' => 'pages', 
 			    		'action' =>'display', 'contact')).'</li>
 			    	<li>'.$this->Html->link(__('加入我们'), array('customer' => false,'controller' => 'pages', 
 			    		'action' => 'display','join')).'</li>
+			    	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					    服务<span class="caret"></span></a>
+					    <ul class="navbar-nav dropdown-menu" role="menu">
+					    	<li>'.$this->Html->link(__('研究报告'), array('customer' => true,'controller' => 'articles', 
+					    		'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('成交记录'), array('customer' => true,'controller' => 'deals', 
+					    		'action' => 'view')).'</li>
+					    	<li>'.$this->Html->link(__('服务反馈'), array('customer' => true,'controller' => 'feedbacks', 
+					    		'action' => 'view')).'</li>
+				    	</ul>
+			    	</li>
 			    	<li>'.$this->Html->link(__('退出登录'), array('customer' => false, 'controller' => 'users', 
 			    		'action' => 'logout')).'</li>
 			    </ul>

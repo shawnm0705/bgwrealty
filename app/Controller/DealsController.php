@@ -12,6 +12,9 @@ class DealsController extends AppController {
 		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
 	    	$this->Auth->allow('employee_add', 'employee_edit', 'employee_index', 'employee_delete', 'employee_view', 'saf');
 	    }
+	    if($this->Auth->user('role') == 'customer'){
+	    	$this->Auth->allow('customer_view');
+	    }
     }
 
     public $uses = array('Deal', 'Employee', 'Customer', 'Property', 'Page');
@@ -86,6 +89,14 @@ class DealsController extends AppController {
 		if(!$deal){
 			return $this->redirect(array('action' => 'index', 'ZS'));
 		}
+		$this->set('status_types', $this->STATUS_TYPES);
+		$this->set(compact('role', 'deal'));
+	}
+
+	public function customer_view(){
+		$this->Deal->recursive = 0;
+		$options = array('conditions' => array('Deal.employee_id' => $this->Auth->user('role_id')));
+		$deal = $this->Deal->find('first', $options);
 		$this->set('status_types', $this->STATUS_TYPES);
 		$this->set(compact('role', 'deal'));
 	}
