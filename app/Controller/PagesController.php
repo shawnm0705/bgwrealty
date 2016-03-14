@@ -19,6 +19,7 @@ class PagesController extends AppController {
 	public $PAGES_LIST = array('about' => '公司简介', 'info' => '公司资讯', 'contact' => '联系我们', 'join' => '加入我们');
 	public $PAGES_ARRAY = array('about', 'info', 'contact', 'join');
 	public $INFO_ARRAY = array('电话', 'E-mail', '地址');
+	public $EMESSAGE_ARRAY = array('新客户注册', '客户重置密码', '新员工注册', '员工重置密码');
 
 /**
  * Displays a view
@@ -132,6 +133,32 @@ class PagesController extends AppController {
 			if ($this->Page->save($this->request->data)) {
 				$this->Session->setFlash(__('信息已保存.'));
 				return $this->redirect(array('action' => 'info'));
+			} else {
+				$this->Session->setFlash(__('信息保存失败，请稍候再试.'));
+			}
+		}else{
+			$this->Page->recursive = -1;
+			$options = array('conditions' => array('id' => $id));
+			$this->request->data = $this->Page->find('first', $options);
+			$this->set('cate', $this->request->data['Page']['cate']);
+		}
+	}
+
+	// Email messages
+	public function admin_emessage(){
+		$this->Page->recursive = -1;
+		$options = array('conditions' => array('cate' => $this->EMESSAGE_ARRAY));
+		$this->set('pages', $this->Page->find('all', $options));
+	}
+
+	public function admin_emessageedit($id = null){
+		if (!$this->Page->exists($id)) {
+			throw new NotFoundException(__('信息不存在'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->Page->save($this->request->data)) {
+				$this->Session->setFlash(__('信息已保存.'));
+				return $this->redirect(array('action' => 'emessage'));
 			} else {
 				$this->Session->setFlash(__('信息保存失败，请稍候再试.'));
 			}

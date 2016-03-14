@@ -13,6 +13,8 @@ class ArticlesController extends AppController {
 		if($this->Auth->user('role') == 'employee' || $this->Auth->user('role') == 'leader'){
 	    	$this->Auth->allow('employee_add','employee_edit', 'employee_index', 'employee_myindex', 
 	    		'employee_view', 'employee_view_more', 'employee_delete');
+	    }elseif($this->Auth->user('role') == 'customer'){
+	    	$this->Auth->allow('customer_index', 'customer_view', 'customer_view_more');
 	    }
     }
 
@@ -32,6 +34,15 @@ class ArticlesController extends AppController {
     		'SJFX' => '数据分析', 'ZCYJ' => '政策研究', 'QYYJ' => '区域研究', 'XMYJ' => '项目研究'),
     	'研究报告(内部)' => array(
     		'SJFXN' => '数据分析(内部)', 'ZCYJN' => '政策研究(内部)', 'QYYJN' => '区域研究(内部)', 'XMYJN' => '项目研究(内部)'));
+    public $TYPES_CUSTOMER = array('YNDT', 'SCSJ', 'ZCXX', 'SZGH', 'JJDT', 'SJFX', 'ZCYJ', 'QYYJ', 'XMYJ');
+    public $TYPES_LIST_CUSTOMER = array(
+    	'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态',
+ 		'SJFX' => '数据分析', 'ZCYJ' => '政策研究', 'QYYJ' => '区域研究', 'XMYJ' => '项目研究');
+    public $TYPES_ARRAY_CUSTOMER = array(
+    	'各类文章' => array(
+    		'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态'),
+    	'研究报告' => array(
+    		'SJFX' => '数据分析', 'ZCYJ' => '政策研究', 'QYYJ' => '区域研究', 'XMYJ' => '项目研究'));
 
 /**
  * index method
@@ -67,6 +78,25 @@ class ArticlesController extends AppController {
 		}
 		$this->set('articles', $articles);
 		$this->set('types_array', $this->TYPES_ARRAY);
+		$this->set('role', $this->Auth->user('role'));
+	}
+
+	public function customer_index() {
+		$this->Article->recursive = -1;
+		$options = array('conditions' => array('status' => 'APPROVAL'),
+			'order' => 'date DESC');
+		$articles_list = $this->Article->find('all', $options);
+		$articles = array();
+		foreach($articles_list as $article){
+			$type = $article['Article']['type'];
+			if(isset($articles[$type])){
+				array_push($articles[$type], $article);
+			}else{
+				$articles[$type][0] = $article;
+			}
+		}
+		$this->set('articles', $articles);
+		$this->set('types_array', $this->TYPES_ARRAY_CUSTOMER);
 		$this->set('role', $this->Auth->user('role'));
 	}
 
@@ -125,6 +155,25 @@ class ArticlesController extends AppController {
 		$this->set('role', $this->Auth->user('role'));
 	}
 
+	public function customer_view($id = null){
+		if (!$this->Article->exists($id)) {
+			throw new NotFoundException(__('文章不存在'));
+		}
+		$this->Article->recursive = -1;
+		$options = array('conditions' => array('id' => $id, 'status' => 'APPROVAL'));
+		$article = $this->Article->find('first', $options);
+		if(!$article || !isset($this->TYPES_LIST_CUSTOMER[$article['Article']['type']])){
+			return $this->redirect(array('action' => 'index'));
+		}
+		$suburbs = $this->Suburb->find('list');
+		$suburbs[0] = '无相关区域';
+		$properties = $this->Property->find('list');
+		$properties[0] = '无相关楼盘';
+		$this->set(compact('suburbs', 'properties', 'article'));
+		$this->set('types_list', $this->TYPES_LIST_CUSTOMER);
+		$this->set('role', $this->Auth->user('role'));
+	}
+
 	public function employee_view_more($this_type = null){
 		if(!$this_type){
 			return $this->redirect(array('action' => 'index'));
@@ -144,6 +193,29 @@ class ArticlesController extends AppController {
 			}
 		}
 		$this->set('types_list', $this->TYPES_LIST);
+		$this->set(compact('articles','this_type'));
+		$this->set('role', $this->Auth->user('role'));
+	}
+
+	public function customer_view_more($this_type = null){
+		if(!$this_type || !isset($this->TYPES_LIST_CUSTOMER[$this_type])){
+			return $this->redirect(array('action' => 'index'));
+		}
+		$options = array(
+			'conditions' => array('status' => 'APPROVAL', 'type' => $this->TYPES_CUSTOMER),
+			'order' => 'date DESC');
+		$this->Article->recursive = -1;
+		$articles_list = $this->Article->find('all', $options);
+		$articles = array();
+		foreach($articles_list as $article){
+			$type = $article['Article']['type'];
+			if(isset($articles[$type])){
+				array_push($articles[$type], $article);
+			}else{
+				$articles[$type][0] = $article;
+			}
+		}
+		$this->set('types_list', $this->TYPES_LIST_CUSTOMER);
 		$this->set(compact('articles','this_type'));
 		$this->set('role', $this->Auth->user('role'));
 	}

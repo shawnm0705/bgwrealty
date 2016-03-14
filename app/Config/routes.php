@@ -29,6 +29,8 @@
 		array('admin' => true, 'prefix' => 'admin', 'controller' => 'pages', 'action' => 'home'));
 	Router::connect('/employee/:controller/:action/*', 
 		array('employee' => true, 'prefix' => 'employee', 'controller' => 'pages', 'action' => 'home'));
+	Router::connect('/customer/:controller/:action/*', 
+		array('customer' => true, 'prefix' => 'customer', 'controller' => 'pages', 'action' => 'home'));
 	Router::connect('/files/:controller/:action/*', 
 		array('files' => true, 'controller' => 'pages', 'action' => 'home'));
 

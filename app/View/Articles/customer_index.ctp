@@ -1,11 +1,8 @@
 <?php 
 	// Title	
 	$this->assign('title', '文章列表');
-	if($role == 'employee'){
-		echo $this->Menu->employee();
-	}elseif($role == 'leader'){
-		echo $this->Menu->leader();
-	}
+	echo $this->Menu->customer();
+	
 ?>
 
 <div class="container">

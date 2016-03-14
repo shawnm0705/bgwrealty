@@ -1,7 +1,7 @@
 <?php 
 	// Title	
 	$this->assign('title', '修改指导方案');
-	echo $this->Menu->admin();
+	echo $this->Menu->leader();
 ?>
 
 <div class="container">

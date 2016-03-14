@@ -1,7 +1,11 @@
 <?php
 	// Title	
 	$this->assign('title', '首页');
-	echo $this->Menu->homepage();
+	if(isset($role) && $role == 'customer'){
+		echo $this->Menu->customer();
+	}else{
+		echo $this->Menu->homepage();
+	}
 	$this->start('css');
 	echo $this->Html->css(array('Page/home'));
 	$this->end();
@@ -46,9 +50,7 @@
     	<div class="col-md-3">
     		<div class="login well">
 	    		<?php 
-	    		if(isset($role) && $role == 'employee'){
-	    			echo $this->Html->link(__('转到内部管理系统'), array('employee' => true, 'controller' => 'pages', 'action' => 'home'), array('class' => 'btn btn-custom'));
-	    		}else{
+	    		if(!isset($role)){
 		    		echo $this->Form->create('User', array('controller' => 'users', 'action' => 'login')); 
 			     	echo '<div class="label-100">
 			     		<h3>用户登录</h3>';
@@ -60,7 +62,14 @@
 						//echo $this->Html->link(__('注册'), array('controller' => 'users', 'action' => 'register'), array('class' => 'btn btn-custom btn-left'));
 						//echo $this->Html->link(__('忘记密码'), array('controller' => 'users', 'action' => 'findpassword'), array('class' => 'btn btn-custom btn-left'));
 					echo '</div>';
-				}
+				}elseif($role == 'employee' || $role == 'leader'){
+	    			echo $this->Html->link(__('转到内部管理系统'), array('employee' => true, 'controller' => 'pages', 'action' => 'home'), array('class' => 'btn btn-custom'));
+	    		}elseif($role == 'admin'){
+	    			echo $this->Html->link(__('转到内部管理系统'), array('admin' => true, 'controller' => 'pages', 'action' => 'home'), array('class' => 'btn btn-custom'));
+	    		}else{
+	    			echo '欢迎登录BGW-Realty 创富地产!';
+	    		}
+
 				?>
 	    	</div>
 	    </div>

@@ -78,6 +78,8 @@ class MenuHelper extends AppHelper {
             					array('admin' => true, 'controller' => 'teams', 'action' => 'add')).'</li>
 					    	<li>'.$this->Html->link(__('所有团队'), 
             					array('admin' => true, 'controller' => 'teams', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('指导方案'), 
+            					array('controller' => 'guidances', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">
@@ -142,6 +144,8 @@ class MenuHelper extends AppHelper {
             					array('admin' => true, 'controller' => 'pages', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('公司信息'), 
             					array('admin' => true, 'controller' => 'pages', 'action' => 'info')).'</li>
+					    	<li>'.$this->Html->link(__('自动邮件内容'), 
+            					array('admin' => true, 'controller' => 'pages', 'action' => 'emessage')).'</li>
 					    	<li>'.$this->Html->link(__('数据备份'), 
             					array('admin' => true, 'controller' => 'pages', 'action' => 'backup')).'</li>
 				    	</ul>
@@ -205,6 +209,8 @@ class MenuHelper extends AppHelper {
             					array('controller' => 'plans', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('我的工作总结'), 
             					array('controller' => 'summaries', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('我的指导方案'), 
+            					array('controller' => 'guidances', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">
@@ -320,6 +326,40 @@ class MenuHelper extends AppHelper {
 	    </div>';
 	}
 
+	public function customer(){
+		echo '<div id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+	    	<div class="container">
+	        <div class="navbar-header">
+            	<div class="div-logo">';
+	                echo $this->Html->image('logo.png', array('class' => 'logo')).'</div>';
+		    echo '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
+		    		<span class="sr-only">Toggle navigation</span>
+		    		<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+	            </button>
+	        </div>
+        <div class="collapse navbar-collapse navbar-menubuilder">
+            <ul class="nav navbar-nav navbar-left" id="top-menu">';
+            
+            echo '<li>'.$this->Html->link(__('首页'),'/').'</li>
+            		<li>'.$this->Html->link(__('公司简介'), array('customer' => false,'controller' => 'pages', 
+            			'action' =>'display', 'about')).'</li>
+			    	<li>'.$this->Html->link(__('公司资讯'), array('customer' => false,'controller' => 'pages', 
+			    		'action' =>'display', 'info')).'</li>
+			    	<li>'.$this->Html->link(__('楼盘汇总'), array('customer' => false,'controller' => 'properties', 
+			    		'action' => 'index')).'</li>
+			    	<li>'.$this->Html->link(__('研究报告'), array('customer' => true,'controller' => 'articles', 
+			    		'action' => 'index')).'</li>
+			    	<li>'.$this->Html->link(__('联系我们'), array('customer' => false,'controller' => 'pages', 
+			    		'action' =>'display', 'contact')).'</li>
+			    	<li>'.$this->Html->link(__('加入我们'), array('customer' => false,'controller' => 'pages', 
+			    		'action' => 'display','join')).'</li>
+			    	<li>'.$this->Html->link(__('退出登录'), array('customer' => false, 'controller' => 'users', 
+			    		'action' => 'logout')).'</li>
+			    </ul>
+	    	</div>
+	    </div>
+	    </div>';
+	}
 
 	public function breadcrumb($lists = null){
 		echo '<div class="container-fluid">
