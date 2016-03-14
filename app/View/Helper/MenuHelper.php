@@ -96,6 +96,8 @@ class MenuHelper extends AppHelper {
             					array('controller' => 'plans', 'action' => 'index')).'</li>
 					    	<li>'.$this->Html->link(__('员工工作总结'), 
             					array('controller' => 'summaries', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('客户反馈'), 
+					    		array('controller' => 'feedbacks', 'action' => 'index')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">
@@ -349,6 +351,8 @@ class MenuHelper extends AppHelper {
 			    		'action' => 'index')).'</li>
 			    	<li>'.$this->Html->link(__('研究报告'), array('customer' => true,'controller' => 'articles', 
 			    		'action' => 'index')).'</li>
+			    	<li>'.$this->Html->link(__('服务反馈'), array('customer' => true,'controller' => 'feedbacks', 
+			    		'action' => 'view')).'</li>
 			    	<li>'.$this->Html->link(__('联系我们'), array('customer' => false,'controller' => 'pages', 
 			    		'action' =>'display', 'contact')).'</li>
 			    	<li>'.$this->Html->link(__('加入我们'), array('customer' => false,'controller' => 'pages', 
