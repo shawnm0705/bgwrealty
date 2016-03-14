@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Users Controller
  *
@@ -12,7 +13,7 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $uses = array('User', 'Customer', 'Employee');
+	public $uses = array('User', 'Customer', 'Employee', 'Page');
 
 /**
  * login logout method
@@ -96,6 +97,14 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$Email = new CakeEmail('default');
+		$Email->from(array('info@bgwrealty.com.au' => 'BGW Realty'))
+			->to('mx_198891@163.com')
+			->emailFormat('html')
+		    ->subject('Password Reset')
+		    ->send('Just for test');
+		    //=======================================
+
 		$this->User->recursive = -1;
 		$this->set('users', $this->User->find('all'));
 		$this->Employee->recursive = -1;
@@ -259,6 +268,19 @@ class UsersController extends AppController {
 			$user['User']['password'] = $user['User']['p_default'];
 			$this->User->save($user);
 			$this->Session->setFlash(__('密码已重置.'));
+
+			// Send Notification Email=============================
+			$this->Page->recursive = -1;
+			$options = array('conditions' => array('cate' => '员工重置密码'));
+			$page = $this->Page->find('first', $options);
+			$message = $page['Page']['content'];
+			preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+			preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+			$Email = new CakeEmail('default');
+			$Email->to($user['User']['username'])
+			    ->subject('Password Reset')
+			    ->send($message);
+
 			return $this->redirect(array('admin' => true, 'controller' => 'employees', 'action' => 'view', $id));
 		}
 	}

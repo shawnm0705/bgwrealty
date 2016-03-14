@@ -249,6 +249,9 @@ class ArticlesController extends AppController {
 		$this->set('articles', $articles);
 		$this->set('types_list', array(
 	    	'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态'));
+		if($this->Auth->user('role')){
+			$this->set('role', $this->Auth->user('role'));
+		}
 	}
 
 	public function view_more($this_type = null){
@@ -271,6 +274,9 @@ class ArticlesController extends AppController {
 		$this->set('types_list', array(
 	    	'YNDT' => '业内动态', 'SCSJ' => '市场数据', 'ZCXX' => '政策信息', 'SZGH' => '市政规划', 'JJDT' => '经济动态'));
 		$this->set('this_type', $this_type);
+		if($this->Auth->user('role')){
+			$this->set('role', $this->Auth->user('role'));
+		}
 	}
 
 /**

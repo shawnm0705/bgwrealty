@@ -180,6 +180,9 @@ class PagesController extends AppController {
 			return $this->redirect(array('action' => 'home'));
 		}
 		$this->set('pages_list', $this->PAGES_LIST);
+		if($this->Auth->user('role')){
+			$this->set('role', $this->Auth->user('role'));
+		}
 	}
 
 /*
@@ -188,7 +191,7 @@ class PagesController extends AppController {
 	public function admin_backup(){
 		$dir_path = WWW_ROOT.'files'.DS;
 		$dir = new Folder($dir_path);
-		$files = $dir->find('bgwrealty.*\.sql', true);
+		$files = $dir->find('bgwrealty.+\.sql', true);
 		foreach($files as $file){
 			$file_d = new File($dir_path.$file);
 			if($file_d->exists()){
@@ -197,10 +200,65 @@ class PagesController extends AppController {
 		}
 
 		$filename = 'bgwrealty'.date('Y-m-d-H-i-s').'.sql';
+		//$filename = 'bgwrealty.sql';
+		$file = new File($dir_path.$filename, true);
+		$content = '';
+		$tables = $this->Page->query('SHOW TABLES');
+		foreach($tables as $table){
+			foreach($table['TABLE_NAMES'] as $t_name){
+				$table_name = $t_name;
+			}
+			$content .= $this->sqlquery($table_name);
+		}
+		$file->write($content);
+		$file->close();
+		/* // Use System()
 		$backupFile = WWW_ROOT.'files'.DS.$filename;
 		$command = " ../../../../bin/mysqldump -u root bgw  >$backupFile";
 		system($command);
+		*/
 		$this->set('filename', $filename);
+	}
+
+	protected function sqlquery($table){
+		$results = $this->Page->query("SELECT * FROM $table ;");
+		$string = "INSERT INTO $table VALUES \n";
+		$m = 0;
+		foreach($results as $result){
+			if($m){
+				$string .= ",\n";
+			}else{
+				$m = 1;
+			}
+			$string .= '(';
+			$n = 0;
+			foreach($result[$table] as $col => $value){
+				if($n){
+					$string .= ',';
+				}else{
+					$n = 1;
+				}
+				if(preg_match('/id/', $col) || preg_match('/.+_id/', $col) || preg_match('/gender/', $col) ||
+					preg_match('/delete/', $col) || preg_match('/price_.+/', $col) || preg_match('/leader/', $col) ||
+					preg_match('/display/', $col) || preg_match('/number/', $col) || preg_match('/active/', $col)){
+					// int type column
+					if($value){
+						$string .= $value;
+					}else{
+						$string .= 0;
+					}
+				}else{
+					if($value){
+						$string .= "'".$value."'";
+					}else{
+						$string .= 'NULL';
+					}
+				}
+			}
+			$string .= ')';
+		}
+		$string .= ";\n\n";
+		return $string;
 	}
 
 }

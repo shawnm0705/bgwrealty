@@ -80,6 +80,9 @@ class PropertiesController extends AppController {
 		}
 
 		$this->set(compact('ptypes', 'properties','suburbs', 'slides', 'ptypes_all'));
+		if($this->Auth->user('role')){
+			$this->set('role', $this->Auth->user('role'));
+		}
 	}
 
 /**
@@ -142,6 +145,9 @@ class PropertiesController extends AppController {
 		$dir = new Folder($dir_path);
 		$slides = $dir->find('.+\..+', true);
 		$this->set(compact('slides', 'property', 'suburbs', 'ptypes_all'));
+		if($this->Auth->user('role')){
+			$this->set('role', $this->Auth->user('role'));
+		}
 	}
 
 	public function admin_images($property_id = null){

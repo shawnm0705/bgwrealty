@@ -1,7 +1,11 @@
 <?php
 	// Title	
 	$this->assign('title', '首页');
-	echo $this->Menu->homepage();
+	if(isset($role) && $role == 'customer'){
+		echo $this->Menu->customer();
+	}else{
+		echo $this->Menu->homepage();
+	}
 	$this->start('css');
 	echo $this->Html->css('Article/view');
 	$this->end();
