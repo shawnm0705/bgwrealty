@@ -186,6 +186,16 @@ class PagesController extends AppController {
 	Backup Data From Database
 */
 	public function admin_backup(){
+		$dir_path = WWW_ROOT.'files'.DS;
+		$dir = new Folder($dir_path);
+		$files = $dir->find('bgwrealty.*\.sql', true);
+		foreach($files as $file){
+			$file_d = new File($dir_path.$file);
+			if($file_d->exists()){
+				$file_d->delete();
+			}
+		}
+
 		$filename = 'bgwrealty'.date('Y-m-d-H-i-s').'.sql';
 		$backupFile = WWW_ROOT.'files'.DS.$filename;
 		$command = " ../../../../bin/mysqldump -u root bgw  >$backupFile";
