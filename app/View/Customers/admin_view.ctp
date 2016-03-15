@@ -31,6 +31,8 @@
 				<dd><?php echo h($customer['Customer']['email']); ?>&nbsp;</dd>
 				<dt>微信：</dt>
 				<dd><?php echo h($customer['Customer']['wechat']); ?>&nbsp;</dd>
+				<dt>地址：</dt>
+				<dd><?php echo h($customer['Customer']['address']); ?>&nbsp;</dd>
 				<dt>客户分类：</dt>
 				<dd><?php echo $customer['Customer']['cfls']; ?>&nbsp;</dd>
 				<dt>客户来源：</dt>
@@ -76,8 +78,13 @@
 					echo $this->Html->link(__('修改激活状态'), '#active', array('class' => 'btn btn-custom button-small', 'onclick' => 'active('.$customer['Customer']['user_id'].','.$customer['User']['active'].')', 'id' => 'btn-active'));
 				}
 				?>&nbsp;</div></dd>
-			</dl>	
-			<center style="margin-bottom:20px;"><?php echo $this->Html->link(__('修改客户信息'), array('action' => 'edit', $customer['Customer']['id']), array('class' => 'btn btn-custom button-action')); ?></center>
+			</dl>
+			<center style="margin-bottom:20px;">
+				<?php 
+				echo $this->Html->link(__('修改客户信息'), array('action' => 'edit', $customer['Customer']['id']), array('class' => 'btn btn-custom button-left'));
+				echo $this->Form->postLink(__('重置密码'), array('admin' => false, 'controller' => 'users', 'action' => 'resetpassword', $customer['Customer']['id'], '?' => array('role' => 'customer')), array('class' => 'btn btn-custom button-left'), __('确定要重置该用户的密码?'));
+				?>
+			</center>
 		</div>
 	</div>
 </div>

@@ -98,6 +98,15 @@ class EmployeesController extends AppController {
 				$this->User->save($user);
 				$this->request->data['Employee']['user_id'] = $this->User->id;
 				//-------------------------------Send Notification Email-------------------------------
+				$to = $user['User']['username'];
+				$this->Page->recursive = -1;
+				$options = array('conditions' => array('cate' => '新员工注册'));
+				$page = $this->Page->find('first', $options);
+				$message = $page['Page']['content'];
+				preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+				preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+				$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
+				$this->email($options);	
 			}else{
 				$this->request->data['Employee']['user_id'] = 0;	
 			}

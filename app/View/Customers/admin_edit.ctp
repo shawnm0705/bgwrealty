@@ -19,6 +19,7 @@
 					echo $this->Form->input('phone', array('label' => '手机', 'type' => 'text', 'div' => array('class' => 'input required')));
 					echo $this->Form->input('email', array('label' => 'E-mail', 'type' => 'text', 'div' => array('class' => 'input required')));
 					echo $this->Form->input('wechat', array('label' => '微信号', 'type' => 'text'));
+					echo $this->Form->input('address', array('label' => '地址', 'type' => 'text'));
 					echo $this->Form->input('Ctype', array('label' => '客户分类', 'type' => 'select', 'multiple' => true, 'options' => $cfl));
 					echo $this->Form->input('Ctype2', array('label' => '客户来源', 'type' => 'select', 'multiple' => true, 'options' => $cly, 'selected' => $cly_selected));
 

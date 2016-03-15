@@ -363,6 +363,8 @@ class MenuHelper extends AppHelper {
 					    		'action' => 'view')).'</li>
 					    	<li>'.$this->Html->link(__('服务反馈'), array('customer' => true,'controller' => 'feedbacks', 
 					    		'action' => 'view')).'</li>
+					    	<li>'.$this->Html->link(__('我的信息'), array('customer' => true,'controller' => 'customers', 
+					    		'action' => 'view')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li>'.$this->Html->link(__('退出登录'), array('customer' => false, 'controller' => 'users', 

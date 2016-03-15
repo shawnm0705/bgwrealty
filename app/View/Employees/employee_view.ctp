@@ -54,9 +54,8 @@
 			</dl>	
 			<center style="margin-bottom:20px;">
 				<?php 
-				if($role == 'employee'){
-					echo $this->Html->link(__('修改信息'), array('action' => 'edit'), array('class' => 'btn btn-custom button-action')); 
-				}
+				echo $this->Html->link(__('修改信息'), array('action' => 'edit'), array('class' => 'btn btn-custom button-left')); 
+				echo $this->Html->link(__('修改密码'), array('employee' => false, 'controller' => 'users', 'action' => 'changepassword'), array('class' => 'btn btn-custom button-left')); 
 				?></center>
 		</div>
 	</div>

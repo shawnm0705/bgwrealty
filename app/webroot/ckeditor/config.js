@@ -43,8 +43,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.extraPlugins = 'filebrowser';
     //config.extraPlugins = 'imagebrowser';
     config.extraPlugins = 'imgbrowse';
-	config.filebrowserImageUploadUrl = "/bgwrealty/ckeditor/plugins/imgupload.php";
-	//------------config.filebrowserImageUploadUrl = "/ckeditor/plugins/imgupload.php";
-    config.filebrowserImageBrowseUrl = '/bgwrealty/ckeditor/plugins/imgbrowse/imgbrowse.html';
-    //------------config.filebrowserImageBrowseUrl = '/ckeditor/plugins/imgbrowse/imgbrowse.html';
+	//------------config.filebrowserImageUploadUrl = "/bgwrealty/ckeditor/plugins/imgupload.php";
+	config.filebrowserImageUploadUrl = "/ckeditor/plugins/imgupload.php";
+    //------------config.filebrowserImageBrowseUrl = '/bgwrealty/ckeditor/plugins/imgbrowse/imgbrowse.html';
+    config.filebrowserImageBrowseUrl = '/ckeditor/plugins/imgbrowse/imgbrowse.html';
 };

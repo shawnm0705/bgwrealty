@@ -12,9 +12,12 @@ class CustomersController extends AppController {
 	    	$this->Auth->allow('employee_add','employee_edit', 'employee_index', 
 	    		'employee_view');
 	    }
+	    if($this->Auth->user('role') == 'customer'){
+	    	$this->Auth->allow('customer_view', 'customer_edit');
+	    }
     }
     
-    public $uses = array('Customer', 'Employee', 'User', 'Suburb', 'Wy', 'Ctype', 'Ptype');
+    public $uses = array('Customer', 'Employee', 'User', 'Suburb', 'Wy', 'Ctype', 'Ptype', 'Page');
 
 /**
  * index method
@@ -89,6 +92,13 @@ class CustomersController extends AppController {
 		$this->set('role', $this->Auth->user('role'));
 	}
 
+	public function customer_view(){
+		$id = $this->Auth->user('role_id');
+		$this->Customer->recursive = -1;
+		$customer = $this->Customer->findById($id);
+		$this->set('customer', $customer);
+	}
+
 /**
  * add method
  *
@@ -107,6 +117,15 @@ class CustomersController extends AppController {
 				$this->User->save($user);
 				$this->request->data['Customer']['user_id'] = $this->User->id;
 				//-------------------------------Send Notification Email-------------------------------
+				$to = $user['User']['username'];
+				$this->Page->recursive = -1;
+				$options = array('conditions' => array('cate' => '新客户注册'));
+				$page = $this->Page->find('first', $options);
+				$message = $page['Page']['content'];
+				preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+				preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+				$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
+				$this->email($options);		
 			}else{
 				$this->request->data['Customer']['user_id'] = 0;	
 			}
@@ -199,6 +218,15 @@ class CustomersController extends AppController {
 				$this->User->save($user);
 				$this->request->data['Customer']['user_id'] = $this->User->id;
 				//-------------------------------Send Notification Email-------------------------------
+				$to = $user['User']['username'];
+				$this->Page->recursive = -1;
+				$options = array('conditions' => array('cate' => '新客户注册'));
+				$page = $this->Page->find('first', $options);
+				$message = $page['Page']['content'];
+				preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+				preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+				$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
+				$this->email($options);	
 			}else{
 				$this->request->data['Customer']['user_id'] = 0;	
 			}
@@ -457,6 +485,72 @@ class CustomersController extends AppController {
 		$this->set('cly', $this->Ctype->find('list', array('conditions' => array('type' => 'KHLY'))));
 		$this->set('ptypes', $this->Ptype->find('list'));
 		$this->set('role', $this->Auth->user('role'));
+	}
+
+	public function customer_edit() {
+		$id = $this->Auth->user('role_id');
+		if ($this->request->is(array('post', 'put'))) {
+
+			// suburbs
+			$suburb_ids = $this->request->data['Suburb']['Suburb'];
+			$suburbs = $this->Suburb->find('list', array('conditions' => array('id' => $suburb_ids)));
+			$suburbs_string = '';
+			foreach($suburbs as $suburb){
+				$suburbs_string .= $suburb.'<br/>';
+			}
+			$this->request->data['Customer']['suburbs'] = $suburbs_string;
+			// wys
+			$wy_ids = $this->request->data['Wy']['Wy'];
+			$wys = $this->Wy->find('list', array('conditions' => array('id' => $wy_ids)));
+			$wys_string = '';
+			foreach($wys as $wy){
+				$wys_string .= $wy.'<br/>';
+			}
+			$this->request->data['Customer']['wys'] = $wys_string;
+			// ptypes
+			$ptype_ids = $this->request->data['Ptype']['Ptype'];
+			$ptypes = $this->Ptype->find('list', array('conditions' => array('id' => $ptype_ids)));
+			$ptypes_string = '';
+			foreach($ptypes as $ptype){
+				$ptypes_string .= $ptype.'<br/>';
+			}
+			$this->request->data['Customer']['ptypes'] = $ptypes_string;
+			// clys
+			$ctype_ids = $this->request->data['Ctype']['Ctype'];
+			$ctypes = $this->Ctype->find('list', array('conditions' => array('id' => $ctype_ids)));
+			$ctypes_string = '';
+			foreach($ctypes as $ctype){
+				$ctypes_string .= $ctype.'<br/>';
+			}
+			$this->request->data['Customer']['clys'] = $ctypes_string;
+			
+			if ($this->Customer->save($this->request->data)) {
+				$this->Session->setFlash(__('个人信息已保存.'));
+				return $this->redirect(array('action' => 'view'));
+			} else {
+				$this->Session->setFlash(__('个人信息保存失败，请稍候再试.'));
+			}
+		} else {
+			$this->Customer->recursive = 1;
+			$this->request->data = $this->Customer->findById($id);
+			if(!$this->request->data){
+				return $this->redirect(array('action' => 'view'));
+			}
+			$this->set('price_min', $this->request->data['Customer']['price_min']);
+			$this->set('price_max', $this->request->data['Customer']['price_max']);
+			$cly_selected = array();
+			foreach($this->request->data['Ctype'] as $cly){
+				if($cly['type'] == 'KHLY'){
+					array_push($cly_selected, $cly['id']);
+				}
+			}
+			$this->set('cly_selected', $cly_selected);
+		}
+		
+		$this->set('suburbs', $this->Suburb->find('list'));
+		$this->set('wys', $this->Wy->find('list'));
+		$this->set('cly', $this->Ctype->find('list', array('conditions' => array('type' => 'KHLY'))));
+		$this->set('ptypes', $this->Ptype->find('list'));
 	}
 
 /**

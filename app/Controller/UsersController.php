@@ -25,7 +25,7 @@ class UsersController extends AppController {
 	    // Allow users to login and logout.
 	    $this->Auth->allow('login', 'logout', 'check', 'register', 'resetpassword');
 	    if($this->Auth->user('role')){
-	    	$this->Auth->allow('home');
+	    	$this->Auth->allow('home', 'changepassword');
 	    }
 	}
 
@@ -97,14 +97,9 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_index() {
-		$Email = new CakeEmail('default');
-		$Email->from(array('info@bgwrealty.com.au' => 'BGW Realty'))
-			->to('mx_198891@163.com')
-			->emailFormat('html')
-		    ->subject('Password Reset')
-		    ->send('Just for test');
-		    //=======================================
-
+		$options = array('to' => 'mx_198891@163.com', 'subject' => 'Test', 'content' => 'Just for test');
+		$this->email($options);
+		//=======================================
 		$this->User->recursive = -1;
 		$this->set('users', $this->User->find('all'));
 		$this->Employee->recursive = -1;
@@ -164,6 +159,18 @@ class UsersController extends AppController {
 						$employee['Employee']['id'] = $this->request->data['User']['people_id'];
 						$employee['Employee']['user_id'] = $this->User->id;
 						$this->Employee->save($employee);
+					}
+					//-------------------------------Send Notification Email-------------------------------
+					if($role != 'admin'){
+						$to = $this->request->data['User']['username'];
+						$this->Page->recursive = -1;
+						$options = array('conditions' => array('cate' => '新客户注册'));
+						$page = $this->Page->find('first', $options);
+						$message = $page['Page']['content'];
+						preg_replace('/\$USERNAME/', $this->request->data['User']['username'], $message);
+						preg_replace('/\$PASSWORD/', $this->request->data['User']['p_default'], $message);
+						$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
+						$this->email($options);		
 					}
 
 					$this->Session->setFlash(__('账号信息已保存.'));
@@ -269,20 +276,47 @@ class UsersController extends AppController {
 			$this->User->save($user);
 			$this->Session->setFlash(__('密码已重置.'));
 
-			// Send Notification Email=============================
+			//-------------------------------Send Notification Email-------------------------------
 			$this->Page->recursive = -1;
-			$options = array('conditions' => array('cate' => '员工重置密码'));
+			if($this->request->query['role'] == 'employee'){
+				$options = array('conditions' => array('cate' => '员工重置密码'));
+			}else{
+				$options = array('conditions' => array('cate' => '客户重置密码'));
+			}
 			$page = $this->Page->find('first', $options);
 			$message = $page['Page']['content'];
 			preg_replace('/\$USERNAME/', $user['User']['username'], $message);
 			preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
-			$Email = new CakeEmail('default');
-			$Email->to($user['User']['username'])
-			    ->subject('Password Reset')
-			    ->send($message);
-
-			return $this->redirect(array('admin' => true, 'controller' => 'employees', 'action' => 'view', $id));
+			$options = array('to' => $user['User']['username'], 'subject' => '创富地产:重置密码', 'content' => $message);
+			$this->email($options);
+			if($this->request->query['role'] == 'employee'){
+				return $this->redirect(array('admin' => true, 'controller' => 'employees', 'action' => 'view', $id));
+			}else{
+				return $this->redirect(array('admin' => true, 'controller' => 'customers', 'action' => 'view', $id));
+			}
 		}
+	}
+
+	public function changepassword(){
+		if ($this->request->is('post')) {
+			$password1 = $this->request->data['User']['password1'];
+			$password2 = $this->request->data['User']['password2'];
+			if($password1 != $password2){
+				$this->Session->setFlash(__('两次密码不一致！'));
+			}else{
+				$user['User']['id'] = $this->Auth->user('id');
+				$user['User']['password'] = $password1;
+				$this->User->save($user);
+				$this->Session->setFlash(__('密码已修改.'));
+				if($this->Auth->user('role') == 'customer'){
+					return $this->redirect(array('customer' => true, 'controller' => 'customers', 'action' => 'view'));
+				}else{
+					return $this->redirect(array('employee' => true, 'controller' => 'employees', 'action' => 'view'));
+				}
+			}
+		}
+		$this->set('role', $this->Auth->user('role'));
+		$this->set('username', $this->Auth->user('username'));
 	}
 
 /**
@@ -317,4 +351,5 @@ class UsersController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+
 }

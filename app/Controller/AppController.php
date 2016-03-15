@@ -70,4 +70,13 @@ class AppController extends Controller {
         }
         return false;   
     }
+
+    public function email($options = null){
+        $Email = new CakeEmail('default');
+        $Email->from(array('info@bgwrealty.com.au' => 'BGW Realty'))
+            ->to($options['to'])
+            ->emailFormat('html')
+            ->subject($options['subject'])
+            ->send($options['content']);
+    }
 }
