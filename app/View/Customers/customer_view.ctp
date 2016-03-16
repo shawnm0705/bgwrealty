@@ -27,8 +27,6 @@
 				<dd><?php echo h($customer['Customer']['wechat']); ?>&nbsp;</dd>
 				<dt>地址：</dt>
 				<dd><?php echo h($customer['Customer']['address']); ?>&nbsp;</dd>
-				<dt>客户来源：</dt>
-				<dd><?php echo $customer['Customer']['clys']; ?>&nbsp;</dd>
 
 				<h2>需求信息</h2>
 				<dt>购房目的：</dt>
@@ -39,8 +37,6 @@
 				<dd><?php echo $customer['Customer']['ptypes']; ?>&nbsp;</dd>
 				<dt>意向价格：</dt>
 				<dd><?php echo '$'.h($customer['Customer']['price_min']).' 000 - $'.h($customer['Customer']['price_max']).' 000' ?>&nbsp;</dd>
-				<dt>意向物业：</dt>
-				<dd><?php echo $customer['Customer']['wys']; ?>&nbsp;</dd>
 			</dl>	
 			<center style="margin-bottom:20px;">
 				<?php 

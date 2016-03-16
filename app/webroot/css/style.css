@@ -236,7 +236,10 @@ form div.checkbox-inline {
 .input-hidden{
   display:none;
 }
-
+.notes{
+  font-size: 16px;
+  color: green;
+}
 .form h1,h2,h3{
   text-align: center;
   margin-bottom: 20px;

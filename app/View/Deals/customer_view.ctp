@@ -180,7 +180,7 @@
 			</div>
 		<?php
 		}else{
-			echo '暂无';
+			echo '<center><h1>暂无成交记录</h1></center>';
 		}
 		?>
 	</div>

@@ -58,8 +58,8 @@
 						echo $this->Form->input('password', array('label' => '密码', 'type' => 'password', 'class' => 'input-name'));
 					echo '</div>
 					<div class="div-left-button">';
-						echo $this->Form->end(array('label' => '登录', 'class' => 'btn btn-custom', 'id' => 'submit-button', 'onclick' => 'this.disabled=true;this.form.submit();return true;', 'div' => false)); 
-						//echo $this->Html->link(__('注册'), array('controller' => 'users', 'action' => 'register'), array('class' => 'btn btn-custom btn-left'));
+						echo $this->Form->end(array('label' => '登录', 'class' => 'btn btn-custom button-right', 'id' => 'submit-button', 'onclick' => 'this.disabled=true;this.form.submit();return true;', 'div' => false)); 
+						echo $this->Html->link(__('新用户注册'), array('controller' => 'users', 'action' => 'register'), array('class' => 'btn btn-custom button-right'));
 						//echo $this->Html->link(__('忘记密码'), array('controller' => 'users', 'action' => 'findpassword'), array('class' => 'btn btn-custom btn-left'));
 					echo '</div>';
 				}elseif($role == 'employee' || $role == 'leader'){

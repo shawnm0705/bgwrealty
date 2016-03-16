@@ -13,7 +13,7 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $uses = array('User', 'Customer', 'Employee', 'Page');
+	public $uses = array('User', 'Customer', 'Employee', 'Page', 'Suburb', 'Ptype');
 
 /**
  * login logout method
@@ -66,29 +66,77 @@ class UsersController extends AppController {
 
 	public function register() {
 		if ($this->request->is('post')) {
-			if($this->check($this->request->data['User']['username'])){
+			$email = $this->request->data['Customer']['email'];
+			// Checks
+			if(!$this->request->data['Customer']['name'] || !$this->request->data['Customer']['email'] ||
+				!isset($this->request->data['Customer']['gender']) || !$this->request->data['Customer']['purpose'] ||
+				!$this->request->data['Customer']['phone']){
+				$this->Session->setFlash(__('*必填项不能为空'));
+			}elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+				$this->Session->setFlash(__('E-mail 格式错误！'));
+			}elseif(!filter_var($this->request->data['Customer']['price_min'], FILTER_SANITIZE_NUMBER_INT) ||
+				!filter_var($this->request->data['Customer']['price_max'], FILTER_SANITIZE_NUMBER_INT)){
+				$this->Session->setFlash(__('意向价格只能为纯数字！'));
+			}elseif($this->check($email)){
 				$this->Session->setFlash(__('用户名已存在！'));
-				return $this->redirect(array('action' => 'register'));
 			}else{
-				$password1 = $this->request->data['User']['password1'];
-				$password2 = $this->request->data['User']['password2'];
-				if($password1 != $password2){
-					$this->Session->setFlash(__('两次密码不一致！'));
-					return $this->redirect(array('action' => 'register'));
-				}else{
-					$this->User->create();
-					$this->request->data['User']['password'] = $this->request->data['User']['password1'];
-					$this->request->data['User']['role'] = 'customer';
-					if ($this->User->save($this->request->data)) {
-						$this->Session->setFlash(__('账号已注册.'));
-						return $this->redirect(array('action' => 'login'));
-					} else {
-						$this->Session->setFlash(__('账号注册失败，请稍候再试.'));
-						return $this->redirect(array('action' => 'register'));
+				// Add User account
+				$user['User']['username'] = $email;
+				$user['User']['password'] = substr(md5(time()), 0, 8);
+				$user['User']['p_default'] = $user['User']['password'];
+				$user['User']['role'] = 'customer';
+				$user['User']['active'] = 1;
+				$this->User->create();
+				$this->User->save($user);
+				$this->request->data['Customer']['user_id'] = $this->User->id;
+				//-------------------------------Send Notification Email-------------------------------
+				$to = $user['User']['username'];
+				$this->Page->recursive = -1;
+				$options = array('conditions' => array('cate' => '新客户注册'));
+				$page = $this->Page->find('first', $options);
+				$message = $page['Page']['content'];
+				preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+				preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+				$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
+				$this->email($options);	
+
+				// Add Customer
+				$this->request->data['Customer']['date'] = date('Y-m-d H:i:s');
+				$this->request->data['Customer']['employee_id'] = 0;
+				// suburbs
+				$suburb_ids = $this->request->data['Suburb']['Suburb'];
+				$suburbs = $this->Suburb->find('list', array('conditions' => array('id' => $suburb_ids)));
+				$suburbs_string = '';
+				foreach($suburbs as $suburb){
+					$suburbs_string .= $suburb.'<br/>';
+				}
+				$this->request->data['Customer']['suburbs'] = $suburbs_string;
+				// ptypes
+				$ptype_ids = $this->request->data['Ptype']['Ptype'];
+				$ptypes = $this->Ptype->find('list', array('conditions' => array('id' => $ptype_ids)));
+				$ptypes_string = '';
+				foreach($ptypes as $ptype){
+					$ptypes_string .= $ptype.'<br/>';
+				}
+
+				$this->Customer->create();
+				if ($this->Customer->save($this->request->data)) {
+					// Add User/role_id
+					if($this->request->data['Customer']['user_id']){
+						$user_s = array();
+						$user_s['User']['id'] = $this->request->data['Customer']['user_id'];
+						$user_s['User']['role_id'] = $this->Customer->id;
+						$this->User->save($user_s);
 					}
+					$this->Session->setFlash(__('账号已注册,请查看邮件获取初始密码.'));
+					return $this->redirect(array('controller' => 'pages', 'action' => 'home'));
+				} else {
+					$this->Session->setFlash(__('账号注册失败，请稍候再试.'));
 				}
 			}
 		}
+		$this->set('suburbs', $this->Suburb->find('list'));
+		$this->set('ptypes', $this->Ptype->find('list'));
 	}
 
 /**

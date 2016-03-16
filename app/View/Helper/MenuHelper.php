@@ -137,10 +137,10 @@ class MenuHelper extends AppHelper {
 					    	<li>'.$this->Html->link(__('客户来源列表'), 
             					array('admin' => true, 'controller' => 'ctypes', 'action' => 'index', 'KHLY')).'</li>
 					    	<li>'.$this->Html->link(__('物业列表'), 
-            					array('admin' => true, 'controller' => 'wys', 'action' => 'index')).'</li>
-					    	<li>'.$this->Html->link(__('律师列表'), 
-            					array('admin' => true, 'controller' => 'lawyers', 'action' => 'index')).'</li>
-					    	<li>'.$this->Html->link(__('首页滚动图片'), 
+            					array('admin' => true, 'controller' => 'wys', 'action' => 'index')).'</li>';
+					    	//<li>'.$this->Html->link(__('律师列表'), 
+            				//	array('admin' => true, 'controller' => 'lawyers', 'action' => 'index')).'
+				    	echo '<li>'.$this->Html->link(__('首页滚动图片'), 
             					array('admin' => true, 'controller' => 'pages', 'action' => 'slides')).'</li>
 					    	<li>'.$this->Html->link(__('首页页面'), 
             					array('admin' => true, 'controller' => 'pages', 'action' => 'index')).'</li>

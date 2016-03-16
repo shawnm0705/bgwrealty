@@ -2,8 +2,8 @@
 // PHP Upload Script for CKEditor:  http://coursesweb.net/
 
 // HERE SET THE PATH TO THE FOLDER WITH IMAGES ON YOUR SERVER (RELATIVE TO THE ROOT OF YOUR WEBSITE ON SERVER)
-//---------------------$upload_dir = '/bgwrealty/app/webroot/img/upload/';
-$upload_dir = '/app/webroot/img/upload/';
+$upload_dir = '/bgwrealty/app/webroot/img/upload/';
+//---------------------$upload_dir = '/app/webroot/img/upload/';
 
 // HERE PERMISSIONS FOR IMAGE
 $imgsets = array(

@@ -1,7 +1,7 @@
 <?php 
 	// Title	
 	$this->assign('title', '修改反馈信息');
-	echo $this->Menu->admin();
+	echo $this->Menu->customer();
 ?>
 
 <div class="container">
