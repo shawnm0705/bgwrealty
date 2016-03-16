@@ -13,7 +13,7 @@
 			<?php
 				echo '<h3>个人信息</h3>';
 				echo $this->Form->input('name', array('label' => '姓名', 'type' => 'text', 'div' => array('class' => 'input required')));
-				echo $this->Form->input('gender', array('label' => '性别', 'type' => 'select', 'options' => array(1 => '男', 0 => '女'), 'empty' => '请选择', 'div' => array('class' => 'input required')));
+				echo $this->Form->input('gender', array('label' => '性别', 'type' => 'select', 'options' => array(1 => '男', 0 => '女'), 'div' => array('class' => 'input required')));
 				echo $this->Form->input('phone', array('label' => '手机', 'type' => 'text', 'div' => array('class' => 'input required')));
 				echo $this->Form->input('email', array('label' => 'E-mail', 'type' => 'text', 'div' => array('class' => 'input required'), 'between' => '<div class="notes">E-mail即为用户名</div>'));
 				echo $this->Form->input('wechat', array('label' => '微信号', 'type' => 'text'));

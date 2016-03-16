@@ -68,13 +68,14 @@ class UsersController extends AppController {
 		if ($this->request->is('post')) {
 			$email = $this->request->data['Customer']['email'];
 			// Checks
-			if(!$this->request->data['Customer']['name'] || !$this->request->data['Customer']['email'] ||
-				!isset($this->request->data['Customer']['gender']) || !$this->request->data['Customer']['purpose'] ||
-				!$this->request->data['Customer']['phone']){
+			if(!$this->request->data['Customer']['name'] || !$this->request->data['Customer']['email'] || 
+				!$this->request->data['Customer']['purpose'] || !$this->request->data['Customer']['phone']){
 				$this->Session->setFlash(__('*必填项不能为空'));
 			}elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 				$this->Session->setFlash(__('E-mail 格式错误！'));
-			}elseif(!filter_var($this->request->data['Customer']['price_min'], FILTER_SANITIZE_NUMBER_INT) ||
+			}elseif($this->request->data['Customer']['price_min'] && 
+				!filter_var($this->request->data['Customer']['price_min'], FILTER_SANITIZE_NUMBER_INT) || 
+				$this->request->data['Customer']['price_max'] &&
 				!filter_var($this->request->data['Customer']['price_max'], FILTER_SANITIZE_NUMBER_INT)){
 				$this->Session->setFlash(__('意向价格只能为纯数字！'));
 			}elseif($this->check($email)){
