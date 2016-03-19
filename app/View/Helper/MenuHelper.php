@@ -122,6 +122,8 @@ class MenuHelper extends AppHelper {
             					array('admin' => true, 'controller' => 'users', 'action' => 'add', 'admin')).'</li>
 					    	<li>'.$this->Html->link(__('所有帐号'), 
             					array('admin' => true, 'controller' => 'users', 'action' => 'index')).'</li>
+					    	<li>'.$this->Html->link(__('修改我的帐号密码'), 
+            					array('admin' => false, 'controller' => 'users', 'action' => 'changepassword')).'</li>
 				    	</ul>
 			    	</li>
 			    	<li role="presentation" class="dropdown">

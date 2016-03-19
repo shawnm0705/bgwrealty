@@ -96,8 +96,8 @@ class UsersController extends AppController {
 				$options = array('conditions' => array('cate' => '新客户注册'));
 				$page = $this->Page->find('first', $options);
 				$message = $page['Page']['content'];
-				preg_replace('/\$USERNAME/', $user['User']['username'], $message);
-				preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+				$message = preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+				$message = preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
 				$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
 				$this->email($options);	
 
@@ -146,9 +146,9 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_index() {
-		$options = array('to' => 'mx_198891@163.com', 'subject' => 'Test', 'content' => 'Just for test');
+		/*$options = array('to' => 'mx_198891@163.com', 'subject' => 'Test', 'content' => 'Just for test');
 		$this->email($options);
-		//=======================================
+		*///=======================================
 		$this->User->recursive = -1;
 		$this->set('users', $this->User->find('all'));
 		$this->Employee->recursive = -1;
@@ -216,8 +216,8 @@ class UsersController extends AppController {
 						$options = array('conditions' => array('cate' => '新客户注册'));
 						$page = $this->Page->find('first', $options);
 						$message = $page['Page']['content'];
-						preg_replace('/\$USERNAME/', $this->request->data['User']['username'], $message);
-						preg_replace('/\$PASSWORD/', $this->request->data['User']['p_default'], $message);
+						$message = preg_replace('/\$USERNAME/', $this->request->data['User']['username'], $message);
+						$message = preg_replace('/\$PASSWORD/', $this->request->data['User']['p_default'], $message);
 						$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
 						$this->email($options);		
 					}
@@ -279,10 +279,10 @@ class UsersController extends AppController {
 				$options = array('conditions' => array('User.username' => $username));
 			}
 			if($this->User->find('first', $options)){
-				echo '<font color="red">用户名已存在！</font>';
+				//echo '<font color="red">用户名已存在！</font>';
 				return 1;
 			}else{
-				echo '<font color="green">用户名可用</font>';
+				//echo '<font color="green">用户名可用</font>';
 				return 0;
 			}
 		}
@@ -334,8 +334,8 @@ class UsersController extends AppController {
 			}
 			$page = $this->Page->find('first', $options);
 			$message = $page['Page']['content'];
-			preg_replace('/\$USERNAME/', $user['User']['username'], $message);
-			preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+			$message = preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+			$message = preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
 			$options = array('to' => $user['User']['username'], 'subject' => '创富地产:重置密码', 'content' => $message);
 			$this->email($options);
 			if($this->request->query['role'] == 'employee'){
@@ -359,6 +359,8 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('密码已修改.'));
 				if($this->Auth->user('role') == 'customer'){
 					return $this->redirect(array('customer' => true, 'controller' => 'customers', 'action' => 'view'));
+				}elseif($this->Auth->user('role') == 'admin'){
+					return $this->redirect(array('admin' => true, 'controller' => 'pages', 'action' => 'home'));
 				}else{
 					return $this->redirect(array('employee' => true, 'controller' => 'employees', 'action' => 'view'));
 				}

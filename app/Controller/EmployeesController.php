@@ -103,8 +103,8 @@ class EmployeesController extends AppController {
 				$options = array('conditions' => array('cate' => '新员工注册'));
 				$page = $this->Page->find('first', $options);
 				$message = $page['Page']['content'];
-				preg_replace('/\$USERNAME/', $user['User']['username'], $message);
-				preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
+				$message = preg_replace('/\$USERNAME/', $user['User']['username'], $message);
+				$message = preg_replace('/\$PASSWORD/', $user['User']['p_default'], $message);
 				$options = array('to' => $to, 'subject' => '创富地产:新用户注册', 'content' => $message);
 				$this->email($options);	
 			}else{

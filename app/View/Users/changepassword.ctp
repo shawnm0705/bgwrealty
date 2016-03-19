@@ -7,6 +7,8 @@
 		echo $this->Menu->leader();
 	}elseif($role == 'customer'){
 		echo $this->Menu->customer();
+	}else{
+		echo $this->Menu->admin();
 	}
 ?>
 
